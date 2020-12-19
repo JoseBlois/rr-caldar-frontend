@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import Header from './components/layout/Header';
 import Navbar from './components/layout/Navbar';
-import styles from './App.module.css';
+import styles from './css/App.module.css';
 
 function App() {
   console.log(styles);

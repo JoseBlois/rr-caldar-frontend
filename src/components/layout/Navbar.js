@@ -1,28 +1,28 @@
 import React from 'react'
-import {Link} from 'react-router-dom';
-import styles from '../../App.module.css';
+import {NavLink} from 'react-router-dom';
+import styles from '../../css/Navbar.module.css';
 
 export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <ul className={styles.navlist}>
         <li>
-          <Link className={styles.link} to="/buildings">Buildings</Link>
+          <NavLink className={styles.link} activeClassName={styles.active} to="/buildings">Buildings</NavLink>
         </li>
         <li>
-          <Link className={styles.link} to="/companies">Companies</Link>
+          <NavLink className={styles.link} activeClassName={styles.active} to="/companies">Companies</NavLink>
         </li>
         <li>
-          <Link className={styles.link} to="/boilers">Boilers</Link>
+          <NavLink className={styles.link} activeClassName={styles.active} to="/boilers">Boilers</NavLink>
         </li>
         <li>
-          <Link className={styles.link} to="/boilerTypes">Boiler Types</Link>
+          <NavLink className={styles.link} activeClassName={styles.active} to="/boilerTypes">Boiler Types</NavLink>
         </li>
         <li>
-          <Link className={styles.link} to="/technicians">Technicians</Link>
+          <NavLink className={styles.link} activeClassName={styles.active} to="/technicians">Technicians</NavLink>
         </li>
         <li>
-          <Link className={styles.link} to="/appointments">Appointments</Link>
+          <NavLink className={styles.link} activeClassName={styles.active} to="/appointments">Appointments</NavLink>
         </li>
       </ul>
     </nav>
