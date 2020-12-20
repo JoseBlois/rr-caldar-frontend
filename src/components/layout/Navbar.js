@@ -1,5 +1,5 @@
-import React from 'react'
-import {NavLink} from 'react-router-dom';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styles from '../../css/Navbar.module.css';
 
 export default function Navbar() {
@@ -26,5 +26,5 @@ export default function Navbar() {
         </li>
       </ul>
     </nav>
-  )
+  );
 }
