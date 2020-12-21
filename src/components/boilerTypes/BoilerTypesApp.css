@@ -1,0 +1,23 @@
+.App-Header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    color: black;
+    padding-left: 5px;
+  }
+  
+  .input-wraper {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    padding: 10px;
+    border-bottom: 1px solid black;
+  }
+  
+  .item {
+    display: flex;
+    justify-content: space-around;
+    width: 300px;  
+    padding: 10px;
+    border-bottom: 1px solid black;
+  }
