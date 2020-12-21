@@ -1,0 +1,14 @@
+.add-form-container{
+  margin: '20px auto';
+  background-color: #fc6225;
+  text-align: 'center';
+}
+.add-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.add-form .form-group, .edit-form .form-group {
+  margin-bottom: 15px;
+}

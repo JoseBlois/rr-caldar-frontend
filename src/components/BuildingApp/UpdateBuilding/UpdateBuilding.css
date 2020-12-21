@@ -1,0 +1,12 @@
+h2 {
+  text-align: center;
+}
+.edit-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.edit-form > * {
+  margin: 20px
+}
