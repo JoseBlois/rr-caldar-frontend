@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './BoilerTypesForm.module.css'
 
 const BoilerTypesForm = (props) => {
   const [boilerType, setBoilerType] = useState({
@@ -26,7 +27,7 @@ const BoilerTypesForm = (props) => {
 
   return (
      <div className="new-element">
-      <form onSubmit={handleSubmit} className="input-wraper">
+      <form onSubmit={handleSubmit} className={styles.inputWraper}>
         <div className="input-description">
           <input
             type="text"

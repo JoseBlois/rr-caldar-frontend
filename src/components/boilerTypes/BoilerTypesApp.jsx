@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './BoilerTypesApp.css';
+import styles from './BoilerTypesApp.module.css';
 import { boilerTypes as jsonBoilerTypes } from '../../boilerTypes.json';
 import BoilerType from './BoilerTypes';
 import BoilerTypesForm from './BoilerTypesForm';
@@ -25,7 +25,7 @@ const BoilerTypesApp = () => {
   // RETURN THE COMPONENT
   return (
     <div className="App">
-      <div className="App-Header">
+      <div className={styles.AppHeader}>
           Boilers Types - 
           <span className="number-of-boilerTypes">
             {boilerTypes.length}

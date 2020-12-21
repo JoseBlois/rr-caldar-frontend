@@ -1,5 +1,5 @@
 import React from 'react';
-import './Modal.css';
+import styles from './Modal.module.css';
 import Button from './Button';
 
 function Modal(props) {
@@ -10,9 +10,9 @@ function Modal(props) {
 
   return (
     <>
-      <div className="modal">
-        <div className="modal-guts">
-          <div className="header">
+      <div className={styles.modal}>
+        <div className={styles.modalGuts}>
+          <div className={styles.header}>
             <div className="header-title">
               {props.title}
             </div>
@@ -22,12 +22,12 @@ function Modal(props) {
             {props.children}
           </div>
           <div className="actions">
-            <Button onClick={props.onClose}>Cancel</Button>
-            <Button onClick={handleOnSubmit} primary>{props.submitLabel || "Submit"}</Button>
+            <Button onClick={props.onClose} buttonLabel="Cancel" ></Button>
+            <Button onClick={handleOnSubmit} buttonLabel={props.submitLabel || "Submit"} primary></Button>
           </div>
         </div>
       </div>
-      <div className="overlay">
+      <div className={styles.overlay}>
       </div>
     </>
   );

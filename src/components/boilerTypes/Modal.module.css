@@ -15,7 +15,7 @@
     padding: 10px;
   }
   
-  .modal .modal-guts {
+  .modal .modalGuts {
     position: absolute;
     box-sizing: border-box;
     top: 0;

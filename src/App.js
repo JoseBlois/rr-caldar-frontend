@@ -8,7 +8,7 @@ import styles from './css/App.module.css';
 import BoilersApp from './components/boilersApp';
 import BuildingApp from './components/BuildingApp';
 import TechniciansMain from './components/Technicians/TechniciansMain';
-import BoilerTypesApp from './components/boilerTypes/BoilerTypesApp'
+import BoilerTypesApp from './components/boilerTypes/BoilerTypesApp';
 
 function App() {
   return (

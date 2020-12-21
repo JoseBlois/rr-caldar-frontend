@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import DeleteBoilerTypeModal from './DeleteBoilerTypeModal';
 import EditBoilerTypeModal from './EditBoilerTypeModal';
+import styles from './BoilerTypesApp.module.css'
 
-const BoilerType = (props) => {
-  const {boilerType, boilerTypes, changeBoilerTypes} = props;
+const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
   const [showEditBoilerModal, setShowEditBoilerModal] = useState(false);
   const [showDeleteBoilerModal, setShowDeleteBoilerModal] = useState(false);
 
@@ -29,8 +29,8 @@ const BoilerType = (props) => {
   }
 
   return (
-    <div className="item-wraper" key={boilerType.id}>
-      <div className="item">
+    <div className={styles.itemWraper} key={boilerType.id}>
+      <div className={styles.item}>
         <div className="item-description">
           {boilerType.description}
         </div>
@@ -53,7 +53,6 @@ const BoilerType = (props) => {
               onClose={toggleEditBoilerModal}
             />
           )}
-
           {showDeleteBoilerModal && (
             <DeleteBoilerTypeModal 
               onSubmit={handleDeleteModelSubmit} 

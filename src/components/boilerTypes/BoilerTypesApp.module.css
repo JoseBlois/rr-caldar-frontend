@@ -1,12 +1,11 @@
-.App-Header {
-    display: flex;
-    align-items: center;
-    height: 50px;
-    color: black;
-    padding-left: 5px;
+.AppHeader {
+    background-color: #fc6225 ;
+    font-size: 48px;
+    text-align: center;
+    color: #fff;
   }
   
-  .input-wraper {
+  .inputWraper {
     display: flex;
     justify-content: space-between;
     width: 400px;
