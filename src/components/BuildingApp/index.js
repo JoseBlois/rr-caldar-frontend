@@ -4,7 +4,6 @@ import buildingsData from '../../mocks/buildings.json';
 import Header from './Header';
 import Buildings from './Buildings';
 import AddBuilding from './AddBuilding';
-import EditBuilding from './UpdateBuilding';
 import './BuildingApp.css';
 
 export default function BuildingAppF() {
@@ -40,11 +39,13 @@ export default function BuildingAppF() {
         <Route path="/buildings/add">
           <AddBuilding addBuilding={addBuilding} />
         </Route>
-        <Route path="/buildings/update">
-          <EditBuilding max={max} searchBuilding={searchBuilding} updateBuilding={updateBuilding} />
-        </Route>
         <Route exact path="/buildings/">
-          <Buildings deleteBuilding={deleteBuilding} buildings={buildings} />
+          <Buildings
+            updateBuilding={updateBuilding}
+            searchBuilding={searchBuilding}
+            deleteBuilding={deleteBuilding}
+            buildings={buildings}
+          />
         </Route>
       </div>
     </>

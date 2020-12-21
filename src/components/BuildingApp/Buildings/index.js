@@ -2,7 +2,9 @@ import React from 'react';
 import BuildingItem from '../BuildingItem';
 import './Buildings.css';
 
-export default function index({ buildings, deleteBuilding }) {
+export default function index({
+  buildings, deleteBuilding, updateBuilding, searchBuilding,
+}) {
   return (
     <div>
       <div className="headers-container">
@@ -15,7 +17,13 @@ export default function index({ buildings, deleteBuilding }) {
       </div>
       {buildings.map((building) =>
         // eslint-disable-next-line
-        <BuildingItem deleteBuilding={deleteBuilding} key={building.id} building={building} />)}
+        <BuildingItem
+          deleteBuilding={deleteBuilding}
+          key={building.id}
+          building={building}
+          updateBuilding={updateBuilding}
+          searchBuilding={searchBuilding}
+        />)}
     </div>
   );
 }
