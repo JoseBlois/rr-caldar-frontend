@@ -1,17 +1,8 @@
-import React, { Component } from 'react';
-import ListItem from './ListItem'
-import PropTypes from 'prop-types';
+import React, {} from 'react';
+import ListItem from './ListItem';
 
-class CompaniesList extends Component {
-  render() {
-    return this.props.companiesData.map((comp) => (
-        <ListItem key={comp.id} comp={comp} delCompany={this.props.delCompany}/>
-    ));
-  }
-}
-
-CompaniesList.propTypes = {
-    Companies: PropTypes.array.isRequired
-}
+const CompaniesList = (companies, delCompany) => companies.map((comp) => (
+  <ListItem key={comp.id} comp={comp} delCompany={delCompany} />
+));
 
 export default CompaniesList;

@@ -23,6 +23,7 @@ function App() {
                 <BuildingApp />
               </Route>
               <Route path="/companies">
+                <h1>Companies</h1>
                 <Companies />
               </Route>
               <Route path="/boilers">

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+/* eslint-disable radix */
+import React, { useState } from 'react';
 import CompaniesList from '../Companies/CompaniesList';
 import AddCompany from '../Companies/AddCompany';
 import UpdateCompany from '../Companies/UpdateCompany';
@@ -6,43 +7,41 @@ import companiesData from '../mocks/companies.json';
 // import Header from './Header';
 import './App.css';
 
-class Companies extends Component {
-  state = {companiesData}
+const Companies = () => {
+  const [companies, setCompaniesData] = useState(companiesData);
 
   // Delete Company
-  delCompany = (id) => {
-    this.setState({ companiesData: [...this.state.companiesData.filter(company => company.id !== id)] });
-  }
+  const delCompany = (id) => {
+    setCompaniesData([...companies.filter((company) => company.id !== id)]);
+  };
 
   // Add Company
-  addCompany = (newCompany)  => {
-    newCompany.id = this.state.companiesData[this.state.companiesData.length - 1].id + 1;
-    this.setState({ companiesData: [...this.state.companiesData, newCompany] });
-  }
-  
+  const addCompany = (nc) => {
+    const newCompany = nc;
+    newCompany.id = companies[companies.length - 1].id + 1;
+    setCompaniesData([...companies, newCompany]);
+  };
+
   // Update Company
-  searchCompany = (id) => this.state.companiesData.find(company => parseInt(company.id) === parseInt(id));
+  const searchCompany = (id) => companies.find((company) => parseInt(company.id) === parseInt(id));
 
-  updateCompany = (updatedCompany)  => {
-    const companies = this.state.companiesData;
-    const index = this.state.companiesData.findIndex(company => company.id === updatedCompany.id);
-    companies[index] = updatedCompany;
-    this.setState({ companiesData: companies });
-  }
+  const updateCompany = (updatedCompany) => {
+    setCompaniesData(companies.map((company) => {
+      if (company.id === updatedCompany.id) {
+        return updatedCompany;
+      }
+      return company;
+    }));
+  };
 
-
-
-
-  render() {
-    return (
-      <div className="App">
-        {/* <Header /> */}
-        <AddCompany addCompany={this.addCompany} />
-        <UpdateCompany searchCompany={this.searchCompany} updateCompany={this.updateCompany}/>
-        <CompaniesList companiesData={this.state.companiesData} delCompany={this.delCompany}/>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      {/* <Header /> */}
+      <AddCompany addCompany={addCompany} />
+      <UpdateCompany searchCompany={searchCompany} updateCompany={updateCompany} />
+      <CompaniesList companies={companies} delCompany={delCompany} />
+    </div>
+  );
+};
 
 export default Companies;
