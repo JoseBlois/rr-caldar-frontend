@@ -14,6 +14,8 @@
 }
 
 .label {
+    margin-bottom: 5px;
+    margin-top: 5px;
     width:450px;
     clear:left;
     text-align:left;
@@ -26,6 +28,22 @@
 }
 
 .rows {
-    margin: 10px;
     list-style-type: none;
+}
+
+.inputSubmit {
+    width: 100%;
+    height: 50px;
+    background-color: #fc6225;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+    border: solid 1px #fc6225;
+}
+
+.inputSubmit:hover {
+    background-color: #fff;
+    color: #fc6225;
+    border: solid 1px #fc6225;
+    cursor: pointer;
 }

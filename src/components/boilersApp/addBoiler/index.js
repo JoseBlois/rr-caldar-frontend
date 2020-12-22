@@ -73,7 +73,7 @@ export default function addBoiler(props) {
               </label>
             </li>
           </ul>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" className={styles.inputSubmit} />
         </div>
       </form>
     </>
