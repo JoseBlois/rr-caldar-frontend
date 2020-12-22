@@ -5,6 +5,7 @@ import {
 import Header from './components/layout/Header';
 import Navbar from './components/layout/Navbar';
 import styles from './css/App.module.css';
+import BuildingApp from './components/BuildingApp';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <main className={styles.mainSection}>
             <Switch>
               <Route path="/buildings">
-                <h1>Buildings</h1>
+                <BuildingApp />
               </Route>
               <Route path="/companies">
                 <h1>Companies</h1>
