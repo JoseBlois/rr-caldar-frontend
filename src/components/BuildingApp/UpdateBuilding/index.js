@@ -63,44 +63,44 @@ export default function UpdateBuilding({ searchBuilding, updateBuilding, max }) 
           </label>
         </div>
         <div className="inputs-container">
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="name">
               Building Name:
               <input value={building.name || ''} name="edit-name" id="name" type="text" required onChange={changeValue} />
             </label>
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="address">
               Building Address:
               <input value={building.address || ''} name="edit-address" id="address" type="text" required onChange={changeValue} />
             </label>
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="company">
               Building Company:
               <input value={building.company || ''} name="edit-company" id="company" type="text" onChange={changeValue} />
             </label>
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="boiler1">
               Building Boiler 1:
               <input value={building.boiler1 || ''} name="edit-boiler1" id="boiler1" type="text" required onChange={changeValue} />
             </label>
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="boiler2">
               Building Boiler 2:
               <input value={building.boiler2 || ''} name="edit-boiler2" id="boiler2" type="text" onChange={changeValue} />
             </label>
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="boiler3">
               Building Boiler 3:
               <input value={building.boiler3 || ''} name="edit-boiler3" id="boiler3" type="text" onChange={changeValue} />
             </label>
           </div>
         </div>
-        <input type="submit" value="Update" />
+        <input className={styles.updateButton} type="submit" value="Update" />
       </form>
     </div>
   );
