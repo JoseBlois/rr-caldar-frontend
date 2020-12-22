@@ -1,14 +1,8 @@
-.headersContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background-color: #fc6225;
-    border-bottom: solid 1px black;
-    margin-bottom: 5px;
-    font-family: Open-sans;
-    font-weight: 700;
+.tableHeader {
+    width: 100%;
 }
-.header {
-    flex: 1;
+
+.tableCaption {
+    font-size:3vw;
+    margin-bottom:5px;
 }

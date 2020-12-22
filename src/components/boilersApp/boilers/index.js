@@ -7,18 +7,24 @@ export default function index({
 }) {
   return (
     <div>
-      <div className={styles.headersContainer}>
-        <div className={styles.header}>Description</div>
-        <div className={styles.header}>Boiler Type</div>
-        <div className={styles.header}>Hour Maintenance Cost</div>
-        <div className={styles.header}>Hour Eventual Cost</div>
-        <div className={styles.header}>Maintenance Rate</div>
-        <div className={styles.header}>Update</div>
-        <div>Delete</div>
-      </div>
-      {boilers.map((boiler) =>
-        // eslint-disable-next-line
-        <Boiler deleteBoiler={deleteBoiler} key={boiler.id} boiler={boiler} updateBoiler={updateBoiler} searchBoiler={searchBoiler} />)}
+      <table className={styles.tableHeader}>
+        <caption className={styles.tableCaption}>Boilers Records</caption>
+        <tbody>
+          <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th>Boiler Type</th>
+            <th>Hour Maintenance Cost</th>
+            <th>Hour Eventual Cost</th>
+            <th>Maintenance Rate</th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+          {boilers.map((boiler) =>
+            // eslint-disable-next-line
+            <Boiler deleteBoiler={deleteBoiler} key={boiler.id} boiler={boiler} updateBoiler={updateBoiler} searchBoiler={searchBoiler} />)}
+        </tbody>
+      </table>
     </div>
   );
 }

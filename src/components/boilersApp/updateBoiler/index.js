@@ -59,39 +59,39 @@ export default function UpdateBoiler({
     <div>
       <form className={styles.updateForm} onSubmit={submitUpdate}>
         <div>
-          <h3>
+          <h5>
             Id:
             {` ${boilerId}`}
-          </h3>
+          </h5>
           <ul>
-            <li>
-              <label htmlFor="description">
+            <li className={styles.rows}>
+              <label htmlFor="description" className={styles.label}>
                 Description:
-                <input type="text" id="description" placeholder="....." value={boiler.description || ''} onChange={changeValue} required />
+                <input type="text" id="description" placeholder="....." value={boiler.description || ''} onChange={changeValue} required className={styles.input} />
               </label>
             </li>
-            <li>
-              <label htmlFor="boilerType">
+            <li className={styles.rows}>
+              <label htmlFor="boilerType" className={styles.label}>
                 Boiler Type:
-                <input type="text" id="boilerType" placeholder="....." value={boiler.boilerType || ''} onChange={changeValue} required />
+                <input type="text" id="boilerType" placeholder="....." value={boiler.boilerType || ''} onChange={changeValue} required className={styles.input} />
               </label>
             </li>
-            <li>
-              <label htmlFor="hourMaintenanceCost">
+            <li className={styles.rows}>
+              <label htmlFor="hourMaintenanceCost" className={styles.label}>
                 Hour Maintenance Cost:
-                <input type="number" id="hourMaintenanceCost" placeholder="....." value={boiler.hourMaintenanceCost || ''} onChange={changeValue} required />
+                <input type="number" id="hourMaintenanceCost" placeholder="....." value={boiler.hourMaintenanceCost || ''} onChange={changeValue} required className={styles.input} />
               </label>
             </li>
-            <li>
-              <label htmlFor="hourEventualCost">
+            <li className={styles.rows}>
+              <label htmlFor="hourEventualCost" className={styles.label}>
                 Hour Eventual Cost:
-                <input type="number" id="hourEventualCost" placeholder="....." value={boiler.hourEventualCost || ''} onChange={changeValue} required />
+                <input type="number" id="hourEventualCost" placeholder="....." value={boiler.hourEventualCost || ''} onChange={changeValue} required className={styles.input} />
               </label>
             </li>
-            <li>
-              <label htmlFor="maintenanceRate">
+            <li className={styles.rows}>
+              <label htmlFor="maintenanceRate" className={styles.label}>
                 Maintenance Rate:
-                <input type="number" id="maintenanceRate" placeholder="....." value={boiler.maintenanceRate || ''} onChange={changeValue} required />
+                <input type="number" id="maintenanceRate" placeholder="....." value={boiler.maintenanceRate || ''} onChange={changeValue} required className={styles.input} />
               </label>
             </li>
           </ul>

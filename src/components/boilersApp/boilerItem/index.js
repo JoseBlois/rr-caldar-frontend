@@ -13,15 +13,20 @@ export default function index({
 
   return (
     <>
-      <div className={styles.row}>
-        <div>{boiler.description}</div>
-        <div>{boiler.boilerType}</div>
-        <div>{boiler.hourMaintenanceCost}</div>
-        <div>{boiler.hourEventualCost}</div>
-        <div>{boiler.maintenanceRate}</div>
-        <button type="button" className={styles.editBtn} onClick={toggleUpdateModal}>Update</button>
-        <button type="button" className={styles.deleteBtn} onClick={toggleDeleteModal}>Delete</button>
-      </div>
+      <tr className={styles.table}>
+        <td>{boiler.id}</td>
+        <td>{boiler.description}</td>
+        <td>{boiler.boilerType}</td>
+        <td>{boiler.hourMaintenanceCost}</td>
+        <td>{boiler.hourEventualCost}</td>
+        <td>{boiler.maintenanceRate}</td>
+        <td>
+          <button type="button" className={styles.updateBtn} onClick={toggleUpdateModal}>Update</button>
+        </td>
+        <td>
+          <button type="button" className={styles.deleteBtn} onClick={toggleDeleteModal}>Delete</button>
+        </td>
+      </tr>
       <div>
         {deleteModalOpen && (
           <Modal title="Delete Boiler" submitLabel="Confirm" onClose={toggleDeleteModal} onSubmit={deleteBoiler} boilerId={boiler.id}>
