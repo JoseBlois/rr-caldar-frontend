@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import './UpdateBuilding.css';
+import React, { useState } from 'react';
+import styles from './UpdateBuilding.module.css';
 
-export default function UpdateBuilding({
-  updateBuilding, searchBuilding, buildingId, toggleUpdateModal,
-}) {
+export default function UpdateBuilding({ searchBuilding, updateBuilding, max }) {
   const [building, setBuilding] = useState({
     name: '',
     address: '',
@@ -19,11 +17,11 @@ export default function UpdateBuilding({
     setBuilding({ ...building, [e.target.id]: e.target.value });
   };
 
-  const getBuilding = (wantedId) => {
-    const foundBuilding = searchBuilding(wantedId);
+  const getBuilding = (e) => {
+    const foundBuilding = searchBuilding(parseInt(e.target.value, 10));
     if (foundBuilding) {
       setBuilding({
-        id: wantedId,
+        id: e.target.value,
         ...foundBuilding,
         boiler1: foundBuilding.boilers[0],
         boiler2: foundBuilding.boilers[1],
@@ -31,7 +29,7 @@ export default function UpdateBuilding({
       });
     } else {
       setBuilding({
-        id: wantedId,
+        id: e.target.value,
         name: 'Not Found',
         address: 'Not Found',
         company: 'Not Found',
@@ -41,10 +39,6 @@ export default function UpdateBuilding({
       });
     }
   };
-
-  useEffect(() => {
-    getBuilding(buildingId);
-  }, []);
 
   const submitUpdate = (e) => {
     e.preventDefault();
@@ -56,17 +50,17 @@ export default function UpdateBuilding({
       boilers: [building.boiler1, building.boiler2, building.boiler3],
     };
     updateBuilding(updatedBuilding);
-    toggleUpdateModal();
   };
 
   return (
     <div>
-      <form className="edit-form" onSubmit={submitUpdate}>
+      <h2>Update building panel</h2>
+      <form className={styles.editForm} onSubmit={submitUpdate}>
         <div className="chosing-container">
-          <h2>
-            ID:
-            {` ${buildingId}`}
-          </h2>
+          <label htmlFor="Id">
+            Id:
+            <input id="id" type="number" min="1" max={max} onChange={getBuilding} />
+          </label>
         </div>
         <div className="inputs-container">
           <div className="form-group">
@@ -115,6 +109,5 @@ export default function UpdateBuilding({
 UpdateBuilding.propTypes = {
   updateBuilding: PropTypes.func.isRequired,
   searchBuilding: PropTypes.func.isRequired,
-  toggleUpdateModal: PropTypes.func.isRequired,
-  buildingId: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
 };

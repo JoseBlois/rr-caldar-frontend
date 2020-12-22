@@ -1,12 +1,12 @@
 h2 {
   text-align: center;
 }
-.edit-form {
+.editForm {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
-.edit-form > * {
+.editForm > * {
   margin: 20px
 }

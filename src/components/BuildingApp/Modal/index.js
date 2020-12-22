@@ -1,6 +1,6 @@
 import React from 'react';
-import './Modal.css';
 import PropTypes from 'prop-types';
+import styles from './Modal.module.css';
 import Button from './ModalButton';
 
 function Modal({
@@ -8,24 +8,24 @@ function Modal({
 }) {
   return (
     <>
-      <div className="modal">
-        <div className="modal-guts">
-          <div className="header">
-            <div className="header-title">
+      <div className={styles.modal}>
+        <div className={styles.modalGuts}>
+          <div className={styles.header}>
+            <div>
               {title}
             </div>
-            <button type="button" className="btn-close" onClick={onClose}>X</button>
+            <button type="button" onClick={onClose}>X</button>
           </div>
-          <div className="content">
+          <div className={styles.content}>
             {children}
           </div>
-          <div className="actions">
+          <div className={styles.actions}>
             <Button onClick={onClose} btnLabel="Cancel" primary={false} buildingId={0} />
             <Button onClick={onSubmit} buildingId={buildingId} primary btnLabel={submitLabel || 'Submit'} />
           </div>
         </div>
       </div>
-      <div className="overlay" />
+      <div className={styles.overlay} />
     </>
   );
 }

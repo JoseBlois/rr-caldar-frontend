@@ -7,7 +7,7 @@
   cursor: pointer;
 }
 
-.Button.Button-primary {
+.Button.ButtonPrimary {
   background-color: orange;
   color: white;
 }

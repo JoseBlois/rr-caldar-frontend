@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import Modal from '../Modal';
-import UpdateBuilding from '../UpdateBuilding';
-import './BuildingItem.css';
+import styles from './BuildingItem.module.css';
 
 export default function index({
-  building, deleteBuilding, searchBuilding, updateBuilding,
+  building, deleteBuilding,
 }) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [updateModalOpen, setUpdateModalOpen] = useState(false);
   // const [buildingToUpdate, setBuildingToUpdate] = useState(null);
 
   const toggleDeleteModal = () => setDeleteModalOpen(!deleteModalOpen);
-  const toggleUpdateModal = () => setUpdateModalOpen(!updateModalOpen);
 
   return (
     <>
-      <div className="row">
+      <div className={styles.row}>
         <div>{building.name}</div>
         <div>{building.address}</div>
         <div>
@@ -27,15 +24,7 @@ export default function index({
         <div>{building.id}</div>
         <button
           type="button"
-          className="edit-btn"
-          onClick={toggleUpdateModal}
-        >
-          Edit
-        </button>
-
-        <button
-          type="button"
-          className="delete-btn"
+          className={styles.deleteBtn}
           onClick={toggleDeleteModal}
         >
           X
@@ -51,25 +40,6 @@ export default function index({
             buildingId={building.id}
           >
             <h2>Are you sure that you want to delete it?</h2>
-          </Modal>
-        )}
-      </div>
-      <div>
-        {updateModalOpen && (
-          <Modal
-            title="Update Building"
-            submitLabel="Confirm"
-            onClose={toggleUpdateModal}
-            onSubmit={updateBuilding}
-            buildingId={building.id}
-          >
-            <h2>Building Update Panel</h2>
-            <UpdateBuilding
-              updateBuilding={updateBuilding}
-              searchBuilding={searchBuilding}
-              buildingId={building.id}
-              toggleUpdateModal={toggleUpdateModal}
-            />
           </Modal>
         )}
       </div>

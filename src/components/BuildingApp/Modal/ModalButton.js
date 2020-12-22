@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './ModalButton.css';
+import styles from './ModalButton.module.css';
 
 function Button({
   btnLabel, onClick, primary, buildingId,
@@ -8,7 +8,7 @@ function Button({
   return (
     <button
       type="button"
-      className={`Button ${primary ? 'Button-primary' : ''}`}
+      className={`${styles.Button} ${primary ? styles.ButtonPrimary : ''}`}
       onClick={onClick.bind(this, buildingId)}
     >
       {btnLabel}
