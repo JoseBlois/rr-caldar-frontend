@@ -1,0 +1,32 @@
+h2 {
+  text-align: center;
+}
+.editForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #fc6225;
+}
+.editForm > * {
+  margin: 20px
+}
+
+.formGroup {
+  margin: 20px 0px ;
+}
+
+.updateButton {
+  padding: 10px;
+  border: solid 2px #fff;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #fc6225;
+  font-size: 16px;
+}
+
+.updateButton:hover {
+  cursor: pointer;
+  background-color: #fc6225;
+  color: #fff;
+}
