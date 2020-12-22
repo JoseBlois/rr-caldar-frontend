@@ -38,7 +38,7 @@ const Companies = () => {
     <div className="App">
       {/* <Header /> */}
       <AddCompany addCompany={addCompany} />
-      <UpdateCompany searchCompany={searchCompany} updateCompany={updateCompany} />
+      <UpdateCompany searchCompany={searchCompany} updCompany={updateCompany} />
       <CompaniesList companies={companies} delCompany={delCompany} />
     </div>
   );

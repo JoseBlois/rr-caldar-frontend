@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const addCompany = () => {
+const addCompany = (props) => {
   const [newCompany, setNewCompany] = useState({
     id: '',
     name: '',
@@ -17,15 +17,13 @@ const addCompany = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addCompany(newCompany);
+    props.addCompany(newCompany);
     setNewCompany({
-      newCompany: {
-        name: '',
-        address: '',
-        email: '',
-        cuit: '',
-        phone: '',
-      },
+      name: '',
+      address: '',
+      email: '',
+      cuit: '',
+      phone: '',
     });
   };
 

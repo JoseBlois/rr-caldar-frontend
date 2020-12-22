@@ -1,26 +1,20 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/button-has-type */
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const ListItem = (delCompany, comp) => {
-  const [Item] = useState({
-    id: comp.id,
-    name: comp.name,
-    address: comp.address,
-    email: comp.email,
-    cuit: comp.cuit,
-    phone: comp.phone,
-  });
+const ListItem = (props) => {
+  const { comp, delCompany } = props;
   return (
     <div>
       <p>
-        {Item.id}
-        {Item.name}
-        {Item.address}
-        {Item.email}
-        {Item.cuit}
-        {Item.phone}
-        <button onClick={delCompany.bind(this, Item.id)} style={btnStyle}>X</button>
+        {comp.id}
+        {comp.name}
+        {comp.address}
+        {comp.email}
+        {comp.cuit}
+        {comp.phone}
+        <button onClick={delCompany.bind(this, comp.id)} style={btnStyle}>X</button>
       </p>
     </div>
   );
@@ -34,6 +28,20 @@ const btnStyle = {
   padding: '1px',
   borderRadius: '20%',
   float: 'right',
+};
+
+ListItem.propTypes = {
+  comp: PropTypes.exact(
+    {
+      id: PropTypes.number,
+      name: PropTypes.string,
+      address: PropTypes.string,
+      email: PropTypes.string,
+      cuit: PropTypes.number,
+      phone: PropTypes.string,
+    },
+  ).isRequired,
+  delCompany: PropTypes.func.isRequired,
 };
 
 export default ListItem;

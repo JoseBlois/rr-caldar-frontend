@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const updateCompany = ({
   searchCompany,
+  updCompany,
 }) => {
   const [company, setCompany] = useState({
     id: '',
@@ -14,7 +15,7 @@ const updateCompany = ({
   });
 
   const onChange = (e) => {
-    setCompany({ ...company, [e.target.name]: e.target.value });
+    setCompany({ ...company, [e.target.id]: e.target.value });
   };
 
   const onSubmit = (e) => {
@@ -27,7 +28,7 @@ const updateCompany = ({
       cuit: company.cuit,
       phone: company.phone,
     };
-    updateCompany(updatedCompany);
+    updCompany(updatedCompany);
   };
 
   const findCompany = (e) => {
@@ -114,7 +115,8 @@ const updateCompany = ({
 };
 
 updateCompany.propTypes = {
-  updateCompany: PropTypes.func.isRequired,
+  searchCompany: PropTypes.func.isRequired,
+  updCompany: PropTypes.func.isRequired,
 };
 
 export default updateCompany;
