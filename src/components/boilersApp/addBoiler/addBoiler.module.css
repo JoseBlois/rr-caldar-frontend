@@ -1,0 +1,16 @@
+.addFormContainer {
+    margin: '20px auto';
+    background-color: #fc6225;
+    text-align: 'center';
+}
+
+.addForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.addForm .formGroup, .editForm .formGroup {
+    margin-bottom: 15px;
+}

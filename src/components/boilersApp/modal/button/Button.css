@@ -1,0 +1,13 @@
+.Button {
+    background-color: white;
+    color: orange;
+    border: 1px solid black;
+    padding: 8px 16px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.Button.Button-primary {
+    background-color: orange;
+    color: white;
+}

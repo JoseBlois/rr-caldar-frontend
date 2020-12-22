@@ -5,6 +5,7 @@ import {
 import Header from './components/layout/Header';
 import Navbar from './components/layout/Navbar';
 import styles from './css/App.module.css';
+import BoilersApp from './components/boilersApp';
 
 function App() {
   return (
@@ -23,9 +24,7 @@ function App() {
               <Route path="/companies">
                 <h1>Companies</h1>
               </Route>
-              <Route path="/boilers">
-                <h1>Boilers</h1>
-              </Route>
+              <Route path="/boilers" component={BoilersApp} />
               <Route path="/boilerTypes">
                 <h1>Boiler Types</h1>
               </Route>
