@@ -27,6 +27,7 @@ export default function index({
         <div>{building.id}</div>
         <button
           type="button"
+          className="edit-btn"
           onClick={toggleUpdateModal}
         >
           Edit

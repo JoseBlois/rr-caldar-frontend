@@ -12,6 +12,24 @@
 .row div{
   flex: 2;
 }
+
+.edit-btn {
+  margin-right: 10px;
+  padding: 10px;
+  border: solid 1px #fc6225;
+  border-radius: 5px;
+  font-size: 18px;
+  background-color: #fc6225;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #fff;
+  color: #fc6225;
+  border: solid 1px #fc6225;
+  cursor: pointer;
+}
+
 .delete-btn {
   padding: 15px 20px;
   border: none;

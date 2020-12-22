@@ -22,11 +22,12 @@ export default function BuildingAppF() {
   };
 
   const updateBuilding = (updatedBuilding) => {
-    const updatedBuildings = buildings;
-    const index = updatedBuildings
-      .findIndex((oldBuilding) => oldBuilding.id === updatedBuilding.id);
-    updatedBuildings[index] = updatedBuilding;
-    setBuildings(updatedBuildings);
+    setBuildings(buildings.map((building) => {
+      if (building.id === updatedBuilding.id) {
+        return updatedBuilding;
+      }
+      return building;
+    }));
   };
 
   const searchBuilding = (id) => buildings
