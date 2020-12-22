@@ -21,7 +21,7 @@ function Modal({
           </div>
           <div>
             <Button onClick={onClose} btnLabel="Cancel" primary={false} boilerId={0} />
-            <Button onClick={onSubmit} boilerId={boilerId} primary btnLabel={submitLabel || 'Submit'} />
+            <Button onClick={onSubmit} boilerId={boilerId} primary btnLabel={submitLabel || 'Update'} />
           </div>
         </div>
       </div>

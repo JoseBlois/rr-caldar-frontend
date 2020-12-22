@@ -4,7 +4,7 @@ import boilersData from '../../mocks/boilers.json';
 import Header from './header';
 import Boilers from './boilers';
 import AddBoiler from './addBoiler';
-import './BoilersApp.css';
+import './BoilersApp.module.css';
 
 export default function BoilerApp() {
   const [boilers, setBoilers] = useState(boilersData);
@@ -30,7 +30,8 @@ export default function BoilerApp() {
     }));
   };
 
-  const searchBoiler = (id) => boilers.find((boiler) => boiler.id === id);
+  const searchBoiler = (id) => boilers
+    .find((boiler) => boiler.id === id);
 
   return (
     <>

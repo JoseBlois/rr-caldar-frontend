@@ -8,6 +8,7 @@ export default function index({
 }) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
+
   const toggleDeleteModal = () => setDeleteModalOpen(!deleteModalOpen);
   const toggleUpdateModal = () => setUpdateModalOpen(!updateModalOpen);
 
@@ -41,7 +42,7 @@ export default function index({
             <UpdateBoiler
               updateBoiler={updateBoiler}
               searchBoiler={searchBoiler}
-              buildingId={boiler.id}
+              boilerId={boiler.id}
               toggleUpdateModal={toggleUpdateModal}
             />
           </Modal>

@@ -72,7 +72,7 @@ export default function addBoiler(props) {
             <li className={styles.rows}>
               <label htmlFor="maintenanceRate" className={styles.label}>
                 Maintenance Rate:
-                <input className={styles.input} type="number" id="maintenanceRate" placeholder="....." value={boiler.maintenanceRate} onChange={changeValue} required />
+                <input className={styles.input} type="text" id="maintenanceRate" placeholder="....." value={boiler.maintenanceRate} onChange={changeValue} required />
               </label>
             </li>
           </ul>

@@ -1,6 +1,6 @@
 .Button {
     background-color: white;
-    color: orange;
+    color:  #fc6225;
     border: 1px solid black;
     padding: 8px 16px;
     margin: 5px;
@@ -8,6 +8,6 @@
 }
 
 .Button.Button-primary {
-    background-color: orange;
+    background-color: #fc6225;
     color: white;
 }
