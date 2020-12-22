@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const initialState = {
   first_name: '',
@@ -19,8 +20,19 @@ const TechniciansForm = () => {
     });
   };
 
-  const submit = (value) => {
-    setState(value.initialState);
+  const submit = (e) => {
+    e.preventDefault();
+    const newTechnician = {
+      id: '',
+      first_name: state.first_name,
+      last_name: state.last_name,
+      address: state.address,
+      phone: state.phone,
+      email: state.email,
+      boiler_types: state.boiler_types,
+    };
+    addTechnician();
+    setState(initialState);
   };
 
   return (
@@ -50,6 +62,10 @@ const TechniciansForm = () => {
       </td>
     </tr>
   );
+};
+
+newTechnician.propTypes = {
+  newTechnician: PropTypes.func.isRequired,
 };
 
 export default TechniciansForm;
