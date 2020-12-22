@@ -4,6 +4,7 @@ import styles from './addBoiler.module.css';
 
 export default function addBoiler(props) {
   const [boiler, setBoiler] = useState({
+    id: '',
     description: '',
     boilerType: '',
     hourMaintenanceCost: '',
@@ -12,12 +13,13 @@ export default function addBoiler(props) {
   });
 
   const changeValue = (e) => {
-    setBoiler({ ...boiler, [e.target.description]: e.target.value });
+    setBoiler({ ...boiler, [e.target.id]: e.target.value });
   };
 
   const submition = (e) => {
     e.preventDefault();
     const newBoiler = {
+      id: '',
       description: boiler.description,
       boilerType: boiler.boilerType,
       hourMaintenanceCost: boiler.hourMaintenanceCost,
@@ -26,6 +28,7 @@ export default function addBoiler(props) {
     };
     props.addBoiler(newBoiler);
     setBoiler({
+      id: '',
       description: '',
       boilerType: '',
       hourMaintenanceCost: '',
