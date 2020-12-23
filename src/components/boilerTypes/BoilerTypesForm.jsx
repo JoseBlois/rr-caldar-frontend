@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
-import styles from './BoilerTypesForm.module.css'
+import propTypes from 'prop-types';
+import styles from './BoilerTypesForm.module.css';
 
 const BoilerTypesForm = (props) => {
   const [boilerType, setBoilerType] = useState({
-    id:'',
-    description: ''
+    id: '',
+    description: '',
   });
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     props.onAddBoilerTypes(boilerType);
     setBoilerType({
       id: '',
-      description: ''
+      description: '',
     });
-  }
+  };
 
-  const generateRandomNumber = () => {
-    return Math.floor(Math.random() * 100000000000) + 1;
-  }
+  const generateRandomNumber = () => Math.floor(Math.random() * 100000000000) + 1;
 
   const handleInputChange = (e) => {
-    const {value, name} = e.target;
-    setBoilerType({...boilerType, [name]: value, id: generateRandomNumber()})
-    }
+    const { value, name } = e.target;
+    setBoilerType({ ...boilerType, [name]: value, id: generateRandomNumber() });
+  };
 
   return (
-     <div className="new-element">
+    <div className="new-element">
       <form onSubmit={handleSubmit} className={styles.inputWraper}>
         <div className="input-description">
           <input
@@ -43,7 +42,11 @@ const BoilerTypesForm = (props) => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
+
+BoilerTypesForm.propTypes = {
+  onAddBoilerTypes: propTypes.func.isRequired,
+};
 
 export default BoilerTypesForm;

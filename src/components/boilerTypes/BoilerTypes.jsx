@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import propTypes, { array, object } from 'prop-types';
 import DeleteBoilerTypeModal from './DeleteBoilerTypeModal';
 import EditBoilerTypeModal from './EditBoilerTypeModal';
-import styles from './BoilerTypesApp.module.css'
+import styles from './BoilerTypesApp.module.css';
 
 const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
   const [showEditBoilerModal, setShowEditBoilerModal] = useState(false);
@@ -11,7 +12,7 @@ const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
   const toggleDeletBoilerModal = () => setShowDeleteBoilerModal(!showDeleteBoilerModal);
 
   const handleEditModalSubmit = (description) => {
-    const newBoilerTypes = boilerTypes.map(bl => {
+    const newBoilerTypes = boilerTypes.map((bl) => {
       if (bl.id === boilerType.id) {
         return {
           ...bl,
@@ -21,12 +22,12 @@ const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
       return bl;
     });
     changeBoilerTypes(newBoilerTypes);
-  }
+  };
 
   const handleDeleteModelSubmit = () => {
-    const newBoilerTypes = boilerTypes.filter(bl => bl.id !== boilerType.id);
+    const newBoilerTypes = boilerTypes.filter((bl) => bl.id !== boilerType.id);
     changeBoilerTypes(newBoilerTypes);
-  }
+  };
 
   return (
     <div className={styles.itemWraper} key={boilerType.id}>
@@ -35,14 +36,10 @@ const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
           {boilerType.description}
         </div>
         <div className="item-delete">
-          <button
-            className="btn-edit"
-            onClick={toggleEditBoilerModal}>
+          <button className="btn-edit" type="button" onClick={toggleEditBoilerModal}>
             Edit
           </button>
-          <button
-            className="btn-delete"
-            onClick={toggleDeletBoilerModal}>
+          <button className="btn-delete" type="button" onClick={toggleDeletBoilerModal}>
             Delete
           </button>
         </div>
@@ -54,8 +51,8 @@ const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
             />
           )}
           {showDeleteBoilerModal && (
-            <DeleteBoilerTypeModal 
-              onSubmit={handleDeleteModelSubmit} 
+            <DeleteBoilerTypeModal
+              onSubmit={handleDeleteModelSubmit}
               onClose={toggleDeletBoilerModal}
               boilerType={boilerType}
             />
@@ -63,7 +60,13 @@ const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
         </div>
       </div>
     </div>
-  )
+  );
+};
+
+BoilerType.propTypes = {
+  changeBoilerTypes: propTypes.func.isRequired,
+  boilerTypes: propTypes.array.isRequired,
+  boilerType: propTypes.object.isRequired,
 };
 
 export default BoilerType;

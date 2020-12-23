@@ -11,7 +11,7 @@ const BoilerTypesApp = () => {
     setBoilerTypes(jsonBoilerTypes);
   }, []);
 
-  const handleAddBoilerTypes = newBoilerType => setBoilerTypes([...boilerTypes, newBoilerType]);
+  const handleAddBoilerTypes = (newBoilerType) => setBoilerTypes([...boilerTypes, newBoilerType]);
 
   const renderBoilerTypes = boilerTypes.map((boilerType) => (
     <BoilerType
@@ -26,13 +26,13 @@ const BoilerTypesApp = () => {
   return (
     <div className="App">
       <div className={styles.AppHeader}>
-          Boilers Types - 
-          <span className="number-of-boilerTypes">
-            {boilerTypes.length}
-          </span>
+        Boilers Types -
+        <span className="number-of-boilerTypes">
+          {boilerTypes.length}
+        </span>
       </div>
       <div className="new-boiler-type">
-        { <BoilerTypesForm onAddBoilerTypes={handleAddBoilerTypes}></BoilerTypesForm> }
+        <BoilerTypesForm onAddBoilerTypes={handleAddBoilerTypes} />
       </div>
       <div className="container">
         <div className="row">
@@ -41,6 +41,6 @@ const BoilerTypesApp = () => {
       </div>
     </div>
   );
-}
+};
 
-export default BoilerTypesApp; 
+export default BoilerTypesApp;

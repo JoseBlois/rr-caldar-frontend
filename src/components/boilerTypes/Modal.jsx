@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import styles from './Modal.module.css';
 import Button from './Button';
 
@@ -8,30 +9,42 @@ function Modal(props) {
     props.onClose();
   };
 
+  const {
+    title, onClose, children, submitLabel,
+  } = props;
+
   return (
     <>
       <div className={styles.modal}>
         <div className={styles.modalGuts}>
           <div className={styles.header}>
             <div className="header-title">
-              {props.title}
+              {title}
             </div>
-            <button className="btn-close" onClick={props.onClose}>X</button>          
+            <button className="btn-close" type="button" onClick={onClose}>
+              X
+            </button>
           </div>
           <div className="content">
-            {props.children}
+            {children}
           </div>
           <div className="actions">
-            <Button onClick={props.onClose} buttonLabel="Cancel" ></Button>
-            <Button onClick={handleOnSubmit} buttonLabel={props.submitLabel || "Submit"} primary></Button>
+            <Button onClick={onClose} buttonLabel="Cancel" />
+            <Button onClick={handleOnSubmit} buttonLabel={submitLabel || 'Submit'} primary />
           </div>
         </div>
       </div>
-      <div className={styles.overlay}>
-      </div>
+      <div className={styles.overlay} />
     </>
   );
 }
 
-export default Modal;
+Modal.propTypes = {
+  onSubmit: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
+  title: propTypes.string.isRequired,
+  children: propTypes.element.isRequired,
+  submitLabel: propTypes.string.isRequired,
+};
 
+export default Modal;
