@@ -2,32 +2,35 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
 import PropTypes from 'prop-types';
+import style from './ListItem.module.css';
 
 const ListItem = (props) => {
   const { comp, delCompany } = props;
   return (
-    <div>
-      <p>
-        {comp.id}
-        {comp.name}
-        {comp.address}
-        {comp.email}
-        {comp.cuit}
-        {comp.phone}
-        <button onClick={delCompany.bind(this, comp.id)} style={btnStyle}>X</button>
-      </p>
+    <div className={style.ListItem}>
+      <table>
+        <tr>
+          <td>{comp.id}</td>
+          <td>{comp.name}</td>
+          <td>{comp.address}</td>
+          <td>{comp.email}</td>
+          <td>{comp.cuit}</td>
+          <td>{comp.phone}</td>
+          <td><button onClick={delCompany.bind(this, comp.id)} style={btnStyle}>X</button></td>
+        </tr>
+      </table>
     </div>
   );
 };
 
 const btnStyle = {
+  // display: 'flex',
   background: '#ff0000',
   color: 'white',
   border: 'solid black 1px',
   margin: '0 15px 0 0',
   padding: '1px',
   borderRadius: '20%',
-  float: 'right',
 };
 
 ListItem.propTypes = {

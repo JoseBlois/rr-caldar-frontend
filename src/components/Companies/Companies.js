@@ -1,11 +1,11 @@
 /* eslint-disable radix */
 import React, { useState } from 'react';
-import CompaniesList from '../Companies/CompaniesList';
-import AddCompany from '../Companies/AddCompany';
-import UpdateCompany from '../Companies/UpdateCompany';
+import CompaniesList from './CompaniesList/CompaniesList';
+import AddCompany from './AddCompany/AddCompany';
+import UpdateCompany from './UpdateCompany/UpdateCompany';
 import companiesData from '../mocks/companies.json';
-// import Header from './Header';
-import './App.css';
+import Header from './CompaniesHeader/CompaniesHeader';
+import style from './CompaniesApp.module.css';
 
 const Companies = () => {
   const [companies, setCompaniesData] = useState(companiesData);
@@ -35,8 +35,8 @@ const Companies = () => {
   };
 
   return (
-    <div className="App">
-      {/* <Header /> */}
+    <div className={style.App}>
+      <Header />
       <AddCompany addCompany={addCompany} />
       <UpdateCompany searchCompany={searchCompany} updCompany={updateCompany} />
       <CompaniesList companies={companies} delCompany={delCompany} />

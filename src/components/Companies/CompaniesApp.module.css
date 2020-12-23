@@ -4,26 +4,26 @@
   padding: 0;
 }
 
-header h1 {
+.App companies_header {
+  margin-bottom: 0;
+}
+
+.App header h1 {
   background: orangered;
   color: white;
 }
 
-header p {
+.App header p {
   color: orangered;
 }
 
-body {
+.App body {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
   text-align: center;
 }
 
-a {
+.App a {
   color: #333;
   text-decoration: none;
-}
-
-p {
-  border-bottom: solid gray 2px;
 }

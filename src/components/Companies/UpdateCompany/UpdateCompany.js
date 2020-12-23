@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import style from './UpdateCompany.module.css';
 
 const updateCompany = ({
   searchCompany,
@@ -54,22 +55,20 @@ const updateCompany = ({
   };
 
   return (
-    <div>
+    <div className={style.updateCompany}>
       <h3>Update Company</h3>
-      <form onSubmit={onSubmit} className="add-company" style={{ display: 'flex' }}>
+      <form onSubmit={onSubmit}>
         <input
           type="number"
           min="1"
           id="id"
           placeholder="Company ID"
-          style={{ flex: '10', padding: '5px' }}
           onChange={findCompany}
         />
         <input
           type="text"
           id="name"
           placeholder="Company Name"
-          style={{ flex: '10', padding: '5px' }}
           value={company.name}
           onChange={onChange}
         />
@@ -77,7 +76,6 @@ const updateCompany = ({
           type="text"
           id="address"
           placeholder="Street Adress"
-          style={{ flex: '10', padding: '5px' }}
           value={company.address}
           onChange={onChange}
         />
@@ -85,7 +83,6 @@ const updateCompany = ({
           type="text"
           id="email"
           placeholder="email Address"
-          style={{ flex: '10', padding: '5px' }}
           value={company.email}
           onChange={onChange}
         />
@@ -93,7 +90,6 @@ const updateCompany = ({
           type="text"
           id="cuit"
           placeholder="Company CUIT"
-          style={{ flex: '10', padding: '5px' }}
           value={company.cuit}
           onChange={onChange}
         />
@@ -101,15 +97,25 @@ const updateCompany = ({
           type="text"
           id="phone"
           placeholder="Phone number"
-          style={{ flex: '10', padding: '5px' }}
           value={company.phone}
           onChange={onChange}
         />
         <input
           type="submit"
-          name="add-company"
+          value="Update Company"
         />
       </form>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Company Name</th>
+          <th>Address</th>
+          <th>Email</th>
+          <th>CUIT</th>
+          <th>Phone</th>
+          <th>D</th>
+        </tr>
+      </table>
     </div>
   );
 };

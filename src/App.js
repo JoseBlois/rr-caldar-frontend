@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Navbar from './components/layout/Navbar';
-import Companies from './components/layout/Companies';
+import Companies from './components/Companies/Companies';
 import styles from './css/App.module.css';
 import BuildingApp from './components/BuildingApp';
 
@@ -23,7 +23,6 @@ function App() {
                 <BuildingApp />
               </Route>
               <Route path="/companies">
-                <h1>Companies</h1>
                 <Companies />
               </Route>
               <Route path="/boilers">
