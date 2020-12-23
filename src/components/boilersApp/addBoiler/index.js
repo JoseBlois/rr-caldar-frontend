@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './addBoiler.module.css';
 
-export default function addBoiler(props) {
+const addBoiler = (props) => {
   const [boiler, setBoiler] = useState({
     id: '',
     description: '',
@@ -81,7 +81,9 @@ export default function addBoiler(props) {
       </form>
     </>
   );
-}
+};
+
+export default addBoiler;
 
 addBoiler.propTypes = {
   addBoiler: PropTypes.func.isRequired,

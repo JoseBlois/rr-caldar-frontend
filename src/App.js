@@ -8,7 +8,6 @@ import styles from './css/App.module.css';
 import BoilersApp from './components/boilersApp';
 import BuildingApp from './components/BuildingApp';
 
-
 function App() {
   return (
     <Router>

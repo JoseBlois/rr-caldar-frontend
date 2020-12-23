@@ -3,9 +3,9 @@ import Modal from '../modal';
 import UpdateBoiler from '../updateBoiler';
 import styles from './BoilerItem.module.css';
 
-export default function index({
+const boilerItem = ({
   boiler, deleteBoiler, updateBoiler, searchBoiler,
-}) {
+}) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
@@ -50,4 +50,6 @@ export default function index({
       </div>
     </>
   );
-}
+};
+
+export default boilerItem;

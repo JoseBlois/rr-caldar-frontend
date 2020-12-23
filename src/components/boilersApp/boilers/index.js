@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom';
 import Boiler from '../boilerItem';
 import styles from './Boilers.module.css';
 
-export default function index({
+const index = ({
   boilers, deleteBoiler, updateBoiler, searchBoiler,
-}) {
-  return (
+}) => (
+  <>
     <div>
       <div>
         <table className={styles.tableHeader}>
@@ -34,5 +34,7 @@ export default function index({
         </NavLink>
       </div>
     </div>
-  );
-}
+  </>
+);
+
+export default index;

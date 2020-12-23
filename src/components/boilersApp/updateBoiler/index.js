@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './updateBoiler.module.css';
 
-export default function UpdateBoiler({
+const UpdateBoiler = ({
   updateBoiler, searchBoiler, boilerId, toggleUpdateModal,
-}) {
+}) => {
   const [boiler, setBoiler] = useState({
     id: '',
     description: '',
@@ -87,7 +87,9 @@ export default function UpdateBoiler({
       </div>
     </form>
   );
-}
+};
+
+export default UpdateBoiler;
 
 UpdateBoiler.propTypes = {
   updateBoiler: PropTypes.func.isRequired,

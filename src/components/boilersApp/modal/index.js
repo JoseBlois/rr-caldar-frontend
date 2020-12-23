@@ -3,32 +3,30 @@ import PropTypes from 'prop-types';
 import Button from './button';
 import styles from './Modal.module.css';
 
-function Modal({
+const Modal = ({
   title, children, onClose, submitLabel, onSubmit, boilerId,
-}) {
-  return (
-    <>
-      <div className={styles.modal}>
-        <div className={styles.modalGuts}>
-          <div className={styles.modalHeader}>
-            <div>
-              {title}
-            </div>
-            <button type="button" className="btnClose" onClick={onClose}>X</button>
-          </div>
-          <div className={styles.content}>
-            {children}
-          </div>
+}) => (
+  <>
+    <div className={styles.modal}>
+      <div className={styles.modalGuts}>
+        <div className={styles.modalHeader}>
           <div>
-            <Button onClick={onClose} btnLabel="Cancel" primary={false} boilerId={0} />
-            <Button onClick={onSubmit} boilerId={boilerId} primary btnLabel={submitLabel || 'Update'} />
+            {title}
           </div>
+          <button type="button" className="btnClose" onClick={onClose}>X</button>
+        </div>
+        <div className={styles.content}>
+          {children}
+        </div>
+        <div>
+          <Button onClick={onClose} btnLabel="Cancel" primary={false} boilerId={0} />
+          <Button onClick={onSubmit} boilerId={boilerId} primary btnLabel={submitLabel || 'Update'} />
         </div>
       </div>
-      <div className={styles.overlay} />
-    </>
-  );
-}
+    </div>
+    <div className={styles.overlay} />
+  </>
+);
 
 export default Modal;
 

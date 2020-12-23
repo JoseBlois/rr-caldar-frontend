@@ -6,7 +6,7 @@ import Boilers from './boilers';
 import AddBoiler from './addBoiler';
 import './BoilersApp.module.css';
 
-export default function BoilerApp() {
+const BoilerApp = () => {
   const [boilers, setBoilers] = useState(boilersData);
   const [max, setMax] = useState(boilers.length);
 
@@ -51,4 +51,6 @@ export default function BoilerApp() {
       </div>
     </>
   );
-}
+};
+
+export default BoilerApp;

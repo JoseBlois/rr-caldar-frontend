@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
 
-function Button({
+const Button = ({
   btnLabel, onClick, primary, boilerId,
-}) {
-  return (
-    <button type="button" className={`Button ${primary ? 'Button-primary' : ''}`} onClick={onClick.bind(this, boilerId)}>
+}) => (
+  <>
+    <button type="button" className={`Button ${primary ? 'Button-primary' : ''}`} onClick={() => onClick(boilerId)}>
       {btnLabel}
     </button>
-  );
-}
+  </>
+);
 
 export default Button;
 
