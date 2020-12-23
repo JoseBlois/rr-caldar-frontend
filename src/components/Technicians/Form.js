@@ -10,7 +10,8 @@ const initialState = {
   boiler_types: '',
 };
 
-export default function TechniciansForm({ addTechnician }) {
+// export default function TechniciansForm({ addTechnician }) {
+const Form = ({ addTechnician }) => {
   const [technician, technicianState] = useState(initialState);
 
   const inputChange = (e) => {
@@ -64,9 +65,11 @@ export default function TechniciansForm({ addTechnician }) {
       </td>
     </tr>
   );
-}
+};
 
-TechniciansForm.propTypes = {
+Form.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   addTechnician: PropTypes.func.isRequired,
 };
+
+export default Form;

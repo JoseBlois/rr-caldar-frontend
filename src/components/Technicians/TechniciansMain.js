@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import techniciansData from '../../mock/technicians.json';
 import Form from './Form';
 
-export default function TechniciansMain() {
+const TechniciansMain = () => {
   const [technicians, setTechnicians] = useState(techniciansData);
 
   const addTechnician = (newTechnician) => {
@@ -41,6 +41,7 @@ export default function TechniciansMain() {
 
   return (
     <div className="MainContainer">
+      <h1>Technicians</h1>
       <table>
         <thead>
           <tr className="nameOfItem">
@@ -151,4 +152,5 @@ export default function TechniciansMain() {
       </table>
     </div>
   );
-}
+};
+export default TechniciansMain;

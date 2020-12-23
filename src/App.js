@@ -32,7 +32,6 @@ function App() {
                 <h1>Boiler Types</h1>
               </Route>
               <Route path="/technicians">
-                <h1>Technicians</h1>
                 <TechniciansMain />
               </Route>
               <Route path="/appointments">
