@@ -6,7 +6,7 @@ import Header from './components/layout/Header';
 import Navbar from './components/layout/Navbar';
 import styles from './css/App.module.css';
 import BuildingApp from './components/BuildingApp';
-import TechniciansForm from './components/Technicians/TechniciansApp';
+import TechniciansMain from './components/Technicians/TechniciansMain';
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
               </Route>
               <Route path="/technicians">
                 <h1>Technicians</h1>
-                <TechniciansForm />
+                <TechniciansMain />
               </Route>
               <Route path="/appointments">
                 <h1>Appointments</h1>
