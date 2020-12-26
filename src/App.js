@@ -7,6 +7,7 @@ import Navbar from './components/layout/Navbar';
 import styles from './css/App.module.css';
 import BoilersApp from './components/boilersApp';
 import BuildingApp from './components/BuildingApp';
+import TechniciansMain from './components/Technicians/TechniciansMain';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
                 <h1>Boiler Types</h1>
               </Route>
               <Route path="/technicians">
-                <h1>Technicians</h1>
+                <TechniciansMain />
               </Route>
               <Route path="/appointments">
                 <h1>Appointments</h1>
