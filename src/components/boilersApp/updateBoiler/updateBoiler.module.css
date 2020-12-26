@@ -1,0 +1,21 @@
+.updateForm {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.label {
+    display: flex;
+}
+
+.input {
+    flex: 1;
+    margin-left: 15px;
+}
+
+.rows {
+    margin: 10px;
+    list-style-type: none;
+}
