@@ -8,6 +8,7 @@ import styles from './css/App.module.css';
 import BoilersApp from './components/boilersApp';
 import BuildingApp from './components/BuildingApp';
 import TechniciansMain from './components/Technicians/TechniciansMain';
+import BoilerTypesApp from './components/boilerTypes/BoilerTypesApp';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
               </Route>
               <Route path="/boilers" component={BoilersApp} />
               <Route path="/boilerTypes">
-                <h1>Boiler Types</h1>
+                <BoilerTypesApp />
               </Route>
               <Route path="/technicians">
                 <TechniciansMain />

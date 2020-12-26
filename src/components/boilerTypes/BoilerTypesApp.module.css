@@ -1,0 +1,22 @@
+.AppHeader {
+    background-color: #fc6225 ;
+    font-size: 48px;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .inputWraper {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    padding: 10px;
+    border-bottom: 1px solid black;
+  }
+  
+  .item {
+    display: flex;
+    justify-content: space-around;
+    width: 300px;  
+    padding: 10px;
+    border-bottom: 1px solid black;
+  }

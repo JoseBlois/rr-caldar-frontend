@@ -1,0 +1,28 @@
+{
+    "boilerTypes": [
+      {
+        "id": "1",
+        "description": "Boiler Type 1"
+      },
+      {
+        "id": "2",
+        "description": "Boiler Type 2"
+      },
+      {
+        "id": "3",
+        "description": "Boiler Type 3"
+      },
+      {
+        "id": "4",
+        "description": "Boiler Type 4"
+      },
+      {
+        "id": "5",
+        "description": "Boiler Type 5"
+      },
+      {
+        "id": "6",
+        "description": "Boiler Type 6"
+      }
+    ]
+  }
