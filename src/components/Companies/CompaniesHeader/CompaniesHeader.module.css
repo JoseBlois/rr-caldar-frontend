@@ -1,0 +1,9 @@
+.companies_header header{
+	margin-bottom: 0;
+}
+
+.companies_header button {
+  background: orangered;
+  color: white;
+  border: solid black 1px;
+};

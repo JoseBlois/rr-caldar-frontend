@@ -1,0 +1,9 @@
+.ListItem table {
+	width: 100%;
+	table-layout: fixed;
+	text-align: center;
+}
+
+.ListItem td {
+	border-bottom: solid 1px black;
+}
