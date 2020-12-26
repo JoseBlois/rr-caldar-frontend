@@ -1,0 +1,10 @@
+.headerContainer { 
+  display: flex;
+  background-color: #FC6225;
+  height: 120px;
+  padding-left: 30px;
+  font-size: 30px;
+  color: #FFF;
+  align-items: center;
+  text-transform: capitalize;
+}
