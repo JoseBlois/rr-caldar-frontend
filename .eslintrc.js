@@ -22,5 +22,10 @@ module.exports = {
     'no-unused-vars': 'warn',
     'react/prop-types': 'warn',
     'react/forbid-prop-types': 'off',
+    'jsx-a11y/label-has-associated-control': ['error', {
+      required: {
+        some: ['nesting', 'id'],
+      },
+    }],
   },
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import styles from './header.module.css';
 
@@ -11,6 +12,10 @@ const Header = ({
       {headerText}
     </div>
   );
+};
+
+Header.propTypes = {
+  location: PropTypes.object.isRequired,
 };
 
 export default withRouter(Header);
