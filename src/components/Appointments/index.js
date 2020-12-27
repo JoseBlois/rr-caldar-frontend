@@ -35,6 +35,14 @@ const Appointments = () => {
     onCloseModal();
   };
 
+  const updateAppointment = (updatedAppointment) => {
+    const index = appointments.findIndex((appointment) => appointment.id === updatedAppointment.id);
+    const newAppointments = [...appointments];
+    newAppointments[index] = updatedAppointment;
+    setAppointments(newAppointments);
+    onCloseModal();
+  };
+
   return (
     <>
       <div className={styles.appointmentsContainer}>
@@ -56,7 +64,19 @@ const Appointments = () => {
                 <td>{appointment.type}</td>
                 <td>{appointment.monthlyHours}</td>
                 <td>
-                  <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faPen} size="lg" />
+                  <FontAwesomeIcon
+                    style={{ marginRight: '10px' }}
+                    icon={faPen}
+                    size="lg"
+                    onClick={() => setModal({
+                      show: true,
+                      type: 'UPDATE',
+                      meta: {
+                        appointment,
+                        title: 'Update Appointment',
+                      },
+                    })}
+                  />
                   <FontAwesomeIcon
                     icon={faTrash}
                     size="lg"
@@ -96,6 +116,14 @@ const Appointments = () => {
             && <AppointmentsForm onSubmit={addAppointment} onClose={onCloseModal} />}
           {modal.type === 'DELETE'
             && <ConfirmationMessage onSubmit={() => removeAppointment(modal.meta.id)} onClose={onCloseModal} entity="Appointment" />}
+          {modal.type === 'UPDATE'
+            && (
+              <AppointmentsForm
+                onSubmit={updateAppointment}
+                onClose={onCloseModal}
+                appointment={modal.meta.appointment}
+              />
+            )}
         </Modal>
       )}
     </>

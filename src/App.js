@@ -7,7 +7,7 @@ import BoilersApp from './components/boilersApp';
 import BuildingApp from './components/BuildingApp';
 import TechniciansMain from './components/Technicians/TechniciansMain';
 import BoilerTypesApp from './components/boilerTypes/BoilerTypesApp';
-import Layout from './components/layout';
+import Layout from './components/Layout';
 import Appointments from './components/Appointments';
 
 function App() {

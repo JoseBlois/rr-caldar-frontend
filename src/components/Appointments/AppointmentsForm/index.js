@@ -1,18 +1,37 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../sharedComponents/Button';
+import Select from '../../sharedComponents/Select';
 import styles from './appointmentsForm.module.css';
 
 const AppointmentsForm = ({
   onSubmit,
   onClose,
+  appointment,
 }) => {
   const [state, setState] = useState({
-    building: 'buldingId1',
-    technician: 'technicianId1',
-    type: 'programmed',
-    monthlyHours: 0,
+    building: appointment.building || 'buldingId1',
+    technician: appointment.technician || 'technicianId1',
+    type: appointment.type || 'programmed',
+    monthlyHours: appointment.monthlyHours || 0,
+    id: appointment.id,
   });
+
+  const buildings = [{
+    id: 'buildingId1',
+    value: 'Building 1',
+  }, {
+    id: 'buildingId2',
+    value: 'Building 2',
+  }];
+
+  const technicians = [{
+    id: 'technicianId1',
+    value: 'Technician 1',
+  }, {
+    id: 'technicianId2',
+    value: 'Technician 2',
+  }];
 
   const onChangeInput = (e) => {
     setState({
@@ -25,18 +44,10 @@ const AppointmentsForm = ({
     <div>
       <form className={styles.appointmentsFormContainer}>
         <div className={styles.inputContainer}>
-          <label htmlFor="building">Building:</label>
-          <select id="building" name="building" onChange={onChangeInput}>
-            <option value="buldingId1">Building 1</option>
-            <option value="buldingId2">Building 2</option>
-          </select>
+          <Select label="Building:" name="building" value={state.building} onChange={onChangeInput} options={buildings} />
         </div>
         <div className={styles.inputContainer}>
-          <label htmlFor="technician">Technician:</label>
-          <select id="technician" name="technician" onChange={onChangeInput}>
-            <option value="technicianId1">Technician 1</option>
-            <option value="technicianId2">Technician 2</option>
-          </select>
+          <Select label="Technician:" name="technician" value={state.technician} onChange={onChangeInput} options={technicians} />
         </div>
         <div className={styles.typeContainer}>
           <input type="radio" id="eventual" name="type" value="eventual" checked={Boolean(state.type === 'eventual')} onChange={onChangeInput} />
@@ -59,9 +70,14 @@ const AppointmentsForm = ({
   );
 };
 
+AppointmentsForm.defaultProps = {
+  appointment: {},
+};
+
 AppointmentsForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  appointment: PropTypes.object,
 };
 
 export default AppointmentsForm;

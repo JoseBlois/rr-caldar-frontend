@@ -22,7 +22,7 @@ const ConfirmationMessage = ({
 ConfirmationMessage.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  entity: PropTypes.func.isRequired,
+  entity: PropTypes.string.isRequired,
 };
 
 export default ConfirmationMessage;
