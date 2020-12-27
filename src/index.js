@@ -2,14 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { thunk } from 'redux-thunk';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import rootReducer from './redux/reducers/rootReducer';
 
 const configureStore = () => {
-  const enhancer = composeWithDevTools();
+  const enhancer = composeWithDevTools(
+    applyMiddleware(thunk),
+  );
   return createStore(rootReducer, enhancer);
 };
 
