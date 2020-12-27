@@ -28,5 +28,6 @@ module.exports = {
         some: ['nesting', 'id'],
       },
     }],
+    'linebreak-style': 'off',
   },
 };
