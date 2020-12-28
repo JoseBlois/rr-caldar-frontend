@@ -21,7 +21,7 @@ export default function index({
           ]
         </div>
         <div>{building.company}</div>
-        <div>{building.id}</div>
+        <div>{building.phone}</div>
         <button
           type="button"
           className={styles.deleteBtn}
@@ -37,7 +37,8 @@ export default function index({
             submitLabel="Confirm"
             onClose={toggleDeleteModal}
             onSubmit={deleteBuilding}
-            buildingId={building.id}
+            // eslint-disable-next-line
+            buildingId={building._id}
           >
             <h2>Are you sure that you want to delete it?</h2>
           </Modal>
