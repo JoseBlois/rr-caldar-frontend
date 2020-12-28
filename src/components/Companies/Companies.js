@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import CompaniesList from './CompaniesList/CompaniesList';
 import AddCompany from './AddCompany/AddCompany';
 import UpdateCompany from './UpdateCompany/UpdateCompany';
-import companiesData from '../mocks/companies.json';
+import companiesData from '../../mocks/companies.json';
 import Header from './CompaniesHeader/CompaniesHeader';
 import style from './CompaniesApp.module.css';
 
