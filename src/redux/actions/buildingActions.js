@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   GET_BUILDINGS_FETCHING,
   GET_BUILDINGS_FULFILLED,
