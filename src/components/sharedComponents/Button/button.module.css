@@ -1,0 +1,19 @@
+.button {
+  background-color: white;
+  color:  #fc6225;
+  border: 1px solid black;
+  padding: 8px 16px;
+  margin: 5px;
+  cursor: pointer;
+  outline: none;
+}
+
+.buttonPrimary {
+  border: 1px solid black;
+  padding: 8px 16px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #fc6225;
+  color: white;
+  outline: none;
+}

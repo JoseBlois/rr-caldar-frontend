@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import propTypes, { array, object } from 'prop-types';
+import propTypes from 'prop-types';
 import DeleteBoilerTypeModal from './DeleteBoilerTypeModal';
 import EditBoilerTypeModal from './EditBoilerTypeModal';
 import styles from './BoilerTypesApp.module.css';
