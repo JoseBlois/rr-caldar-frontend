@@ -9,7 +9,7 @@ function Button({
     <button
       type="button"
       className={`${styles.Button} ${primary ? styles.ButtonPrimary : ''}`}
-      onClick={onClick.bind(this, buildingId)}
+      onClick={() => onClick(buildingId)}
     >
       {btnLabel}
     </button>
@@ -22,5 +22,5 @@ Button.propTypes = {
   btnLabel: PropTypes.string.isRequired,
   primary: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
-  buildingId: PropTypes.number.isRequired,
+  buildingId: PropTypes.string.isRequired,
 };

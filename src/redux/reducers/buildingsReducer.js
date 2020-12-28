@@ -10,6 +10,7 @@ import {
   UPDATE_BUILDINGS_REJECTED,
   DELETE_BUILDINGS_FETCHING,
   DELETE_BUILDINGS_FULFILLED,
+  DELETE_BUILDINGS_BAD_REQUEST,
   DELETE_BUILDINGS_REJECTED,
 } from '../types/buildingsTypes';
 
@@ -51,11 +52,28 @@ const buildingReducer = (state = initialState, action) => {
     case UPDATE_BUILDINGS_REJECTED:
       return [9];
     case DELETE_BUILDINGS_FETCHING:
-      return [10];
+      return {
+        ...state,
+        loading: true,
+      };
+    case DELETE_BUILDINGS_BAD_REQUEST:
+      return {
+        ...state,
+        loading: false,
+      };
     case DELETE_BUILDINGS_FULFILLED:
-      return [11];
+      return {
+        ...state,
+        loading: false,
+        // eslint-disable-next-line
+        list: [...state.list.filter((building) => building._id !== action.payload.id)],
+      };
     case DELETE_BUILDINGS_REJECTED:
-      return [12];
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
     default:
       return state;
   }
