@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import techniciansData from '../../mock/technicians.json';
+import techniciansData from '../../mocks/technicians.json';
 import Form from './Form';
 
 const TechniciansMain = () => {

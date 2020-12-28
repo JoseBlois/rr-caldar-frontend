@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BoilerTypesApp.module.css';
-import { boilerTypes as jsonBoilerTypes } from '../../boilerTypes.json';
+import { boilerTypes as jsonBoilerTypes } from '../../mocks/boilerTypes.json';
 import BoilerType from './BoilerTypes';
 import BoilerTypesForm from './BoilerTypesForm';
 
