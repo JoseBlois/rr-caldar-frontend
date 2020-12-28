@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { deleteBuilding } from '../../../redux/actions/buildingActions';
 import Modal from '../Modal';
 import styles from './BuildingItem.module.css';
 
-export default function index({
-  building, deleteBuilding,
-}) {
+const index = ({
+  building, deleteBuildingR,
+}) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   // const [buildingToUpdate, setBuildingToUpdate] = useState(null);
 
@@ -36,7 +38,10 @@ export default function index({
             title="Delete Building"
             submitLabel="Confirm"
             onClose={toggleDeleteModal}
-            onSubmit={deleteBuilding}
+            onSubmit={(id) => {
+              deleteBuildingR(id);
+              toggleDeleteModal();
+            }}
             // eslint-disable-next-line
             buildingId={building._id}
           >
@@ -46,4 +51,10 @@ export default function index({
       </div>
     </>
   );
-}
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  deleteBuildingR: (id) => dispatch(deleteBuilding(id)),
+});
+
+export default connect(null, mapDispatchToProps)(index);

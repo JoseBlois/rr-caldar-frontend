@@ -20,7 +20,7 @@ function Modal({
             {children}
           </div>
           <div className={styles.actions}>
-            <Button onClick={onClose} btnLabel="Cancel" primary={false} buildingId={0} />
+            <Button onClick={onClose} btnLabel="Cancel" primary={false} buildingId="" />
             <Button onClick={onSubmit} buildingId={buildingId} primary btnLabel={submitLabel || 'Submit'} />
           </div>
         </div>
@@ -38,5 +38,5 @@ Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
-  buildingId: PropTypes.number.isRequired,
+  buildingId: PropTypes.string.isRequired,
 };
