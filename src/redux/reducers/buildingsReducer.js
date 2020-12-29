@@ -40,11 +40,20 @@ const buildingReducer = (state = initialState, action) => {
         error: true,
       };
     case ADD_BUILDINGS_FETCHING:
-      return [4];
+      return {
+        ...state,
+        loading: true,
+      };
     case ADD_BUILDINGS_FULFILLED:
-      return [5];
+      return {
+        ...state,
+        list: [...state.list, action.payload.build],
+      };
     case ADD_BUILDINGS_REJECTED:
-      return [6];
+      return {
+        ...state,
+        error: true,
+      };
     case UPDATE_BUILDINGS_FETCHING:
       return [7];
     case UPDATE_BUILDINGS_FULFILLED:
