@@ -47,7 +47,8 @@ const buildingReducer = (state = initialState, action) => {
     case ADD_BUILDINGS_FULFILLED:
       return {
         ...state,
-        list: [...state.list, action.payload.build],
+        list: [...state.list, action.payload.building],
+        loading: false,
       };
     case ADD_BUILDINGS_REJECTED:
       return {
@@ -60,7 +61,19 @@ const buildingReducer = (state = initialState, action) => {
         loading: true,
       };
     case UPDATE_BUILDINGS_FULFILLED:
-      return [8];
+      return {
+        ...state,
+        loading: false,
+        list: state.list.map((building) => {
+          // eslint-disable-next-line
+          if (building._id === action.payload.id) {
+            const updatedBuilding = action.payload.building;
+            updatedBuilding.id = action.payload.id;
+            return updatedBuilding;
+          }
+          return building;
+        }),
+      };
     case UPDATE_BUILDINGS_REJECTED:
       return {
         ...state,

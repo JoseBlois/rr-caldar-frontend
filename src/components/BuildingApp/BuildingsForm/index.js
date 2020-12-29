@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../sharedComponents/Button';
-import styles from './AddBuilding.module.css';
+import styles from './BuildingsForm.module.css';
 
 const BuildingsForm = ({
   onSubmit,
@@ -16,7 +16,8 @@ const BuildingsForm = ({
     boiler1: building.boilers[0] || '',
     boiler2: building.boilers[1],
     boiler3: building.boilers[2],
-    id: building.id,
+    // eslint-disable-next-line
+    id: building._id,
   });
 
   const changeValue = (e) => {
@@ -25,7 +26,10 @@ const BuildingsForm = ({
 
   const submit = () => {
     const buildingToSub = {
-      ...state,
+      name: state.name,
+      address: state.address,
+      company: state.company,
+      phone: state.phone,
       boilers: [state.boiler1],
     };
     if (state.boiler2) {
@@ -37,9 +41,7 @@ const BuildingsForm = ({
     delete buildingToSub.boiler1;
     delete buildingToSub.boiler2;
     delete buildingToSub.boiler3;
-    console.log(`BUILDING: ${buildingToSub}`);
-    console.log(JSON.stringify(buildingToSub));
-    onSubmit(buildingToSub);
+    onSubmit(buildingToSub, state.id);
   };
 
   return (
