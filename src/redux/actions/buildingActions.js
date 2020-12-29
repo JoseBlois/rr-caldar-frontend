@@ -101,20 +101,24 @@ export const addBuilding = (building) => (dispatch) => {
   return fetch(URL, {
     method: 'POST',
     body: JSON.stringify(building),
+    headers: {
+      'Content-type': 'application/json',
+    }
   })
   .then((data) => data.json())
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  .then((res) => dispatch(addBuildingFulfilled(res)))
+  .catch((err) => dispatch(addBuildingRejected()));
 }
 
 const updateBuildingFetching = () => ({
   type: UPDATE_BUILDINGS_FETCHING
 })
 
-const updateBuildingFulfilled = (building) => ({
+const updateBuildingFulfilled = (building,id) => ({
   type: UPDATE_BUILDINGS_FULFILLED,
   payload: {
-    building
+    building,
+    id
   }
 })
 
@@ -122,13 +126,17 @@ const updateBuildingRejected = () => ({
   type: UPDATE_BUILDINGS_REJECTED
 });
 
-export const updateBuilding = (building) => (dispatch) => {
+export const updateBuilding = (building, id) => (dispatch) => {
   dispatch(updateBuildingFetching());
-  return fetch(`${URL}/${building.id}`,{
+  console.log(id);
+  return fetch(`${URL}/${id}`,{
     method: 'PUT',
-    body: JSON.stringify(building)
+    body: JSON.stringify(building),
+    headers: {
+      'Content-type': 'application/json',
+    }
   })
   .then((data) => data.json())
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+  .then((res) => dispatch(updateBuildingFulfilled(res, id)))
+  .catch((err) => dispatch(updateBuildingRejected()));
 };

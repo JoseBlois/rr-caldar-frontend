@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -9,12 +10,15 @@ import BuildingsForm from '../BuildingsForm';
 
 import styles from './Buildings.module.css';
 import {
-  getBuildings, deleteBuilding, addBuilding, updateBuilding,
+  getBuildings as getBuildingsR,
+  deleteBuilding as deleteBuildingR,
+  addBuilding as addBuildingR,
+  updateBuilding as updateBuildingR,
 } from '../../../redux/actions/buildingActions';
 
 const index = ({
-  buildingsR, buildings, deleteBuildingR, updateBuildingR, searchBuilding, getBuildingsR,
-  addBuildingR,
+  buildings, deleteBuilding, updateBuilding, getBuildings,
+  addBuilding,
 }) => {
   const [modal, setModal] = useState({
     show: false,
@@ -31,13 +35,12 @@ const index = ({
   };
 
   const deleteWithMoldal = (id) => {
-    deleteBuildingR(id);
+    deleteBuilding(id);
     onCloseModal();
   };
 
   useEffect(() => {
-    getBuildingsR();
-    console.log(buildingsR);
+    getBuildings();
   }, []);
 
   return (
@@ -55,14 +58,16 @@ const index = ({
             </tr>
           </thead>
           <tbody>
-            {buildingsR.list.map((building) => (
+            {buildings.list.map((building) => (
               // eslint-disable-next-line
               <tr key={building._id}>
                 <td>{building.name}</td>
                 <td>{building.address}</td>
                 <td>
                   [
-                  {building.boilers.join('-')}
+                  {
+                  building.boilers.join('-')
+                  }
                   ]
                 </td>
                 <td>{building.company}</td>
@@ -99,7 +104,7 @@ const index = ({
             ))}
           </tbody>
         </table>
-        {buildingsR.loading ? <span>LOADING</span> : null}
+        {buildings.loading ? <span>LOADING</span> : null}
       </div>
       <div className={styles.addButtonContainer}>
         <button
@@ -121,7 +126,10 @@ const index = ({
           {modal.type === 'ADD'
             && (
             <BuildingsForm
-              onSubmit={(b) => { addBuildingR(b); onCloseModal(); }}
+              onSubmit={(building) => {
+                addBuilding(building);
+                onCloseModal();
+              }}
               onClose={onCloseModal}
             />
             )}
@@ -130,7 +138,10 @@ const index = ({
           {modal.type === 'UPDATE'
             && (
               <BuildingsForm
-                onSubmit={(b) => { updateBuildingR(b); onCloseModal(); }}
+                onSubmit={(building, id) => {
+                  updateBuilding(building, id);
+                  onCloseModal();
+                }}
                 onClose={onCloseModal}
                 building={modal.meta.building}
               />
@@ -141,15 +152,17 @@ const index = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getBuildingsR: () => dispatch(getBuildings()),
-  deleteBuildingR: (id) => dispatch(deleteBuilding(id)),
-  addBuildingR: (building) => dispatch(addBuilding(building)),
-  updateBuildingR: (building) => dispatch(updateBuilding(building)),
-});
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({
+    getBuildings: getBuildingsR,
+    deleteBuilding: deleteBuildingR,
+    addBuilding: addBuildingR,
+    updateBuilding: updateBuildingR,
+  }, dispatch)
+);
 
 const mapStateToProps = (state) => ({
-  buildingsR: state.buildings,
+  buildings: state.buildings,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);
