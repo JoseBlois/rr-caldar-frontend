@@ -8,10 +8,12 @@ import ConfirmationMessage from '../../sharedComponents/ConfirmationMessage';
 import BuildingsForm from '../BuildingsForm';
 
 import styles from './Buildings.module.css';
-import { getBuildings, deleteBuilding, addBuilding } from '../../../redux/actions/buildingActions';
+import {
+  getBuildings, deleteBuilding, addBuilding, updateBuilding,
+} from '../../../redux/actions/buildingActions';
 
 const index = ({
-  buildingsR, buildings, deleteBuildingR, updateBuilding, searchBuilding, getBuildingsR,
+  buildingsR, buildings, deleteBuildingR, updateBuildingR, searchBuilding, getBuildingsR,
   addBuildingR,
 }) => {
   const [modal, setModal] = useState({
@@ -128,7 +130,7 @@ const index = ({
           {modal.type === 'UPDATE'
             && (
               <BuildingsForm
-                onSubmit={() => console.log(modal.meta.building)}
+                onSubmit={(b) => { updateBuildingR(b); onCloseModal(); }}
                 onClose={onCloseModal}
                 building={modal.meta.building}
               />
@@ -143,6 +145,7 @@ const mapDispatchToProps = (dispatch) => ({
   getBuildingsR: () => dispatch(getBuildings()),
   deleteBuildingR: (id) => dispatch(deleteBuilding(id)),
   addBuildingR: (building) => dispatch(addBuilding(building)),
+  updateBuildingR: (building) => dispatch(updateBuilding(building)),
 });
 
 const mapStateToProps = (state) => ({

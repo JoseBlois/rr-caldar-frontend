@@ -124,7 +124,7 @@ const updateBuildingRejected = () => ({
 
 export const updateBuilding = (building) => (dispatch) => {
   dispatch(updateBuildingFetching());
-  return fetch(`${URL}/${buidlgin.id}`,{
+  return fetch(`${URL}/${building.id}`,{
     method: 'PUT',
     body: JSON.stringify(building)
   })
