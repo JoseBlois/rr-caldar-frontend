@@ -1,0 +1,23 @@
+.techniciansFormContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.inputContainer input, .inputContainer select {
+  padding: 10px;
+}
+
+.techniciansFormContainer label {
+  margin: 10px 0px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+}
