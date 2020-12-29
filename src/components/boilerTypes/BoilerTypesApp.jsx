@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './BoilerTypesApp.module.css';
-import { boilerTypes as jsonBoilerTypes } from '../../mocks/boilerTypes.json';
 import BoilerType from './BoilerTypes';
 import BoilerTypesForm from './BoilerTypesForm';
+import { showBoilerTypes } from '../../redux/actions/boilerTypes.action';
 
 const BoilerTypesApp = () => {
   const [boilerTypes, setBoilerTypes] = useState([]);
+  const dispatch = useDispatch();
+  const fetchBoilerTypes = useCallback(() => dispatch(showBoilerTypes()), [dispatch]);
+  const boilerTypeList = useSelector((state) => state.boilerTypes.boilerTypes);
 
   useEffect(() => {
-    setBoilerTypes(jsonBoilerTypes);
+    fetchBoilerTypes();
+    setBoilerTypes(boilerTypeList);
   }, []);
 
   const handleAddBoilerTypes = (newBoilerType) => setBoilerTypes([...boilerTypes, newBoilerType]);
+
+  if (!boilerTypes) return null;
 
   const renderBoilerTypes = boilerTypes.map((boilerType) => (
     <BoilerType

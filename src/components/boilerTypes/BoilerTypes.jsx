@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import propTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import DeleteBoilerTypeModal from './DeleteBoilerTypeModal';
 import EditBoilerTypeModal from './EditBoilerTypeModal';
 import styles from './BoilerTypesApp.module.css';
+import { deleteBoilerType } from '../../redux/actions/boilerTypes.action';
 
 const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
   const [showEditBoilerModal, setShowEditBoilerModal] = useState(false);
   const [showDeleteBoilerModal, setShowDeleteBoilerModal] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleEditBoilerModal = () => setShowEditBoilerModal(!showEditBoilerModal);
   const toggleDeletBoilerModal = () => setShowDeleteBoilerModal(!showDeleteBoilerModal);
@@ -25,8 +28,9 @@ const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
   };
 
   const handleDeleteModelSubmit = () => {
-    const newBoilerTypes = boilerTypes.filter((bl) => bl.id !== boilerType.id);
-    changeBoilerTypes(newBoilerTypes);
+    useCallback(() => dispatch(deleteBoilerType(boilerType.id)), [dispatch]);
+    // const newBoilerTypes = boilerTypes.filter((bl) => bl.id !== boilerType.id);
+    // changeBoilerTypes(newBoilerTypes);
   };
 
   return (
