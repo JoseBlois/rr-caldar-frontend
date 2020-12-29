@@ -8,10 +8,11 @@ import ConfirmationMessage from '../../sharedComponents/ConfirmationMessage';
 import BuildingsForm from '../BuildingsForm';
 
 import styles from './Buildings.module.css';
-import { getBuildings, deleteBuilding } from '../../../redux/actions/buildingActions';
+import { getBuildings, deleteBuilding, addBuilding } from '../../../redux/actions/buildingActions';
 
 const index = ({
   buildingsR, buildings, deleteBuildingR, updateBuilding, searchBuilding, getBuildingsR,
+  addBuildingR,
 }) => {
   const [modal, setModal] = useState({
     show: false,
@@ -53,7 +54,8 @@ const index = ({
           </thead>
           <tbody>
             {buildingsR.list.map((building) => (
-              <tr>
+              // eslint-disable-next-line
+              <tr key={building._id}>
                 <td>{building.name}</td>
                 <td>{building.address}</td>
                 <td>
@@ -115,7 +117,12 @@ const index = ({
       {modal.show && (
         <Modal title={modal.meta.title} onClose={onCloseModal}>
           {modal.type === 'ADD'
-            && <BuildingsForm onSubmit={(b) => console.log(b)} onClose={onCloseModal} />}
+            && (
+            <BuildingsForm
+              onSubmit={(b) => { addBuildingR(b); onCloseModal(); }}
+              onClose={onCloseModal}
+            />
+            )}
           {modal.type === 'DELETE'
             && <ConfirmationMessage onSubmit={() => deleteWithMoldal(modal.meta.id)} onClose={onCloseModal} entity=" Building" />}
           {modal.type === 'UPDATE'
@@ -135,6 +142,7 @@ const index = ({
 const mapDispatchToProps = (dispatch) => ({
   getBuildingsR: () => dispatch(getBuildings()),
   deleteBuildingR: (id) => dispatch(deleteBuilding(id)),
+  addBuildingR: (building) => dispatch(addBuilding(building)),
 });
 
 const mapStateToProps = (state) => ({

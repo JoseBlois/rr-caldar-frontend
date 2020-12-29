@@ -12,14 +12,34 @@ const BuildingsForm = ({
     name: building.name || 'Building name..',
     address: building.address || 'Building address',
     company: building.company || 'Building company',
-    boiler1: building.boilers[0] || '---',
-    boiler2: building.boilers[1] || '---',
-    boiler3: building.boilers[2] || '---',
+    phone: building.phone || 'Building phone',
+    boiler1: building.boilers[0] || '',
+    boiler2: building.boilers[1],
+    boiler3: building.boilers[2],
     id: building.id,
   });
 
   const changeValue = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const submit = () => {
+    const buildingToSub = {
+      ...state,
+      boilers: [state.boiler1],
+    };
+    if (state.boiler2) {
+      buildingToSub.boilers[1] = state.boiler2;
+    }
+    if (state.boiler3) {
+      buildingToSub.boilers[2] = state.boiler3;
+    }
+    delete buildingToSub.boiler1;
+    delete buildingToSub.boiler2;
+    delete buildingToSub.boiler3;
+    console.log(`BUILDING: ${buildingToSub}`);
+    console.log(JSON.stringify(buildingToSub));
+    onSubmit(buildingToSub);
   };
 
   return (
@@ -44,6 +64,12 @@ const BuildingsForm = ({
           </label>
         </div>
         <div>
+          <label htmlFor="phone">
+            Building Phone
+            <input value={state.phone} onChange={changeValue} name="phone" type="text" required />
+          </label>
+        </div>
+        <div>
           <label htmlFor="boiler1">
             Building Boiler 1
             <input value={state.boiler1} onChange={changeValue} name="boiler1" type="text" required />
@@ -52,18 +78,18 @@ const BuildingsForm = ({
         <div>
           <label htmlFor="boiler2">
             Building Boiler 2
-            <input value={state.boiler2} onChange={changeValue} name="boiler2" type="text" />
+            <input value={state.boiler2 || ''} onChange={changeValue} name="boiler2" type="text" />
           </label>
         </div>
         <div>
           <label htmlFor="boiler3">
             Building Boiler 3
-            <input value={state.boiler3} onChange={changeValue} name="boiler3" type="text" />
+            <input value={state.boiler3 || ''} onChange={changeValue} name="boiler3" type="text" />
           </label>
         </div>
         <div>
           <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => onSubmit(state)} />
+          <Button btnLabel="Submit" primary onClick={submit} />
         </div>
       </form>
     </div>
