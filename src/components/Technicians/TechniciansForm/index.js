@@ -20,68 +20,68 @@ const TechniciansForm = ({
   });
 
   const techFirstName = [{
-    id: 'firstName1',
+    id: 'techFirstName1',
     value: 'Technician First Name 1',
   }, {
-    id: 'firstName2',
+    id: 'techFirstName2',
     value: 'Technician First Name 2',
   }, {
-    id: 'firstName3',
+    id: 'techFirstName3',
     value: 'Technician First Name 3',
   }];
 
   const techLastName = [{
-    id: 'lastName1',
+    id: 'techLastName1',
     value: 'Technician Last Name 1',
   }, {
-    id: 'lastName2',
+    id: 'techLlastName2',
     value: 'Technician Last Name 2',
   }, {
-    id: 'lastName3',
+    id: 'techLlastName3',
     value: 'Technician Last Name 3',
   }];
 
   const techAddress = [{
-    id: 'address1',
+    id: 'techAddress1',
     value: 'Technician Address 1',
   }, {
-    id: 'address2',
+    id: 'techAddress2',
     value: 'Technician Address 2',
   }, {
-    id: 'address3',
+    id: 'techAddress3',
     value: 'Technician Address 3',
   }];
 
   const techPhone = [{
-    id: 'phone1',
+    id: 'techPhone1',
     value: 'Technician Phone 1',
   }, {
-    id: 'phone2',
+    id: 'techPhone2',
     value: 'Technician Phone 2',
   }, {
-    id: 'phone3',
+    id: 'techPhone3',
     value: 'Technician Phone 3',
   }];
 
   const techEmail = [{
-    id: 'email1',
+    id: 'techEmail1',
     value: 'Technician Email 1',
   }, {
-    id: 'email2',
+    id: 'techEmail2',
     value: 'Technician Email 2',
   }, {
-    id: 'email3',
+    id: 'techEmail3',
     value: 'Technician Email 3',
   }];
 
   const techBoilerType = [{
-    id: 'boilerType1',
+    id: 'techBoilerType1',
     value: 'Technician BT 1',
   }, {
-    id: 'boilerType2',
+    id: 'techBoilerType2',
     value: 'Technician BT 2',
   }, {
-    id: 'boilerType3',
+    id: 'techBoilerType3',
     value: 'Technician BT 3',
   }];
 

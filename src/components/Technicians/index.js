@@ -22,10 +22,10 @@ const Technicians = () => {
     });
   };
 
-  const AddTechnician = (technician) => {
+  const addTechnician = (technician) => {
     setTechnicians([...technicians, {
       ...technician,
-      id: technician.length + 1,
+      id: technicians.length + 1,
     }]);
     onCloseModal();
   };
@@ -129,7 +129,7 @@ const Technicians = () => {
       {modal.show && (
         <Modal title={modal.meta.title} onClose={onCloseModal}>
           {modal.type === 'ADD'
-            && <TechniciansForm onSubmit={AddTechnician} onClose={onCloseModal} />}
+            && <TechniciansForm onSubmit={addTechnician} onClose={onCloseModal} />}
           {modal.type === 'DELETE'
             && <ConfirmationMessage onSubmit={() => removeTechnician(modal.meta.id)} onClose={onCloseModal} entity="Technician" />}
           {modal.type === 'UPDATE'
