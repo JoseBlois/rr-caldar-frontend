@@ -55,11 +55,17 @@ const buildingReducer = (state = initialState, action) => {
         error: true,
       };
     case UPDATE_BUILDINGS_FETCHING:
-      return [7];
+      return {
+        ...state,
+        loading: true,
+      };
     case UPDATE_BUILDINGS_FULFILLED:
       return [8];
     case UPDATE_BUILDINGS_REJECTED:
-      return [9];
+      return {
+        ...state,
+        loading: false,
+      };
     case DELETE_BUILDINGS_FETCHING:
       return {
         ...state,
