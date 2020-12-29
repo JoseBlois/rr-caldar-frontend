@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import buildingsData from '../../mocks/buildings.json';
 import Header from './Header';
 import Buildings from './Buildings';
-import AddBuilding from './AddBuilding';
 import UpdateBuilding from './UpdateBuilding';
 import styles from './BuildingApp.module.css';
 
@@ -38,9 +37,6 @@ export default function BuildingAppF() {
     <>
       <Header />
       <div className={styles.container}>
-        <Route path="/buildings/add">
-          <AddBuilding addBuilding={addBuilding} />
-        </Route>
         <Route path="/buildings/update">
           <UpdateBuilding
             searchBuilding={searchBuilding}
