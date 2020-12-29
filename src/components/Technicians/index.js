@@ -5,6 +5,7 @@ import TechniciansForm from './TechniciansForm';
 import ConfirmationMessage from '../sharedComponents/ConfirmationMessage';
 import Modal from '../sharedComponents/Modal';
 import styles from './Technician.module.css';
+import techniciansData from '../../mocks/technicians.json';
 
 const Technicians = () => {
   const [technicians, setTechnicians] = useState([]);

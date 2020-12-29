@@ -10,11 +10,11 @@ const TechniciansForm = ({
   technician,
 }) => {
   const [state, setState] = useState({
-    firstName: technician.firstName || 'technicianFirstName1',
-    lastName: technician.lastName || 'technicianLastName1',
-    address: technician.address || 'technicianAddress1',
-    phone: technician.phone || 'technicianPhone1',
-    email: technician.email || 'technicianEmail1',
+    firstName: technician.firstName || 'Insert first name',
+    lastName: technician.lastName || 'Insert last name',
+    address: technician.address || 'Insert address',
+    phone: technician.phone || 'Insert phone',
+    email: technician.email || 'Insert email',
     boilerType: technician.boilerType || 'technicianBoilerType1',
     id: technician.id,
   });
@@ -76,13 +76,16 @@ const TechniciansForm = ({
 
   const techBoilerType = [{
     id: 'techBoilerType1',
-    value: 'Technician BT 1',
+    value: 'Boiler type "A"',
   }, {
     id: 'techBoilerType2',
-    value: 'Technician BT 2',
+    value: 'Boiler type "B"',
   }, {
     id: 'techBoilerType3',
-    value: 'Technician BT 3',
+    value: 'Boiler type "C"',
+  }, {
+    id: 'techBoilerType4',
+    value: 'Boiler type "D"',
   }];
 
   const onChangeInput = (e) => {
@@ -96,19 +99,24 @@ const TechniciansForm = ({
     <div>
       <form className={styles.techniciansFormContainer}>
         <div className={styles.inputContainer}>
-          <Select label="First Name:" name="firstName" value={state.firstName} onChange={onChangeInput} options={techFirstName} />
+          <label htmlFor="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" value={state.firstName} onChange={onChangeInput} options={techFirstName} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Last Name:" name="lastName" value={state.lastName} onChange={onChangeInput} options={techLastName} />
+          <label htmlFor="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" value={state.lastName} onChange={onChangeInput} options={techLastName} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Address:" name="address" value={state.address} onChange={onChangeInput} options={techAddress} />
+          <label htmlFor="address">Address</label>
+          <input type="text" id="address" name="address" value={state.address} onChange={onChangeInput} options={techAddress} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Phone:" name="phone" value={state.phone} onChange={onChangeInput} options={techPhone} />
+          <label htmlFor="phone">Phone</label>
+          <input type="text" id="phone" name="phone" value={state.phone} onChange={onChangeInput} options={techPhone} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Email:" name="email" value={state.email} onChange={onChangeInput} options={techEmail} />
+          <label htmlFor="email">Email</label>
+          <input type="text" id="email" name="email" value={state.email} onChange={onChangeInput} options={techEmail} />
         </div>
         <div className={styles.inputContainer}>
           <Select label="Boiler Type:" name="boilerType" value={state.boilerType} onChange={onChangeInput} options={techBoilerType} />
