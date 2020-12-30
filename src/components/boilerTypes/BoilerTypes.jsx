@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
+import { deleteBoilerTypesById, updateBoilerTypesById } from '../../redux/actions/boilerTypes.action';
 import DeleteBoilerTypeModal from './DeleteBoilerTypeModal';
 import EditBoilerTypeModal from './EditBoilerTypeModal';
 import styles from './BoilerTypesApp.module.css';
@@ -8,28 +9,19 @@ import styles from './BoilerTypesApp.module.css';
 const BoilerType = ({ boilerType, boilerTypes }) => {
   const [showEditBoilerModal, setShowEditBoilerModal] = useState(false);
   const [showDeleteBoilerModal, setShowDeleteBoilerModal] = useState(false);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const deleteBoilerTypes = useCallback((bl) => dispatch(deleteBoilerTypesById(bl)), [dispatch]);
+  const updateBoilerTypes = useCallback(
+    (id, description) => dispatch(updateBoilerTypesById(id, description)),
+    [dispatch],
+  );
 
   const toggleEditBoilerModal = () => setShowEditBoilerModal(!showEditBoilerModal);
   const toggleDeletBoilerModal = () => setShowDeleteBoilerModal(!showDeleteBoilerModal);
+  // eslint-disable-next-line no-underscore-dangle
+  const handleEditModalSubmit = (description) => updateBoilerTypes(boilerType._id, description);
 
-  const handleEditModalSubmit = (description) => {
-    const newBoilerTypes = boilerTypes.map((bl) => {
-      if (bl.id === boilerType.id) {
-        return {
-          ...bl,
-          description: description.trim() || bl.description,
-        };
-      }
-      return bl;
-    });
-  };
-
-  const handleDeleteModelSubmit = () => {
-    // useCallback(() => dispatch(deleteBoilerType(boilerType.id)), [dispatch]);
-    // const newBoilerTypes = boilerTypes.filter((bl) => bl.id !== boilerType.id);
-    // changeBoilerTypes(newBoilerTypes);
-  };
+  const handleDeleteModelSubmit = () => deleteBoilerTypes(boilerType);
 
   return (
     <div className={styles.itemWraper} key={boilerType.id}>
@@ -50,6 +42,7 @@ const BoilerType = ({ boilerType, boilerTypes }) => {
             <EditBoilerTypeModal
               onSubmit={handleEditModalSubmit}
               onClose={toggleEditBoilerModal}
+              boilerType={boilerType}
             />
           )}
           {showDeleteBoilerModal && (
