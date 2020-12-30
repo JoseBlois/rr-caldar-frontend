@@ -91,7 +91,6 @@ const updateBoilerTypesFailed = () => ({
 
 export const updateBoilerTypesById = (id, description) => (dispatch) => {
   console.log(id);
-  console.log(description);
   return fetch(`https://caldar-application.herokuapp.com/boilerTypes/${id}`, {
     method: 'PUT',
     headers: {

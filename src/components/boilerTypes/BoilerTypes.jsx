@@ -6,7 +6,7 @@ import DeleteBoilerTypeModal from './DeleteBoilerTypeModal';
 import EditBoilerTypeModal from './EditBoilerTypeModal';
 import styles from './BoilerTypesApp.module.css';
 
-const BoilerType = ({ boilerType, boilerTypes }) => {
+const BoilerType = ({ boilerType }) => {
   const [showEditBoilerModal, setShowEditBoilerModal] = useState(false);
   const [showDeleteBoilerModal, setShowDeleteBoilerModal] = useState(false);
   const dispatch = useDispatch();
@@ -59,7 +59,6 @@ const BoilerType = ({ boilerType, boilerTypes }) => {
 };
 
 BoilerType.propTypes = {
-  boilerTypes: propTypes.array.isRequired,
   boilerType: propTypes.object.isRequired,
 };
 

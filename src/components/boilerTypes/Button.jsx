@@ -17,7 +17,7 @@ function Button(props) {
 
 Button.propTypes = {
   onClick: propTypes.func.isRequired,
-  primary: propTypes.string.isRequired,
+  primary: propTypes.bool.isRequired,
   buttonLabel: propTypes.string.isRequired,
 };
 

@@ -29,7 +29,7 @@ function Modal(props) {
             {children}
           </div>
           <div className="actions">
-            <Button onClick={onClose} buttonLabel="Cancel" />
+            <Button onClick={onClose} buttonLabel="Cancel" primary={false} />
             <Button onClick={handleOnSubmit} buttonLabel={submitLabel || 'Submit'} primary />
           </div>
         </div>
@@ -43,7 +43,7 @@ Modal.propTypes = {
   onSubmit: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
   title: propTypes.string.isRequired,
-  children: propTypes.element.isRequired,
+  children: propTypes.node.isRequired,
   submitLabel: propTypes.string.isRequired,
 };
 
