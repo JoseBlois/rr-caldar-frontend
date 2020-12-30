@@ -45,8 +45,8 @@ const index = ({
 
   return (
     <>
-      <div>
-        <table>
+      <div className={styles.buildingContainer}>
+        <table className={styles.buildingTable}>
           <thead>
             <tr>
               <th>Name</th>
@@ -54,7 +54,7 @@ const index = ({
               <th>Boilers</th>
               <th>Company</th>
               <th>Phone</th>
-              <th>Actions</th>
+              <th className={styles.actionsRow}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -64,11 +64,9 @@ const index = ({
                 <td>{building.name}</td>
                 <td>{building.address}</td>
                 <td>
-                  [
                   {
-                  building.boilers.join('-')
+                  building.boilers.map((boiler) => <div>{boiler}</div>)
                   }
-                  ]
                 </td>
                 <td>{building.company}</td>
                 <td>{building.phone}</td>
