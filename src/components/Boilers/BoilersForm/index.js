@@ -15,7 +15,8 @@ const BoilersForm = ({
     hourMaintenanceCost: boiler.hourMaintenanceCost || 0,
     hourEventualCost: boiler.hourEventualCost || 0,
     maintenanceRate: boiler.maintenanceRate || 'Weekly',
-    id: boiler.id,
+    // eslint-disable-next-line
+    id: boiler._id,
   });
 
   const boilerTypes = [{
@@ -48,11 +49,19 @@ const BoilersForm = ({
     value: 'Never',
   }];
 
-  const onChangeInput = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
+  const changeValue = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const submit = () => {
+    const boilerToSub = {
+      description: state.description,
+      boilerType: state.boilerType,
+      hourMaintenanceCost: state.hourMaintenanceCost,
+      hourEventualCost: state.hourEventualCost,
+      maintenanceRate: state.maintenanceRate,
+    };
+    onSubmit(boilerToSub, state.id);
   };
 
   return (
@@ -60,25 +69,25 @@ const BoilersForm = ({
       <form className={styles.boilersFormContainer}>
         <div className={styles.inputContainer}>
           <label htmlFor="description">Description</label>
-          <input type="text" id="description" name="description" value={state.description} onChange={onChangeInput} />
+          <input type="text" id="description" name="description" value={state.description} onChange={changeValue} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Boilers types:" name="boilerType" value={state.boilerType} onChange={onChangeInput} options={boilerTypes} />
+          <Select label="Boilers types:" name="boilerType" value={state.boilerType} onChange={changeValue} options={boilerTypes} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="hourMaintenanceCost">Hour Maintenance Cost</label>
-          <input type="text" id="hourMaintenanceCost" name="hourMaintenanceCost" value={state.hourMaintenanceCost} onChange={onChangeInput} />
+          <input type="text" id="hourMaintenanceCost" name="hourMaintenanceCost" value={state.hourMaintenanceCost} onChange={changeValue} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="hourEventualCost">Hour Eventual Cost</label>
-          <input type="text" id="hourEventualCost" name="hourEventualCost" value={state.hourEventualCost} onChange={onChangeInput} />
+          <input type="text" id="hourEventualCost" name="hourEventualCost" value={state.hourEventualCost} onChange={changeValue} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Maintenance Rate:" name="maintenanceRate" value={state.maintenanceRate} onChange={onChangeInput} options={maintenanceRate} />
+          <Select label="Maintenance Rate:" name="maintenanceRate" value={state.maintenanceRate} onChange={changeValue} options={maintenanceRate} />
         </div>
         <div className={styles.buttonContainer}>
           <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => onSubmit(state)} />
+          <Button btnLabel="Submit" primary onClick={submit} />
         </div>
       </form>
     </div>
