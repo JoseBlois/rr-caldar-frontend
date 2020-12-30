@@ -1,15 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import propTypes from 'prop-types';
 import DeleteBoilerTypeModal from './DeleteBoilerTypeModal';
 import EditBoilerTypeModal from './EditBoilerTypeModal';
 import styles from './BoilerTypesApp.module.css';
-import { deleteBoilerType } from '../../redux/actions/boilerTypes.action';
 
-const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
+const BoilerType = ({ boilerType, boilerTypes }) => {
   const [showEditBoilerModal, setShowEditBoilerModal] = useState(false);
   const [showDeleteBoilerModal, setShowDeleteBoilerModal] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const toggleEditBoilerModal = () => setShowEditBoilerModal(!showEditBoilerModal);
   const toggleDeletBoilerModal = () => setShowDeleteBoilerModal(!showDeleteBoilerModal);
@@ -24,11 +23,10 @@ const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
       }
       return bl;
     });
-    changeBoilerTypes(newBoilerTypes);
   };
 
   const handleDeleteModelSubmit = () => {
-    useCallback(() => dispatch(deleteBoilerType(boilerType.id)), [dispatch]);
+    // useCallback(() => dispatch(deleteBoilerType(boilerType.id)), [dispatch]);
     // const newBoilerTypes = boilerTypes.filter((bl) => bl.id !== boilerType.id);
     // changeBoilerTypes(newBoilerTypes);
   };
@@ -68,7 +66,6 @@ const BoilerType = ({ boilerType, boilerTypes, changeBoilerTypes }) => {
 };
 
 BoilerType.propTypes = {
-  changeBoilerTypes: propTypes.func.isRequired,
   boilerTypes: propTypes.array.isRequired,
   boilerType: propTypes.object.isRequired,
 };

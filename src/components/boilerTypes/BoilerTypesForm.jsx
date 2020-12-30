@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import styles from './BoilerTypesForm.module.css';
+import { createBoilerTypes } from '../../redux/actions/boilerTypes.action';
 
 const BoilerTypesForm = (props) => {
   const [boilerType, setBoilerType] = useState({
@@ -8,9 +10,12 @@ const BoilerTypesForm = (props) => {
     description: '',
   });
 
+  const dispatch = useDispatch();
+  const addBoilerTypes = useCallback((bt) => dispatch(createBoilerTypes(bt)), [dispatch]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onAddBoilerTypes(boilerType);
+    addBoilerTypes(boilerType);
     setBoilerType({
       id: '',
       description: '',
@@ -45,8 +50,8 @@ const BoilerTypesForm = (props) => {
   );
 };
 
-BoilerTypesForm.propTypes = {
-  onAddBoilerTypes: propTypes.func.isRequired,
-};
+// BoilerTypesForm.propTypes = {
+//   onAddBoilerTypes: propTypes.func.isRequired,
+// };
 
 export default BoilerTypesForm;

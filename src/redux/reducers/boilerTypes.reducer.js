@@ -1,4 +1,9 @@
-import { SHOW_BOILER_TYPES, DELETE_BOILER_TYPE } from '../types/TypesToBoilerTypes';
+import {
+  SHOW_BOILER_TYPES,
+  DELETE_BOILER_TYPE,
+  CREATE_BOILER_TYPE_SUCCED,
+  CREATE_BOILER_TYPE,
+} from '../types/TypesToBoilerTypes';
 
 const initState = {
   boilerTypes: [],
@@ -7,6 +12,11 @@ const initState = {
 const reducer = (state = initState, action) => {
   switch (action.type) {
     case SHOW_BOILER_TYPES:
+      return {
+        ...state,
+        boilerTypes: action.payload,
+      };
+    case CREATE_BOILER_TYPE:
       return {
         ...state,
         boilerTypes: action.payload,

@@ -6,28 +6,29 @@ import BoilerTypesForm from './BoilerTypesForm';
 import { showBoilerTypes } from '../../redux/actions/boilerTypes.action';
 
 const BoilerTypesApp = () => {
-  const [boilerTypes, setBoilerTypes] = useState([]);
   const dispatch = useDispatch();
   const fetchBoilerTypes = useCallback(() => dispatch(showBoilerTypes()), [dispatch]);
   const boilerTypeList = useSelector((state) => state.boilerTypes.boilerTypes);
 
   useEffect(() => {
     fetchBoilerTypes();
-    setBoilerTypes(boilerTypeList);
   }, []);
 
-  const handleAddBoilerTypes = (newBoilerType) => setBoilerTypes([...boilerTypes, newBoilerType]);
+  const handleAddBoilerTypes = (newBoilerType) => null;
 
-  if (!boilerTypes) return null;
+  if (!boilerTypeList) return null;
 
-  const renderBoilerTypes = boilerTypes.map((boilerType) => (
-    <BoilerType
-      key={boilerType.id}
-      boilerType={boilerType}
-      boilerTypes={boilerTypes}
-      changeBoilerTypes={setBoilerTypes}
-    />
-  ));
+  const renderBoilerTypes = boilerTypeList.map((boilerType) => {
+    // eslint-disable-next-line no-underscore-dangle
+    const key = boilerType._id;
+    return (
+      <BoilerType
+        key={key}
+        boilerType={boilerType}
+        boilerTypes={boilerTypeList}
+      />
+    );
+  });
 
   // RETURN THE COMPONENT
   return (
@@ -35,7 +36,7 @@ const BoilerTypesApp = () => {
       <div className={styles.AppHeader}>
         Boilers Types -
         <span className="number-of-boilerTypes">
-          {boilerTypes.length}
+          {boilerTypeList.length}
         </span>
       </div>
       <div className="new-boiler-type">
