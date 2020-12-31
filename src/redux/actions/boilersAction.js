@@ -108,8 +108,9 @@ export const addBoiler = (boiler) => async (dispatch) => {
         'Content-type': 'application/json',
       },
     });
-    const res = await data.json();
-    return dispatch(addBoilerFulfilled(res));
+    //const res = await data.json();
+    //return dispatch(addBoilerFulfilled());
+    return dispatch(getBoilers());
   } catch (err) {
     return dispatch(addBoilerRejected());
   }
@@ -133,7 +134,6 @@ const updateBoilerRejected = () => ({
 
 export const updateBoiler = (boiler, id) => async (dispatch) => {
   dispatch(updateBoilerFetching());
-  console.log(id);
   try {
     const data = await fetch(`${URL}/${id}`, {
       method: 'PUT',
