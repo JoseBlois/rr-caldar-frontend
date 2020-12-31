@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import boilersReducer from './boilersReducer';
 
 const rootReducer = combineReducers({
-  boilerss: boilersReducer,
+  boilers: boilersReducer,
 });
 
 export default rootReducer;

@@ -99,9 +99,9 @@ BoilersForm.defaultProps = {
 };
 
 BoilersForm.propTypes = {
+  boiler: PropTypes.object,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  boiler: PropTypes.object,
 };
 
 export default BoilersForm;

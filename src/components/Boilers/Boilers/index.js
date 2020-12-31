@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import BoilersForm from './BoilersForm';
-import ConfirmationMessage from '../sharedComponents/ConfirmationMessage';
-import Modal from '../sharedComponents/Modal';
+
+import ConfirmationMessage from '../../sharedComponents/ConfirmationMessage';
+import Modal from '../../sharedComponents/Modal';
+import BoilersForm from '../BoilersForm';
+
 import styles from './boilers.module.css';
 import {
   getBoilers as getBoilersR,
   deleteBoiler as deleteBoilerR,
   addBoiler as addBoilerR,
   updateBoiler as updateBoilerR,
-} from '../../redux/actions/boilersAction';
+} from '../../../redux/actions/boilersAction';
 
 const index = ({
   boilers,

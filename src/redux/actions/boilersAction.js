@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   GET_BOILERS_FETCHING,
   GET_BOILERS_FULFILLED,
@@ -29,7 +30,7 @@ const getBoilersRejected = () => ({
   type: GET_BOILERS_REJECTED,
 });
 
-const getBoilers = () => (dispatch) => {
+export const getBoilers = () => (dispatch) => {
   dispatch(getBoilersFetching());
   return fetch(URL)
     .then((data) => data.json())
@@ -56,7 +57,7 @@ const deleteBoilerRejected = () => ({
   type: DELETE_BOILER_REJECTED,
 });
 
-const deleteBoiler = (id) => (dispatch) => {
+export const deleteBoiler = (id) => (dispatch) => {
   dispatch(deleteBoilerFetching());
   return fetch(`${URL}/${id}`, {
     method: 'DELETE',
@@ -95,7 +96,7 @@ const addBoilerRejected = () => ({
   type: ADD_BOILER_REJECTED,
 });
 
-const addBoiler = (boiler) => (dispatch) => {
+export const addBoiler = (boiler) => (dispatch) => {
   dispatch(addBoilerFetching());
   return fetch(URL, {
     method: 'POST',
@@ -125,7 +126,7 @@ const updateBoilerRejected = () => ({
   type: UPDATE_BOILER_REJECTED,
 });
 
-const updateBoiler = (boiler, id) => (dispatch) => {
+export const updateBoiler = (boiler, id) => (dispatch) => {
   dispatch(updateBoilerFetching());
   console.log(id);
   return fetch(`${URL}/${id}`, {
@@ -138,11 +139,4 @@ const updateBoiler = (boiler, id) => (dispatch) => {
     .then((data) => data.json())
     .then((res) => dispatch(updateBoilerFulfilled(res, id)))
     .catch((err) => dispatch(updateBoilerRejected()));
-};
-
-export {
-  getBoilers,
-  deleteBoiler,
-  addBoiler,
-  updateBoiler,
 };

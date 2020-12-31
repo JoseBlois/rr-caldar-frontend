@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Boilers from './boilers';
+import Boilers from './Boilers';
 
-export default function BoilersApp() {
+export default function BoilersAppF() {
   return (
     <>
       <div>
