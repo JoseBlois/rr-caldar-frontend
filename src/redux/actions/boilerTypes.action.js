@@ -39,22 +39,18 @@ const createBoilerTypesFailed = () => ({
   type: CREATE_BOILER_TYPE_FAILED,
 });
 
-export const createBoilerTypes = (boilerType) => (dispatch) => {
-  console.log(boilerType);
-  return fetch('https://caldar-application.herokuapp.com/boilertypes', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      description: boilerType.description,
-    }),
-  })
-    .then((data) => data.json())
-    .then(() => dispatch(createBoilerTypesSucced()))
-    .then(() => dispatch(showBoilerTypes()))
-    .catch(() => dispatch(createBoilerTypesFailed()));
-};
+export const createBoilerTypes = (boilerType) => (dispatch) => fetch('https://caldar-application.herokuapp.com/boilertypes', {
+  method: 'POST',
+  headers: {
+    'content-type': 'application/json',
+  },
+  body: JSON.stringify({
+    description: boilerType.description,
+  }),
+})
+  .then(() => dispatch(createBoilerTypesSucced()))
+  .then(() => dispatch(showBoilerTypes()))
+  .catch(() => dispatch(createBoilerTypesFailed()));
 
 const deleteBoilerTypesSucced = (payload) => ({
   type: DELETE_BOILER_TYPE_SUCCED,
@@ -89,19 +85,15 @@ const updateBoilerTypesFailed = () => ({
   type: UPDATE_BOILER_TYPE_FAILED,
 });
 
-export const updateBoilerTypesById = (id, description) => (dispatch) => {
-  console.log(id);
-  return fetch(`https://caldar-application.herokuapp.com/boilerTypes/${id}`, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      description,
-    }),
-  })
-    .then((data) => data.json())
-    .then(() => dispatch(updateBoilerTypesSucced()))
-    .then(() => dispatch(showBoilerTypes()))
-    .catch(() => dispatch(updateBoilerTypesFailed()));
-};
+export const updateBoilerTypesById = (id, description) => (dispatch) => fetch(`https://caldar-application.herokuapp.com/boilerTypes/${id}`, {
+  method: 'PUT',
+  headers: {
+    'content-type': 'application/json',
+  },
+  body: JSON.stringify({
+    description,
+  }),
+})
+  .then(() => dispatch(updateBoilerTypesSucced()))
+  .then(() => dispatch(showBoilerTypes()))
+  .catch(() => dispatch(updateBoilerTypesFailed()));

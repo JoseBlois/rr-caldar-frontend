@@ -2,10 +2,12 @@ import {
   SHOW_BOILER_TYPES,
   CREATE_BOILER_TYPE,
   UPDATE_BOILER_TYPE_SUCCED,
+  DELETE_BOILER_TYPE_FAILED,
 } from '../types/TypesToBoilerTypes';
 
 const initState = {
   boilerTypes: [],
+  boilerTypesError: null,
 };
 
 const reducer = (state = initState, action) => {
@@ -23,7 +25,12 @@ const reducer = (state = initState, action) => {
     case UPDATE_BOILER_TYPE_SUCCED:
       return {
         ...state,
-        boilerType: action.payload,
+        boilerTypes: action.payload,
+      };
+    case DELETE_BOILER_TYPE_FAILED:
+      return {
+        ...state,
+        boilerTypesError: action.payload.error,
       };
     default:
       return state;
