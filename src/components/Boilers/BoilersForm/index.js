@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../sharedComponents/Button';
-import Select from '../../sharedComponents/Select';
 import styles from './boilersForm.module.css';
 
 const BoilersForm = ({
@@ -10,44 +9,14 @@ const BoilersForm = ({
   boiler,
 }) => {
   const [state, setState] = useState({
-    description: boiler.description || 'Boiler ...',
-    boilerType: boiler.boilerType || 'boilerTypeId1',
+    description: boiler.description || 'Boiler Nº ....',
+    boilerType: boiler.boilerType || '5fcc1d09998cd913c71c7e02',
     hourMaintenanceCost: boiler.hourMaintenanceCost || 0,
     hourEventualCost: boiler.hourEventualCost || 0,
-    maintenanceRate: boiler.maintenanceRate || 'Weekly',
+    maintenanceRate: boiler.maintenanceRate || 0,
     // eslint-disable-next-line
     id: boiler._id,
   });
-
-  const boilerTypes = [{
-    id: 'boilerTypeId1',
-    value: 'A',
-  }, {
-    id: 'boilerTypeId2',
-    value: 'B',
-  }, {
-    id: 'boilerTypeId3',
-    value: 'C',
-  }, {
-    id: 'boilerTypeId4',
-    value: 'D',
-  }];
-
-  const maintenanceRate = [{
-    value: 'Weekly',
-  }, {
-    value: 'Often',
-  }, {
-    value: 'Seldom',
-  }, {
-    value: 'Once',
-  }, {
-    value: 'Daily',
-  }, {
-    value: 'Yearly',
-  }, {
-    value: 'Never',
-  }];
 
   const changeValue = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -72,18 +41,20 @@ const BoilersForm = ({
           <input type="text" id="description" name="description" value={state.description} onChange={changeValue} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Boilers types:" name="boilerType" value={state.boilerType} onChange={changeValue} options={boilerTypes} />
+          <label htmlFor="boilerType">Boiler type</label>
+          <input type="text" id="boilerType" name="boilerType" value={state.boilerType} onChange={changeValue} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="hourMaintenanceCost">Hour Maintenance Cost</label>
-          <input type="text" id="hourMaintenanceCost" name="hourMaintenanceCost" value={state.hourMaintenanceCost} onChange={changeValue} />
+          <input type="number" id="hourMaintenanceCost" name="hourMaintenanceCost" value={state.hourMaintenanceCost} onChange={changeValue} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="hourEventualCost">Hour Eventual Cost</label>
-          <input type="text" id="hourEventualCost" name="hourEventualCost" value={state.hourEventualCost} onChange={changeValue} />
+          <input type="number" id="hourEventualCost" name="hourEventualCost" value={state.hourEventualCost} onChange={changeValue} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Maintenance Rate:" name="maintenanceRate" value={state.maintenanceRate} onChange={changeValue} options={maintenanceRate} />
+          <label htmlFor="maintenanceRate">Maintenance Rate</label>
+          <input type="number" id="maintenanceRate" name="maintenanceRate" value={state.maintenanceRate} onChange={changeValue} />
         </div>
         <div className={styles.buttonContainer}>
           <Button btnLabel="Cancel" onClick={onClose} />
