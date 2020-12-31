@@ -11,10 +11,10 @@ import BoilersForm from './BoilersForm';
 
 import styles from './boilers.module.css';
 import {
-  getBoilers as getBoilersR,
-  deleteBoiler as deleteBoilerR,
-  addBoiler as addBoilerR,
-  updateBoiler as updateBoilerR,
+  getBoilers as getBoilersAction,
+  deleteBoiler as deleteBoilerAction,
+  addBoiler as addBoilerAction,
+  updateBoiler as updateBoilerAction,
 } from '../../redux/actions/boilersAction';
 
 const boilersComponent = ({
@@ -38,7 +38,7 @@ const boilersComponent = ({
     });
   };
 
-  const deleteWithModal = (id) => {
+  const removeBoiler = (id) => {
     deleteBoiler(id);
     onCloseModal();
   };
@@ -132,7 +132,7 @@ const boilersComponent = ({
             />
             )}
           {modal.type === 'DELETE'
-            && <ConfirmationMessage onSubmit={() => deleteWithModal(modal.meta.id)} onClose={onCloseModal} entity="Boiler" />}
+            && <ConfirmationMessage onSubmit={() => removeBoiler(modal.meta.id)} onClose={onCloseModal} entity="Boiler" />}
           {modal.type === 'UPDATE'
             && (
               <BoilersForm
@@ -152,10 +152,10 @@ const boilersComponent = ({
 
 const mapDispatchToProps = (dispatch) => (
   bindActionCreators({
-    getBoilers: getBoilersR,
-    deleteBoiler: deleteBoilerR,
-    addBoiler: addBoilerR,
-    updateBoiler: updateBoilerR,
+    getBoilers: getBoilersAction,
+    deleteBoiler: deleteBoilerAction,
+    addBoiler: addBoilerAction,
+    updateBoiler: updateBoilerAction,
   }, dispatch)
 );
 
