@@ -93,7 +93,6 @@ const buildingReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        // eslint-disable-next-line
         list: [...state.list.filter((building) => building._id !== action.payload.id)],
       };
     case DELETE_BUILDINGS_REJECTED:

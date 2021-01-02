@@ -66,7 +66,7 @@ export const deleteBuilding = (id) => (dispatch) => {
     }
   })
   .then((data) => {
-    if(data.status === 400) {
+    if(!data.ok) {
       return false
     }
     return true
