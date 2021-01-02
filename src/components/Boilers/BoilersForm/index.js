@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../sharedComponents/Button';
-import Select from '../../sharedComponents/Select';
 import styles from './boilersForm.module.css';
 
 const BoilersForm = ({
@@ -10,49 +9,30 @@ const BoilersForm = ({
   boiler,
 }) => {
   const [state, setState] = useState({
-    description: boiler.description || 'Boiler ...',
-    boilerType: boiler.boilerType || 'boilerTypeId1',
+    description: boiler.description || '',
+    boilerType: boiler.boilerType || '5fcc1d06998cd913c71c7e01',
     hourMaintenanceCost: boiler.hourMaintenanceCost || 0,
     hourEventualCost: boiler.hourEventualCost || 0,
-    maintenanceRate: boiler.maintenanceRate || 'Weekly',
-    id: boiler.id,
+    maintenanceRate: boiler.maintenanceRate || 0,
+    id: boiler._id,
   });
-
-  const boilerTypes = [{
-    id: 'boilerTypeId1',
-    value: 'A',
-  }, {
-    id: 'boilerTypeId2',
-    value: 'B',
-  }, {
-    id: 'boilerTypeId3',
-    value: 'C',
-  }, {
-    id: 'boilerTypeId4',
-    value: 'D',
-  }];
-
-  const maintenanceRate = [{
-    value: 'Weekly',
-  }, {
-    value: 'Often',
-  }, {
-    value: 'Seldom',
-  }, {
-    value: 'Once',
-  }, {
-    value: 'Daily',
-  }, {
-    value: 'Yearly',
-  }, {
-    value: 'Never',
-  }];
 
   const onChangeInput = (e) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const submit = () => {
+    const boilerToSub = {
+      description: state.description,
+      boilerType: state.boilerType,
+      hourMaintenanceCost: state.hourMaintenanceCost,
+      hourEventualCost: state.hourEventualCost,
+      maintenanceRate: state.maintenanceRate,
+    };
+    onSubmit(boilerToSub, state.id);
   };
 
   return (
@@ -63,22 +43,24 @@ const BoilersForm = ({
           <input type="text" id="description" name="description" value={state.description} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Boilers types:" name="boilerType" value={state.boilerType} onChange={onChangeInput} options={boilerTypes} />
+          <label htmlFor="boilerType">Boiler type</label>
+          <input type="text" id="boilerType" name="boilerType" value={state.boilerType} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="hourMaintenanceCost">Hour Maintenance Cost</label>
-          <input type="text" id="hourMaintenanceCost" name="hourMaintenanceCost" value={state.hourMaintenanceCost} onChange={onChangeInput} />
+          <input type="number" id="hourMaintenanceCost" name="hourMaintenanceCost" value={state.hourMaintenanceCost} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="hourEventualCost">Hour Eventual Cost</label>
-          <input type="text" id="hourEventualCost" name="hourEventualCost" value={state.hourEventualCost} onChange={onChangeInput} />
+          <input type="number" id="hourEventualCost" name="hourEventualCost" value={state.hourEventualCost} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Maintenance Rate:" name="maintenanceRate" value={state.maintenanceRate} onChange={onChangeInput} options={maintenanceRate} />
+          <label htmlFor="maintenanceRate">Maintenance Rate</label>
+          <input type="number" id="maintenanceRate" name="maintenanceRate" value={state.maintenanceRate} onChange={onChangeInput} />
         </div>
         <div className={styles.buttonContainer}>
           <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => onSubmit(state)} />
+          <Button btnLabel="Submit" primary onClick={() => submit()} />
         </div>
       </form>
     </div>
