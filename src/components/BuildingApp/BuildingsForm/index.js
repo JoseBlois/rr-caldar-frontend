@@ -9,14 +9,13 @@ const BuildingsForm = ({
   building,
 }) => {
   const [state, setState] = useState({
-    name: building.name || 'Building name..',
-    address: building.address || 'Building address',
-    company: building.company || 'Building company',
-    phone: building.phone || 'Building phone',
+    name: building.name || '',
+    address: building.address || '',
+    company: building.company || '',
+    phone: building.phone || '',
     boiler1: building.boilers[0] || '',
     boiler2: building.boilers[1],
     boiler3: building.boilers[2],
-    // eslint-disable-next-line
     id: building._id,
   });
 

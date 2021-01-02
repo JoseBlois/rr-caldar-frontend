@@ -59,7 +59,6 @@ const index = ({
           </thead>
           <tbody>
             {buildings.list.map((building) => (
-              // eslint-disable-next-line
               <tr key={building._id}>
                 <td>{building.name}</td>
                 <td>{building.address}</td>
@@ -91,7 +90,6 @@ const index = ({
                       show: true,
                       type: 'DELETE',
                       meta: {
-                        // eslint-disable-next-line
                         id: building._id,
                         title: 'Delete Building',
                       },
