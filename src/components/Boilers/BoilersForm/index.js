@@ -9,12 +9,11 @@ const BoilersForm = ({
   boiler,
 }) => {
   const [state, setState] = useState({
-    description: boiler.description || 'Boiler Nº ....',
+    description: boiler.description || '',
     boilerType: boiler.boilerType || '5fcc1d06998cd913c71c7e01',
     hourMaintenanceCost: boiler.hourMaintenanceCost || 0,
     hourEventualCost: boiler.hourEventualCost || 0,
     maintenanceRate: boiler.maintenanceRate || 0,
-    // eslint-disable-next-line
     id: boiler._id,
   });
 

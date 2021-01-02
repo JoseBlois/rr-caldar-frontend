@@ -50,59 +50,59 @@ const boilersComponent = ({
   return (
     <>
       <div className={styles.boilersContainer}>
-        <table className={styles.boilersTable}>
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Boiler Type</th>
-              <th>Hour Maintenance Cost</th>
-              <th>Hour Eventual Cost</th>
-              <th>Maintenance Rate</th>
-              <th className={styles.actionsRow}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {boilers.list.map((boiler) => (
-              // eslint-disable-next-line
-              <tr key={boiler._id}>
-                <td>{boiler.description}</td>
-                <td>{boiler.boilerType}</td>
-                <td>{boiler.hourMaintenanceCost}</td>
-                <td>{boiler.hourEventualCost}</td>
-                <td>{boiler.maintenanceRate}</td>
-                <td>
-                  <FontAwesomeIcon
-                    style={{ marginRight: '10px' }}
-                    icon={faPen}
-                    size="lg"
-                    onClick={() => setModal({
-                      show: true,
-                      type: 'UPDATE',
-                      meta: {
-                        boiler,
-                        title: 'Update Boiler',
-                      },
-                    })}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    size="lg"
-                    onClick={() => setModal({
-                      show: true,
-                      type: 'DELETE',
-                      meta: {
-                        // eslint-disable-next-line
-                        id: boiler._id,
-                        title: 'Delete Boiler',
-                      },
-                    })}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {boilers.loading ? <span>LOADING...</span> : null}
+        {boilers.loading ? <span>LOADING BOILERS DATA...</span>
+          : (
+            <table className={styles.boilersTable}>
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Boiler Type</th>
+                  <th>Hour Maintenance Cost</th>
+                  <th>Hour Eventual Cost</th>
+                  <th>Maintenance Rate</th>
+                  <th className={styles.actionsRow}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {boilers.list.map((boiler) => (
+                  <tr key={boiler._id}>
+                    <td>{boiler.description}</td>
+                    <td>{boiler.boilerType}</td>
+                    <td>{boiler.hourMaintenanceCost}</td>
+                    <td>{boiler.hourEventualCost}</td>
+                    <td>{boiler.maintenanceRate}</td>
+                    <td>
+                      <FontAwesomeIcon
+                        style={{ marginRight: '10px' }}
+                        icon={faPen}
+                        size="lg"
+                        onClick={() => setModal({
+                          show: true,
+                          type: 'UPDATE',
+                          meta: {
+                            boiler,
+                            title: 'Update Boiler',
+                          },
+                        })}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        size="lg"
+                        onClick={() => setModal({
+                          show: true,
+                          type: 'DELETE',
+                          meta: {
+                            id: boiler._id,
+                            title: 'Delete Boiler',
+                          },
+                        })}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
       </div>
       <div className={styles.addButtonContainer}>
         <button

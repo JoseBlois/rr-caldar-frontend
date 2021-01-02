@@ -10,7 +10,6 @@ import {
   UPDATE_BOILER_REJECTED,
   DELETE_BOILER_FETCHING,
   DELETE_BOILER_FULFILLED,
-  DELETE_BOILER_BAD_REQUEST,
   DELETE_BOILER_REJECTED,
 } from '../types/boilersTypes';
 
@@ -47,7 +46,7 @@ const boilersReducer = (state = initialState, action) => {
     case ADD_BOILER_FULFILLED:
       return {
         ...state,
-        list: [...state.list, action.payload.building],
+        list: [...state.list, action.payload],
         loading: false,
       };
     case ADD_BOILER_REJECTED:
@@ -65,7 +64,6 @@ const boilersReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         list: state.list.map((boiler) => {
-          // eslint-disable-next-line
           if (boiler._id === action.payload.id) {
             const updatedBoiler = action.payload.boiler;
             updatedBoiler.id = action.payload.id;
@@ -84,16 +82,10 @@ const boilersReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       };
-    case DELETE_BOILER_BAD_REQUEST:
-      return {
-        ...state,
-        loading: false,
-      };
     case DELETE_BOILER_FULFILLED:
       return {
         ...state,
         loading: false,
-        // eslint-disable-next-line
         list: [...state.list.filter((boiler) => boiler._id !== action.payload.id)],
       };
     case DELETE_BOILER_REJECTED:

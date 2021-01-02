@@ -20,6 +20,7 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'no-unused-vars': 'warn',
+    'no-underscore-dangle': 'off',
     'react/prop-types': 'warn',
     'react/forbid-prop-types': 'off',
     'jsx-a11y/label-has-associated-control': ['error', {

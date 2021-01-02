@@ -11,7 +11,6 @@ import {
   UPDATE_BOILER_REJECTED,
   DELETE_BOILER_FETCHING,
   DELETE_BOILER_FULFILLED,
-  DELETE_BOILER_BAD_REQUEST,
   DELETE_BOILER_REJECTED,
 } from '../types/boilersTypes';
 
@@ -52,10 +51,6 @@ const deleteBoilerFulfilled = (id) => ({
   },
 });
 
-const deleteBoilerBadRequest = () => ({
-  type: DELETE_BOILER_BAD_REQUEST,
-});
-
 const deleteBoilerRejected = () => ({
   type: DELETE_BOILER_REJECTED,
 });
@@ -69,14 +64,10 @@ export const deleteBoiler = (id) => async (dispatch) => {
         'Content-type': 'application/json',
       },
     });
-    if (data.status === 400) {
-      return false;
-    }
-    const res = true;
-    if (res) {
+    if (data.ok) {
       dispatch(deleteBoilerFulfilled(id));
     } else {
-      dispatch(deleteBoilerBadRequest());
+      throw new Error('Error');
     }
   } catch (err) {
     return dispatch(deleteBoilerRejected());
@@ -89,9 +80,7 @@ const addBoilerFetching = () => ({
 
 const addBoilerFulfilled = (boiler) => ({
   type: ADD_BOILER_FULFILLED,
-  payload: {
-    boiler,
-  },
+  payload: boiler,
 });
 
 const addBoilerRejected = () => ({
@@ -108,9 +97,8 @@ export const addBoiler = (boiler) => async (dispatch) => {
         'Content-type': 'application/json',
       },
     });
-    //const res = await data.json();
-    //return dispatch(addBoilerFulfilled());
-    return dispatch(getBoilers());
+    const res = await data.json();
+    return dispatch(addBoilerFulfilled(res));
   } catch (err) {
     return dispatch(addBoilerRejected());
   }
