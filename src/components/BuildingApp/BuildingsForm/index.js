@@ -58,7 +58,6 @@ const BuildingsForm = ({
       phone: state.phone,
       boilers: pickedBoilers.map((boiler) => boiler.value),
     };
-    console.log(buildingToSub);
     onSubmit(buildingToSub, state.id);
   };
 
