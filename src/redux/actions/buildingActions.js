@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   GET_BUILDINGS_FETCHING,
   GET_BUILDINGS_FULFILLED,
@@ -15,7 +14,7 @@ import {
   DELETE_BUILDINGS_REJECTED,
 } from '../types/buildingsTypes';
 
-const URL = 'https://caldar-application.herokuapp.com/buildings'
+const URL = 'https://caldar-application.herokuapp.com/buildings';
 
 const getBuildingsFetching = () => ({
   type: GET_BUILDINGS_FETCHING,
@@ -40,22 +39,22 @@ export const getBuildings = () => (dispatch) => {
 
 const deleteBuildingFetching = () => ({
   type: DELETE_BUILDINGS_FETCHING,
-})
+});
 
 const deleteBuildingsFulfilled = (id) => ({
   type: DELETE_BUILDINGS_FULFILLED,
   payload: {
     id,
-  }
-})
+  },
+});
 
 const deleteBuildingsBadRequest = () => ({
   type: DELETE_BUILDINGS_BAD_REQUEST,
-})
+});
 
 const deleteBuildingsRejected = () => ({
   type: DELETE_BUILDINGS_REJECTED,
-})
+});
 
 export const deleteBuilding = (id) => (dispatch) => {
   dispatch(deleteBuildingFetching());
@@ -63,38 +62,38 @@ export const deleteBuilding = (id) => (dispatch) => {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json',
-    }
+    },
   })
-  .then((data) => {
-    if(!data.ok) {
-      return false
-    }
-    return true
-  })
-  .then((res) => {
-    if(res){
-    dispatch(deleteBuildingsFulfilled(id));
-    }else{
-    dispatch(deleteBuildingsBadRequest());
-    }
-  })
-  .catch((err) => dispatch(deleteBuildingsRejected()));
+    .then((data) => {
+      if (!data.ok) {
+        return false;
+      }
+      return true;
+    })
+    .then((res) => {
+      if (res) {
+        dispatch(deleteBuildingsFulfilled(id));
+      } else {
+        dispatch(deleteBuildingsBadRequest());
+      }
+    })
+    .catch((err) => dispatch(deleteBuildingsRejected()));
 };
 
 const addBuildingFetching = () => ({
-  type: ADD_BUILDINGS_FETCHING
+  type: ADD_BUILDINGS_FETCHING,
 });
 
 const addBuildingFulfilled = (building) => ({
   type: ADD_BUILDINGS_FULFILLED,
   payload: {
     building,
-  }
+  },
 });
 
 const addBuildingRejected = () => ({
   type: ADD_BUILDINGS_REJECTED,
-})
+});
 
 export const addBuilding = (building) => (dispatch) => {
   dispatch(addBuildingFetching());
@@ -103,39 +102,39 @@ export const addBuilding = (building) => (dispatch) => {
     body: JSON.stringify(building),
     headers: {
       'Content-type': 'application/json',
-    }
+    },
   })
-  .then((data) => data.json())
-  .then((res) => dispatch(addBuildingFulfilled(res)))
-  .catch((err) => dispatch(addBuildingRejected()));
-}
+    .then((data) => data.json())
+    .then((res) => dispatch(addBuildingFulfilled(res)))
+    .catch((err) => dispatch(addBuildingRejected()));
+};
 
 const updateBuildingFetching = () => ({
-  type: UPDATE_BUILDINGS_FETCHING
-})
+  type: UPDATE_BUILDINGS_FETCHING,
+});
 
-const updateBuildingFulfilled = (building,id) => ({
+const updateBuildingFulfilled = (building, id) => ({
   type: UPDATE_BUILDINGS_FULFILLED,
   payload: {
     building,
-    id
-  }
-})
+    id,
+  },
+});
 
 const updateBuildingRejected = () => ({
-  type: UPDATE_BUILDINGS_REJECTED
+  type: UPDATE_BUILDINGS_REJECTED,
 });
 
 export const updateBuilding = (building, id) => (dispatch) => {
   dispatch(updateBuildingFetching());
-  return fetch(`${URL}/${id}`,{
+  return fetch(`${URL}/${id}`, {
     method: 'PUT',
     body: JSON.stringify(building),
     headers: {
       'Content-type': 'application/json',
-    }
+    },
   })
-  .then((data) => data.json())
-  .then((res) => dispatch(updateBuildingFulfilled(res, id)))
-  .catch((err) => dispatch(updateBuildingRejected()));
+    .then((data) => data.json())
+    .then((res) => dispatch(updateBuildingFulfilled(res, id)))
+    .catch((err) => dispatch(updateBuildingRejected()));
 };

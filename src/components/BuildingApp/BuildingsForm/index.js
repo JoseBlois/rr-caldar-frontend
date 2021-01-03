@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
-import styles from './BuildingsForm.module.css';
 
 const BuildingsForm = ({
   onSubmit,
@@ -28,18 +27,14 @@ const BuildingsForm = ({
       label: boiler.description,
       value: boiler._id,
     })));
-    setLoading(false);
-  }, []);
-
-  const changeValue = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
-
-  const getDefaults = () => {
+    const boilerForDefaults = json.map((boiler) => ({
+      label: boiler.description,
+      value: boiler._id,
+    }));
     const defValues = [];
     if (building) {
       for (let i = 0; i < building.boilers.length; i += 1) {
-        boilerOptions.map((boiler) => {
+        boilerForDefaults.map((boiler) => {
           if (boiler.value === building.boilers[i]) {
             defValues.push(boiler);
           }
@@ -47,7 +42,12 @@ const BuildingsForm = ({
         });
       }
     }
-    return defValues;
+    setPickedBoilers(defValues);
+    setLoading(false);
+  }, []);
+
+  const changeValue = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
   };
 
   const submit = () => {
@@ -95,32 +95,13 @@ const BuildingsForm = ({
               <Select
                 name="boilers"
                 onChange={setPickedBoilers}
-                defaultValue={getDefaults()}
+                value={pickedBoilers}
                 options={boilerOptions}
                 isMulti
                 placeholder="Select Boilers"
               />
             </label>
           )}
-        {/* <div>
-          <label htmlFor="boiler1">
-            Building Boiler 1
-            <input
-            value={state.boiler1} onChange={changeValue} name="boiler1" type="text" required />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="boiler2">
-            Building Boiler 2
-            <input value={state.boiler2 || ''} onChange={changeValue} name="boiler2" type="text" />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="boiler3">
-            Building Boiler 3
-            <input value={state.boiler3 || ''} onChange={changeValue} name="boiler3" type="text" />
-          </label>
-        </div> */}
         <div>
           <Button btnLabel="Cancel" onClick={onClose} />
           <Button btnLabel="Submit" primary onClick={submit} />
