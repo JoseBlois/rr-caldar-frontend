@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
 import styles from './BuildingsForm.module.css';
 
@@ -13,14 +14,40 @@ const BuildingsForm = ({
     address: building.address || '',
     company: building.company || '',
     phone: building.phone || '',
-    boiler1: building.boilers[0] || '',
-    boiler2: building.boilers[1],
-    boiler3: building.boilers[2],
     id: building._id,
   });
 
+  const [boilerOptions, setBoilersOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [pickedBoilers, setPickedBoilers] = useState([]);
+
+  useEffect(async () => {
+    const response = await fetch('https://caldar-application.herokuapp.com/boilers');
+    const json = await response.json();
+    setBoilersOptions(json.map((boiler) => ({
+      label: boiler.description,
+      value: boiler._id,
+    })));
+    setLoading(false);
+  }, []);
+
   const changeValue = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const getDefaults = () => {
+    const defValues = [];
+    if (building) {
+      for (let i = 0; i < building.boilers.length; i += 1) {
+        boilerOptions.map((boiler) => {
+          if (boiler.value === building.boilers[i]) {
+            defValues.push(boiler);
+          }
+          return false;
+        });
+      }
+    }
+    return defValues;
   };
 
   const submit = () => {
@@ -29,17 +56,9 @@ const BuildingsForm = ({
       address: state.address,
       company: state.company,
       phone: state.phone,
-      boilers: [state.boiler1],
+      boilers: pickedBoilers.map((boiler) => boiler.value),
     };
-    if (state.boiler2) {
-      buildingToSub.boilers[1] = state.boiler2;
-    }
-    if (state.boiler3) {
-      buildingToSub.boilers[2] = state.boiler3;
-    }
-    delete buildingToSub.boiler1;
-    delete buildingToSub.boiler2;
-    delete buildingToSub.boiler3;
+    console.log(buildingToSub);
     onSubmit(buildingToSub, state.id);
   };
 
@@ -70,10 +89,25 @@ const BuildingsForm = ({
             <input value={state.phone} onChange={changeValue} name="phone" type="text" required />
           </label>
         </div>
-        <div>
+        {loading ? <div>loading</div>
+          : (
+            <label htmlFor="boilers">
+              Boilers:
+              <Select
+                name="boilers"
+                onChange={setPickedBoilers}
+                defaultValue={getDefaults()}
+                options={boilerOptions}
+                isMulti
+                placeholder="Select Boilers"
+              />
+            </label>
+          )}
+        {/* <div>
           <label htmlFor="boiler1">
             Building Boiler 1
-            <input value={state.boiler1} onChange={changeValue} name="boiler1" type="text" required />
+            <input
+            value={state.boiler1} onChange={changeValue} name="boiler1" type="text" required />
           </label>
         </div>
         <div>
@@ -87,7 +121,7 @@ const BuildingsForm = ({
             Building Boiler 3
             <input value={state.boiler3 || ''} onChange={changeValue} name="boiler3" type="text" />
           </label>
-        </div>
+        </div> */}
         <div>
           <Button btnLabel="Cancel" onClick={onClose} />
           <Button btnLabel="Submit" primary onClick={submit} />
