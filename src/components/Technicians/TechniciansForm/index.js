@@ -10,69 +10,14 @@ const TechniciansForm = ({
   technician,
 }) => {
   const [state, setState] = useState({
-    firstName: technician.firstName || 'Insert first name',
-    lastName: technician.lastName || 'Insert last name',
-    address: technician.address || 'Insert address',
-    phone: technician.phone || 'Insert phone',
-    email: technician.email || 'Insert email',
-    boilerType: technician.boilerType || 'technicianBoilerType1',
+    firstName: technician.firstName || '',
+    lastName: technician.lastName || '',
+    address: technician.address || '',
+    phone: technician.phone || '',
+    email: technician.email || '',
+    boilerType: technician.boilerType || '',
     id: technician.id,
   });
-
-  const techFirstName = [{
-    id: 'techFirstName1',
-    value: 'Technician First Name 1',
-  }, {
-    id: 'techFirstName2',
-    value: 'Technician First Name 2',
-  }, {
-    id: 'techFirstName3',
-    value: 'Technician First Name 3',
-  }];
-
-  const techLastName = [{
-    id: 'techLastName1',
-    value: 'Technician Last Name 1',
-  }, {
-    id: 'techLlastName2',
-    value: 'Technician Last Name 2',
-  }, {
-    id: 'techLlastName3',
-    value: 'Technician Last Name 3',
-  }];
-
-  const techAddress = [{
-    id: 'techAddress1',
-    value: 'Technician Address 1',
-  }, {
-    id: 'techAddress2',
-    value: 'Technician Address 2',
-  }, {
-    id: 'techAddress3',
-    value: 'Technician Address 3',
-  }];
-
-  const techPhone = [{
-    id: 'techPhone1',
-    value: 'Technician Phone 1',
-  }, {
-    id: 'techPhone2',
-    value: 'Technician Phone 2',
-  }, {
-    id: 'techPhone3',
-    value: 'Technician Phone 3',
-  }];
-
-  const techEmail = [{
-    id: 'techEmail1',
-    value: 'Technician Email 1',
-  }, {
-    id: 'techEmail2',
-    value: 'Technician Email 2',
-  }, {
-    id: 'techEmail3',
-    value: 'Technician Email 3',
-  }];
 
   const techBoilerType = [{
     id: 'techBoilerType1',
@@ -95,35 +40,47 @@ const TechniciansForm = ({
     });
   };
 
+  const submit = () => {
+    const technicianToSub = {
+      firstName: state.firstName,
+      lastName: state.lastName,
+      address: state.address,
+      phone: state.phone,
+      email: state.email,
+      boilerType: state.boilerType,
+    };
+    onSubmit(technicianToSub, state.id);
+  };
+
   return (
     <div>
       <form className={styles.techniciansFormContainer}>
         <div className={styles.inputContainer}>
           <label htmlFor="firstName">First Name</label>
-          <input type="text" id="firstName" name="firstName" value={state.firstName} onChange={onChangeInput} options={techFirstName} />
+          <input type="text" id="firstName" name="firstName" value={state.firstName} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="lastName">Last Name</label>
-          <input type="text" id="lastName" name="lastName" value={state.lastName} onChange={onChangeInput} options={techLastName} />
+          <input type="text" id="lastName" name="lastName" value={state.lastName} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="address">Address</label>
-          <input type="text" id="address" name="address" value={state.address} onChange={onChangeInput} options={techAddress} />
+          <input type="text" id="address" name="address" value={state.address} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="phone">Phone</label>
-          <input type="text" id="phone" name="phone" value={state.phone} onChange={onChangeInput} options={techPhone} />
+          <input type="text" id="phone" name="phone" value={state.phone} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
-          <input type="text" id="email" name="email" value={state.email} onChange={onChangeInput} options={techEmail} />
+          <input type="text" id="email" name="email" value={state.email} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
           <Select label="Boiler Type:" name="boilerType" value={state.boilerType} onChange={onChangeInput} options={techBoilerType} />
         </div>
         <div className={styles.buttonContainer}>
           <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => onSubmit(state)} />
+          <Button btnLabel="Submit" primary onClick={() => submit()} />
         </div>
       </form>
     </div>

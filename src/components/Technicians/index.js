@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import TechniciansForm from './TechniciansForm';
 import ConfirmationMessage from '../sharedComponents/ConfirmationMessage';
 import Modal from '../sharedComponents/Modal';
+import TechniciansForm from './TechniciansForm';
 import styles from './Technician.module.css';
-import techniciansData from '../../mocks/technicians.json';
+import {
+  getTechnicians as getTechniciansAction,
+  addTechnician as addTechniciansAction,
+  updateTechnician as updateTechnicianaction,
+  deleteTechnician as deleteTechnicianAction,
+} from '../../redux/actions/techniciansAction';
 
-const Technicians = () => {
-  const [technicians, setTechnicians] = useState([]);
+const technicianComponent = ({
+  technicians,
+  getTechnicians,
+  addTechnician,
+  updateTechnician,
+  deleteTechnician,
+}) => {
   const [modal, setModal] = useState({
     show: false,
     type: '',
@@ -23,26 +35,14 @@ const Technicians = () => {
     });
   };
 
-  const addTechnician = (technician) => {
-    setTechnicians([...technicians, {
-      ...technician,
-      id: technicians.length + 1,
-    }]);
-    onCloseModal();
-  };
-
   const removeTechnician = (id) => {
-    setTechnicians(technicians.filter((technician) => technician.id !== id));
+    deleteTechnician(id);
     onCloseModal();
   };
 
-  const updateTechnician = (updatedTechnician) => {
-    const index = technicians.findIndex((technician) => technician.id === updatedTechnician.id);
-    const newTechnicians = [...technicians];
-    newTechnicians[index] = updatedTechnician;
-    setTechnicians(newTechnicians);
-    onCloseModal();
-  };
+  useEffect(() => {
+    getTechnicians();
+  }, []);
 
   return (
     <>
@@ -60,7 +60,7 @@ const Technicians = () => {
             </tr>
           </thead>
           <tbody>
-            {technicians.map((technician) => (
+            {technicians.list.map((technician) => (
               <tr key={technician.id}>
                 <td>
                   {technician.firstName}
@@ -130,21 +130,45 @@ const Technicians = () => {
       {modal.show && (
         <Modal title={modal.meta.title} onClose={onCloseModal}>
           {modal.type === 'ADD'
-            && <TechniciansForm onSubmit={addTechnician} onClose={onCloseModal} />}
+          && (
+          <TechniciansForm
+            onSubmit={(technician) => {
+              addTechnician(technician);
+              onCloseModal();
+            }}
+            onClose={onCloseModal}
+          />
+          )}
           {modal.type === 'DELETE'
             && <ConfirmationMessage onSubmit={() => removeTechnician(modal.meta.id)} onClose={onCloseModal} entity="Technician" />}
           {modal.type === 'UPDATE'
-          && (
-            <TechniciansForm
-              onSubmit={updateTechnician}
-              onClose={onCloseModal}
-              technician={modal.meta.technician}
-            />
-          )}
+            && (
+              <TechniciansForm
+                onSubmit={(technician, id) => {
+                  updateTechnician(technician, id);
+                  onCloseModal();
+                }}
+                onClose={onCloseModal}
+                technician={modal.meta.technician}
+              />
+            )}
         </Modal>
       )}
     </>
   );
 };
 
-export default Technicians;
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({
+    getTechnicians: getTechniciansAction,
+    addTechnician: addTechniciansAction,
+    updateTechnician: updateTechnicianaction,
+    deleteTechnician: deleteTechnicianAction,
+  }, dispatch)
+);
+
+const mapStateToProps = (state) => ({
+  technicians: state.technicians,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(technicianComponent);
