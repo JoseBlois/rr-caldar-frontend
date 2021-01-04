@@ -64,7 +64,7 @@ const index = ({
                 <td>{building.address}</td>
                 <td>
                   {
-                  building.boilers.map((boiler) => <div>{boiler}</div>)
+                  building.boilers.map((boiler) => <div key={`${building._id}-${boiler}`}>{boiler}</div>)
                   }
                 </td>
                 <td>{building.company}</td>
