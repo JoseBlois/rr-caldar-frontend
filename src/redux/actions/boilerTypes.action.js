@@ -47,8 +47,7 @@ export const createBoilerTypes = (boilerType) => (dispatch) => fetch('https://ca
   body: JSON.stringify({
     description: boilerType.description,
   }),
-})
-  .then(() => dispatch(createBoilerTypesSucced()))
+}).then(() => dispatch(createBoilerTypesSucced()))
   .then(() => dispatch(showBoilerTypes()))
   .catch(() => dispatch(createBoilerTypesFailed()));
 
@@ -69,9 +68,7 @@ export const deleteBoilerTypesById = (boilerType) => (dispatch) => {
     headers: {
       'content-type': 'application/json',
     },
-  })
-    .then((data) => data.json())
-    .then(() => dispatch(deleteBoilerTypesSucced()))
+  }).then(() => dispatch(deleteBoilerTypesSucced()))
     .then(() => dispatch(showBoilerTypes()))
     .catch(() => dispatch(deleteBoilerTypesFailed()));
 };
@@ -93,7 +90,6 @@ export const updateBoilerTypesById = (id, description) => (dispatch) => fetch(`h
   body: JSON.stringify({
     description,
   }),
-})
-  .then(() => dispatch(updateBoilerTypesSucced()))
+}).then(() => dispatch(updateBoilerTypesSucced()))
   .then(() => dispatch(showBoilerTypes()))
   .catch(() => dispatch(updateBoilerTypesFailed()));

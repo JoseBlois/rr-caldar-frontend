@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 import { deleteBoilerTypesById, updateBoilerTypesById } from '../../redux/actions/boilerTypes.action';
 import DeleteBoilerTypeModal from './DeleteBoilerTypeModal';

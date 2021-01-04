@@ -1,14 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
+import propTypes from 'prop-types';
 import styles from './BoilerTypesApp.module.css';
 import BoilerType from './BoilerTypes';
 import BoilerTypesForm from './BoilerTypesForm';
 import { showBoilerTypes } from '../../redux/actions/boilerTypes.action';
 
-const BoilerTypesApp = () => {
+const BoilerTypesApp = (props) => {
   const dispatch = useDispatch();
   const fetchBoilerTypes = useCallback(() => dispatch(showBoilerTypes()), [dispatch]);
-  const boilerTypeList = useSelector((state) => state.boilerTypes.boilerTypes);
+  // const boilerTypeList = useSelector((state) => state.boilerTypes.boilerTypes);
+  const { boilerTypes } = props;
 
   useEffect(() => {
     fetchBoilerTypes();
@@ -16,16 +18,16 @@ const BoilerTypesApp = () => {
 
   const handleAddBoilerTypes = (newBoilerType) => null;
 
-  if (!boilerTypeList) return null;
+  if (!boilerTypes.boilerTypes) return null;
 
-  const renderBoilerTypes = boilerTypeList.map((boilerType) => {
+  const renderBoilerTypes = boilerTypes.boilerTypes.map((boilerType) => {
     // eslint-disable-next-line no-underscore-dangle
     const key = boilerType._id;
     return (
       <BoilerType
         key={key}
         boilerType={boilerType}
-        boilerTypes={boilerTypeList}
+        boilerTypes={boilerTypes.boilerTypes}
       />
     );
   });
@@ -36,7 +38,7 @@ const BoilerTypesApp = () => {
       <div className={styles.AppHeader}>
         Boilers Types -
         <span className="number-of-boilerTypes">
-          {boilerTypeList.length}
+          {boilerTypes.length}
         </span>
       </div>
       <div className="new-boiler-type">
@@ -51,4 +53,13 @@ const BoilerTypesApp = () => {
   );
 };
 
-export default BoilerTypesApp;
+BoilerTypesApp.propTypes = {
+  // eslint-disable-next-line react/require-default-props
+  boilerTypes: propTypes.shape({ boilerTypes: propTypes.array }).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  boilerTypes: state.boilerTypes,
+});
+
+export default connect(mapStateToProps)(BoilerTypesApp);
