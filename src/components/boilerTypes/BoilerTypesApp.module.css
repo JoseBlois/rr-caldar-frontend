@@ -1,22 +1,44 @@
-.AppHeader {
-    background-color: #fc6225 ;
-    font-size: 48px;
-    text-align: center;
-    color: #fff;
-  }
+.boilersContainer {
+  background-color: #fff;
+  margin: 30px;
+  padding: 30px;
+}
   
-  .inputWraper {
-    display: flex;
-    justify-content: space-between;
-    width: 400px;
-    padding: 10px;
-    border-bottom: 1px solid black;
-  }
+.boilersTable {
+  width: 100%;
+}
   
-  .item {
-    display: flex;
-    justify-content: space-around;
-    width: 300px;  
-    padding: 10px;
-    border-bottom: 1px solid black;
-  }
+.boilersTable thead {
+  font-size: 18px;
+  color: #FC6225;
+  border-bottom: 1px solid #707070;
+}
+  
+.boilersTable thead tr th {
+  padding: 10px;
+}
+  
+.boilersTable tbody tr td {
+  padding: 10px;
+  text-align: center;
+}
+  
+.boilersTable tbody tr {
+  border-bottom: 1px solid #707070;
+}
+  
+.addButtonContainer {
+  display: flex;
+  padding: 0px 30px;
+  justify-content: flex-end;
+}
+  
+.addButton {
+  padding: 15px;
+  border-radius: 50%;
+  background-color: #FC6225;
+  border: none;
+  outline: none;
+  color: #FFF;
+  box-shadow: 0px 0px 10px 2px #888888;
+}

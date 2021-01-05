@@ -1,95 +1,138 @@
+/* eslint-disable */
 import {
-  CREATE_BOILER_TYPE_SUCCED,
-  CREATE_BOILER_TYPE_FAILED,
-  DELETE_BOILER_TYPE_SUCCED,
-  DELETE_BOILER_TYPE_FAILED,
-  SHOW_BOILER_TYPES,
-  SHOW_BOILER_TYPES_FAILED,
-  UPDATE_BOILER_TYPE_SUCCED,
-  UPDATE_BOILER_TYPE_FAILED,
+  GET_BOILERTYPES_FETCHING,
+  GET_BOILERTYPES_FULFILLED,
+  GET_BOILERTYPES_REJECTED,
+  ADD_BOILERTYPE_FETCHING,
+  ADD_BOILERTYPE_FULFILLED,
+  ADD_BOILERTYPE_REJECTED,
+  UPDATE_BOILERTYPE_FETCHING,
+  UPDATE_BOILERTYPE_FULFILLED,
+  UPDATE_BOILERTYPE_REJECTED,
+  DELETE_BOILERTYPE_FETCHING,
+  DELETE_BOILERTYPE_FULFILLED,
+  DELETE_BOILERTYPE_REJECTED,
 } from '../types/TypesToBoilerTypes';
 
-export const showBoilerTypes = () => async (dispatch) => {
-  try {
-    const resp = await fetch('https://caldar-application.herokuapp.com/boilertypes', {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-      },
-    });
-    const json = await resp.json();
+const URL = 'https://caldar-application.herokuapp.com/boilerTypes';
 
-    return dispatch({
-      type: SHOW_BOILER_TYPES,
-      payload: json,
-    });
-  } catch (error) {
-    return {
-      type: SHOW_BOILER_TYPES_FAILED,
-    };
+const getBoilerTypesFetching = () => ({
+  type: GET_BOILERTYPES_FETCHING,
+});
+
+const getBoilerTypesFulfilled = (payload) => ({
+  type: GET_BOILERTYPES_FULFILLED,
+  payload,
+});
+
+const getBoilerTypesRejected = () => ({
+  type: GET_BOILERTYPES_REJECTED,
+});
+
+export const getBoilerTypes = () => async (dispatch) => {
+  dispatch(getBoilerTypesFetching());
+  try {
+    const data = await fetch(URL);
+    const res = await data.json();
+    return dispatch(getBoilerTypesFulfilled(res));
+  } catch (err) {
+    return dispatch(getBoilerTypesRejected());
   }
 };
 
-const createBoilerTypesSucced = (payload) => ({
-  type: CREATE_BOILER_TYPE_SUCCED,
-  payload,
+const deleteBoilerTypeFetching = () => ({
+  type: DELETE_BOILERTYPE_FETCHING,
 });
 
-const createBoilerTypesFailed = () => ({
-  type: CREATE_BOILER_TYPE_FAILED,
-});
-
-export const createBoilerTypes = (boilerType) => (dispatch) => fetch('https://caldar-application.herokuapp.com/boilertypes', {
-  method: 'POST',
-  headers: {
-    'content-type': 'application/json',
+const deleteBoilerTypeFulfilled = (id) => ({
+  type: DELETE_BOILERTYPE_FULFILLED,
+  payload: {
+    id,
   },
-  body: JSON.stringify({
-    description: boilerType.description,
-  }),
-}).then(() => dispatch(createBoilerTypesSucced()))
-  .then(() => dispatch(showBoilerTypes()))
-  .catch(() => dispatch(createBoilerTypesFailed()));
-
-const deleteBoilerTypesSucced = (payload) => ({
-  type: DELETE_BOILER_TYPE_SUCCED,
-  payload,
 });
 
-const deleteBoilerTypesFailed = () => ({
-  type: DELETE_BOILER_TYPE_FAILED,
+const deleteBoilerTypeRejected = () => ({
+  type: DELETE_BOILERTYPE_REJECTED,
 });
 
-export const deleteBoilerTypesById = (boilerType) => (dispatch) => {
-  // eslint-disable-next-line no-underscore-dangle
-  const boilerTypeId = boilerType._id;
-  return fetch(`https://caldar-application.herokuapp.com/boilertypes/${boilerTypeId}`, {
-    method: 'DELETE',
-    headers: {
-      'content-type': 'application/json',
-    },
-  }).then(() => dispatch(deleteBoilerTypesSucced()))
-    .then(() => dispatch(showBoilerTypes()))
-    .catch(() => dispatch(deleteBoilerTypesFailed()));
+export const deleteBoilerType = (id) => async (dispatch) => {
+  dispatch(deleteBoilerTypeFetching());
+  try {
+    const data = await fetch(`${URL}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    if (data.ok) {
+      dispatch(deleteBoilerTypeFulfilled(id));
+    } else {
+      throw new Error('Error');
+    }
+  } catch (err) {
+    return dispatch(deleteBoilerTypeRejected());
+  }
 };
 
-const updateBoilerTypesSucced = (payload) => ({
-  type: UPDATE_BOILER_TYPE_SUCCED,
-  payload,
+const addBoilerTypeFetching = () => ({
+  type: ADD_BOILERTYPE_FETCHING,
 });
 
-const updateBoilerTypesFailed = () => ({
-  type: UPDATE_BOILER_TYPE_FAILED,
+const addBoilerTypeFulfilled = (boilerType) => ({
+  type: ADD_BOILERTYPE_FULFILLED,
+  payload: boilerType,
 });
 
-export const updateBoilerTypesById = (id, description) => (dispatch) => fetch(`https://caldar-application.herokuapp.com/boilerTypes/${id}`, {
-  method: 'PUT',
-  headers: {
-    'content-type': 'application/json',
+const addBoilerTypeRejected = () => ({
+  type: ADD_BOILERTYPE_REJECTED,
+});
+
+export const addBoilerType = (boilerType) => async (dispatch) => {
+  dispatch(addBoilerTypeFetching());
+  try {
+    const data = await fetch(URL, {
+      method: 'POST',
+      body: JSON.stringify(boilerType),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    const res = await data.json();
+    return dispatch(addBoilerTypeFulfilled(res));
+  } catch (err) {
+    return dispatch(addBoilerTypeRejected());
+  }
+};
+
+const updateBoilerTypeFetching = () => ({
+  type: UPDATE_BOILERTYPE_FETCHING,
+});
+
+const updateBoilerTypeFulfilled = (boilerType, id) => ({
+  type: UPDATE_BOILERTYPE_FULFILLED,
+  payload: {
+    boilerType,
+    id,
   },
-  body: JSON.stringify({
-    description,
-  }),
-}).then(() => dispatch(updateBoilerTypesSucced()))
-  .then(() => dispatch(showBoilerTypes()))
-  .catch(() => dispatch(updateBoilerTypesFailed()));
+});
+
+const updateBoilerTypeRejected = () => ({
+  type: UPDATE_BOILERTYPE_REJECTED,
+});
+
+export const updateBoilerType = (boilerType, id) => async (dispatch) => {
+  dispatch(updateBoilerTypeFetching());
+  try {
+    const data = await fetch(`${URL}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(boilerType),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    const res = await data.json();
+    return dispatch(updateBoilerTypeFulfilled(res, id));
+  } catch (err) {
+    return dispatch(updateBoilerTypeRejected());
+  }
+};

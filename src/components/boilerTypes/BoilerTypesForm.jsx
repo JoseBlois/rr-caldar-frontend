@@ -1,52 +1,56 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Button from '../sharedComponents/Button';
 import styles from './BoilerTypesForm.module.css';
-import { createBoilerTypes } from '../../redux/actions/boilerTypes.action';
 
-const BoilerTypesForm = () => {
-  const [boilerType, setBoilerType] = useState({
-    id: '',
-    description: '',
+const BoilerTypesForm = ({
+  onSubmit,
+  onClose,
+  boilerType,
+}) => {
+  const [state, setState] = useState({
+    description: boilerType.description || '',
+    id: boilerType._id,
   });
 
-  const dispatch = useDispatch();
-  const addBoilerTypes = useCallback((bt) => dispatch(createBoilerTypes(bt)), [dispatch]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addBoilerTypes(boilerType);
-    setBoilerType({
-      id: '',
-      description: '',
+  const onChangeInput = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
     });
   };
 
-  const generateRandomNumber = () => Math.floor(Math.random() * 100000000000) + 1;
-
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setBoilerType({ ...boilerType, [name]: value, id: generateRandomNumber() });
+  const submit = () => {
+    const boilerTypeToSub = {
+      description: state.description,
+    };
+    onSubmit(boilerTypeToSub, state.id);
   };
 
   return (
-    <div className="new-element">
-      <form onSubmit={handleSubmit} className={styles.inputWraper}>
-        <div className="input-description">
-          <input
-            type="text"
-            name="description"
-            className="form-control"
-            value={boilerType.description}
-            onChange={handleInputChange}
-            placeholder="Description"
-          />
+    <div>
+      <form className={styles.boilerTypesFormContainer}>
+        <div className={styles.inputContainer}>
+          <label htmlFor="description">Description</label>
+          <input type="text" id="description" name="description" value={state.description} onChange={onChangeInput} />
         </div>
-        <button type="submit" className="btn-submit">
-          Save
-        </button>
+        <div className={styles.buttonContainer}>
+          <Button btnLabel="Cancel" onClick={onClose} />
+          <Button btnLabel="Submit" primary onClick={() => submit()} />
+        </div>
       </form>
     </div>
   );
+};
+
+BoilerTypesForm.defaultProps = {
+  boilerType: {},
+};
+
+BoilerTypesForm.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  boilerType: PropTypes.object,
 };
 
 export default BoilerTypesForm;

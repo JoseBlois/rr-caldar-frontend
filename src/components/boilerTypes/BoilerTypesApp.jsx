@@ -1,65 +1,158 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, connect } from 'react-redux';
-import propTypes from 'prop-types';
-import styles from './BoilerTypesApp.module.css';
-import BoilerType from './BoilerTypes';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+import ConfirmationMessage from '../sharedComponents/ConfirmationMessage';
+import Modal from '../sharedComponents/Modal';
 import BoilerTypesForm from './BoilerTypesForm';
-import { showBoilerTypes } from '../../redux/actions/boilerTypes.action';
 
-const BoilerTypesApp = (props) => {
-  const dispatch = useDispatch();
-  const fetchBoilerTypes = useCallback(() => dispatch(showBoilerTypes()), [dispatch]);
-  // const boilerTypeList = useSelector((state) => state.boilerTypes.boilerTypes);
-  const { boilerTypes } = props;
+import styles from './BoilerTypesApp.module.css';
+import {
+  getBoilerTypes as getBoilerTypesAction,
+  deleteBoilerType as deleteBoilerTypeAction,
+  addBoilerType as addBoilerTypeAction,
+  updateBoilerType as updateBoilerTypeAction,
+} from '../../redux/actions/boilerTypes.action';
 
-  useEffect(() => {
-    fetchBoilerTypes();
-  }, []);
-
-  const handleAddBoilerTypes = (newBoilerType) => null;
-
-  if (!boilerTypes.boilerTypes) return null;
-
-  const renderBoilerTypes = boilerTypes.boilerTypes.map((boilerType) => {
-    // eslint-disable-next-line no-underscore-dangle
-    const key = boilerType._id;
-    return (
-      <BoilerType
-        key={key}
-        boilerType={boilerType}
-        boilerTypes={boilerTypes.boilerTypes}
-      />
-    );
+const boilerTypesComponent = ({
+  boilerTypes,
+  getBoilerTypes,
+  deleteBoilerType,
+  addBoilerType,
+  updateBoilerType,
+}) => {
+  const [modal, setModal] = useState({
+    show: false,
+    type: '',
+    meta: {},
   });
 
-  // RETURN THE COMPONENT
+  const onCloseModal = () => {
+    setModal({
+      show: false,
+      type: '',
+      meta: {},
+    });
+  };
+
+  const removeBoilerType = (id) => {
+    deleteBoilerType(id);
+    onCloseModal();
+  };
+
+  useEffect(() => {
+    getBoilerTypes();
+  }, []);
+
   return (
-    <div className="App">
-      <div className={styles.AppHeader}>
-        Boilers Types -
-        <span className="number-of-boilerTypes">
-          {boilerTypes.length}
-        </span>
+    <>
+      <div className={styles.boilerTypesContainer}>
+        {boilerTypes.loading ? <span>LOADING BOILERTYPES DATA...</span>
+          : (
+            <table className={styles.boilerTypesTable}>
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th className={styles.actionsRow}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {boilerTypes.list.map((boilerType) => (
+                  <tr key={boilerType._id}>
+                    <td>{boilerType.description}</td>
+                    <td>
+                      <FontAwesomeIcon
+                        style={{ marginRight: '10px' }}
+                        icon={faPen}
+                        size="lg"
+                        onClick={() => setModal({
+                          show: true,
+                          type: 'UPDATE',
+                          meta: {
+                            boilerType,
+                            title: 'Update BoilerType',
+                          },
+                        })}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        size="lg"
+                        onClick={() => setModal({
+                          show: true,
+                          type: 'DELETE',
+                          meta: {
+                            id: boilerType._id,
+                            title: 'Delete BoilerType',
+                          },
+                        })}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
       </div>
-      <div className="new-boiler-type">
-        <BoilerTypesForm onAddBoilerTypes={handleAddBoilerTypes} />
+      <div className={styles.addButtonContainer}>
+        <button
+          type="button"
+          className={styles.addButton}
+          onClick={() => setModal({
+            show: true,
+            type: 'ADD',
+            meta: {
+              title: 'Add new BoilerType',
+            },
+          })}
+        >
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
       </div>
-      <div className="container">
-        <div className="row">
-          {renderBoilerTypes}
-        </div>
-      </div>
-    </div>
+      {modal.show && (
+        <Modal title={modal.meta.title} onClose={onCloseModal}>
+          {modal.type === 'ADD'
+            && (
+            <BoilerTypesForm
+              onSubmit={(boilerType) => {
+                addBoilerType(boilerType);
+                onCloseModal();
+              }}
+              onClose={onCloseModal}
+            />
+            )}
+          {modal.type === 'DELETE'
+            && <ConfirmationMessage onSubmit={() => removeBoilerType(modal.meta.id)} onClose={onCloseModal} entity="BoilerType" />}
+          {modal.type === 'UPDATE'
+            && (
+              <BoilerTypesForm
+                onSubmit={(boilerType, id) => {
+                  updateBoilerType(boilerType, id);
+                  onCloseModal();
+                }}
+                onClose={onCloseModal}
+                boilerType={modal.meta.boilerType}
+              />
+            )}
+        </Modal>
+      )}
+    </>
   );
 };
 
-BoilerTypesApp.propTypes = {
-  // eslint-disable-next-line react/require-default-props
-  boilerTypes: propTypes.shape({ boilerTypes: propTypes.array }).isRequired,
-};
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({
+    getBoilerTypes: getBoilerTypesAction,
+    deleteBoilerType: deleteBoilerTypeAction,
+    addBoilerType: addBoilerTypeAction,
+    updateBoilerType: updateBoilerTypeAction,
+  }, dispatch)
+);
 
 const mapStateToProps = (state) => ({
   boilerTypes: state.boilerTypes,
 });
 
-export default connect(mapStateToProps)(BoilerTypesApp);
+export default connect(mapStateToProps, mapDispatchToProps)(boilerTypesComponent);
