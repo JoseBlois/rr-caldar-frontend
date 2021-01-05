@@ -51,63 +51,149 @@ const BuildingsForm = ({
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const submit = () => {
-    const buildingToSub = {
-      name: state.name,
-      address: state.address,
-      company: state.company,
-      phone: state.phone,
-      boilers: pickedBoilers.map((boiler) => boiler.value),
-    };
-    onSubmit(buildingToSub, state.id);
+  const submit = (values) => {
+    console.log({
+      ...values,
+      boilers: values.boilers.map((boiler) => boiler.value),
+    });
+    // console.log(values.boilers.map((boiler) => boiler.value));
+    // const buildingToSub = {
+    //   name: state.name,
+    //   address: state.address,
+    //   company: state.company,
+    //   phone: state.phone,
+    //   boilers: pickedBoilers.map((boiler) => boiler.value),
+    // };
+    // onSubmit(buildingToSub, state.id);
   };
+
+  const selectAdapter = () => (
+    <Select
+      name="boilers"
+      onChange={setPickedBoilers}
+      value={pickedBoilers}
+      options={boilerOptions}
+      isMulti
+      placeholder="Select Boilers"
+    />
+  );
+
+  const ReactSelectAdapter = ({ input, ...rest }) => (
+    // eslint-disable-next-line
+    <Select {...input} {...rest} />
+  );
 
   return (
     <div>
-      <form>
-        <div>
-          <label htmlFor="name">
-            Building Name
-            <input value={state.name} onChange={changeValue} name="name" type="text" required />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="address">
-            Building Address
-            <input value={state.address} onChange={changeValue} name="address" type="text" required />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="company">
-            Building Company
-            <input value={state.company} onChange={changeValue} name="company" type="text" required />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="phone">
-            Building Phone
-            <input value={state.phone} onChange={changeValue} name="phone" type="text" required />
-          </label>
-        </div>
-        {loading ? <div>loading</div>
-          : (
-            <label htmlFor="boilers">
-              Boilers:
-              <Select
-                name="boilers"
-                onChange={setPickedBoilers}
-                value={pickedBoilers}
-                options={boilerOptions}
-                isMulti
-                placeholder="Select Boilers"
-              />
-            </label>
-          )}
-        <div>
-          <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={submit} />
-        </div>
-      </form>
+      <Form
+        onSubmit={submit}
+        initialValues={{
+          name: state.name,
+          address: state.address,
+          company: state.company,
+          phone: state.phone,
+          boilers: pickedBoilers,
+        }}
+        render={({ handleSubmit }) => (
+          <form>
+            <div>
+              <label htmlFor="name">
+                Building Name
+                <Field
+                  name="name"
+                  component="input"
+                  type="text"
+                  placeholder="Building Name"
+                />
+                {/* <input
+                value={state.name}
+                onChange={changeValue}
+                name="name" type="text"
+                required /> */}
+              </label>
+            </div>
+            <div>
+              <label htmlFor="address">
+                Building Address
+                <Field
+                  name="address"
+                  component="input"
+                  type="text"
+                  placeholder="Building Address"
+                />
+                {/* <input
+                  value={state.address}
+                  onChange={changeValue}
+                  name="address"
+                  type="text"
+                  required
+                /> */}
+              </label>
+            </div>
+            <div>
+              <label htmlFor="company">
+                Building Company
+                <Field
+                  name="company"
+                  component="input"
+                  type="text"
+                  placeholder="Building Company"
+                />
+                {/* <input
+                  value={state.company}
+                  onChange={changeValue}
+                  name="company"
+                  type="text"
+                  required
+                /> */}
+              </label>
+            </div>
+            <div>
+              <label htmlFor="phone">
+                Building Phone
+                <Field
+                  name="phone"
+                  component="input"
+                  type="text"
+                  placeholder="Building phone"
+                />
+                {/* <input
+                  value={state.phone}
+                  onChange={changeValue}
+                  name="phone"
+                  type="text"
+                  required
+                /> */}
+              </label>
+            </div>
+            {loading ? <div>loading</div>
+              : (
+                <label htmlFor="boilers">
+                  Boilers:
+                  {/* <Select
+                    name="boilers"
+                    onChange={setPickedBoilers}
+                    value={pickedBoilers}
+                    options={boilerOptions}
+                    isMulti
+                    placeholder="Select Boilers"
+                  /> */}
+                  <Field
+                    name="boilers"
+                    component={ReactSelectAdapter}
+                    options={boilerOptions}
+                    isMulti
+                    placeholder="Select Boilers"
+                  />
+                </label>
+              )}
+            <div>
+              <Button btnLabel="Cancel" onClick={onClose} />
+              <Button btnLabel="Submit" primary onClick={handleSubmit} />
+            </div>
+          </form>
+        )}
+      />
     </div>
   );
 };
