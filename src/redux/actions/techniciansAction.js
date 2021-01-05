@@ -1,5 +1,3 @@
-/* eslint-disable */
-import { DELETE_BUILDINGS_BAD_REQUEST } from '../types/buildingsTypes';
 import {
   GET_TECHNICIANS_FETCHING,
   GET_TECHNICIANS_FULFILLED,
@@ -12,7 +10,6 @@ import {
   UPDATE_TECHNICIAN_REJECTED,
   DELETE_TECHNICIAN_FETCHING,
   DELETE_TECHNICIAN_FULFILLED,
-  DELETE_TECHNICIAN_BAD_REQUEST,
   DELETE_TECHNICIAN_REJECTED,
 } from '../types/technicians';
 
@@ -116,10 +113,6 @@ const deleteTechnicianFulfilled = (id) => ({
   },
 });
 
-const deleteTechnicianBadRequest = () => ({
-  type: DELETE_TECHNICIAN_BAD_REQUEST,
-});
-
 const deleteTechnicianRejected = () => ({
   type: DELETE_TECHNICIAN_REJECTED,
 });
@@ -132,17 +125,14 @@ export const deleteTechnician = (id) => async (dispatch) => {
       'Content-type': 'application/json',
     },
   })
-  .then((data) => {
-    if (!data.ok) {
-      return false;
-    }
-  })
-  .then((res) => {
-    if(res) {
+    .then((data) => {
+      if (!data.ok) {
+        throw new Error('Error');
+      }
+      return data.json();
+    })
+    .then(() => {
       dispatch(deleteTechnicianFulfilled(id));
-    } else {
-      dispatch(deleteTechnicianBadRequest());
-    }
-  })
-  .catch((err) => dispatch(deleteTechnicianRejected()));
-}
+    })
+    .catch(() => dispatch(deleteTechnicianRejected()));
+};

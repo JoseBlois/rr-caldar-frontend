@@ -101,7 +101,7 @@ const technicianComponent = ({
                       show: true,
                       type: 'DELETE',
                       meta: {
-                        id: technician.id,
+                        id: technician._id,
                         title: 'Delete Technician',
                       },
                     })}

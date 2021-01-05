@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Button from '../../sharedComponents/Button';
 import Select from '../../sharedComponents/Select';
 import styles from './TechniciansForm.module.css';
@@ -15,28 +16,35 @@ const TechniciansForm = ({
     address: technician.address || '',
     phone: technician.phone || '',
     email: technician.email || '',
-    boilerType: technician.boilerType || '',
-    id: technician.id,
+    birthday: moment(technician.dateOfBirth).format('YYYY-MM-DD') || '',
+    monthlyCapacity: technician.monthlyCapacity || '',
+    hourRate: technician.hourRate || '',
+    boilerTypes: technician && technician.boilerTypes ? technician.boilerTypes[0] : '5fcc1d06998cd913c71c7e01',
+    id: technician._id,
   });
 
   const techBoilerType = [{
-    id: 'techBoilerType1',
+    id: '5fcc1d06998cd913c71c7e01',
     value: 'Boiler type "A"',
   }, {
-    id: 'techBoilerType2',
+    id: '5fcc1d09998cd913c71c7e02',
     value: 'Boiler type "B"',
   }, {
-    id: 'techBoilerType3',
+    id: '5fcc1d0b998cd913c71c7e03',
     value: 'Boiler type "C"',
-  }, {
-    id: 'techBoilerType4',
-    value: 'Boiler type "D"',
   }];
 
   const onChangeInput = (e) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const onChangeDropdown = (e) => {
+    setState({
+      ...state,
+      boilerTypes: e.target.value,
     });
   };
 
@@ -47,7 +55,10 @@ const TechniciansForm = ({
       address: state.address,
       phone: state.phone,
       email: state.email,
-      boilerType: state.boilerType,
+      boilerTypes: [state.boilerTypes],
+      dateOfBirth: state.birthday,
+      monthlyCapacity: state.monthlyCapacity,
+      hourRate: state.hourRate,
     };
     onSubmit(technicianToSub, state.id);
   };
@@ -76,7 +87,19 @@ const TechniciansForm = ({
           <input type="text" id="email" name="email" value={state.email} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Boiler Type:" name="boilerType" value={state.boilerType} onChange={onChangeInput} options={techBoilerType} />
+          <label htmlFor="birthday">Birthday</label>
+          <input type="date" id="birthday" name="birthday" value={state.birthday} onChange={onChangeInput} />
+        </div>
+        <div className={styles.inputContainer}>
+          <label htmlFor="monthlyCapacity">Monthly Capacity</label>
+          <input type="text" id="monthlyCapacity" name="monthlyCapacity" value={state.monthlyCapacity} onChange={onChangeInput} />
+        </div>
+        <div className={styles.inputContainer}>
+          <label htmlFor="hourRate">Hour Rate</label>
+          <input type="text" id="hourRate" name="hourRate" value={state.hourRate} onChange={onChangeInput} />
+        </div>
+        <div className={styles.inputContainer}>
+          <Select label="Boiler Type:" name="boilerType" value={state.boilerTypes} onChange={onChangeDropdown} options={techBoilerType} />
         </div>
         <div className={styles.buttonContainer}>
           <Button btnLabel="Cancel" onClick={onClose} />
