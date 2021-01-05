@@ -1,17 +1,19 @@
 /* eslint-disable */
+import { DELETE_BUILDINGS_BAD_REQUEST } from '../types/buildingsTypes';
 import {
   GET_TECHNICIANS_FETCHING,
   GET_TECHNICIANS_FULFILLED,
   GET_TECHNICIANS_REJECTED,
-  ADD_TECHNICIANS_FETCHING,
-  ADD_TECHNICIANS_FULFILLED,
-  ADD_TECHNICIANS_REJECTED,
-  UPDATE_TECHNICIANS_FETCHING,
-  UPDATE_TECHNICIANS_FULFILLED,
-  UPDATE_TECHNICIANS_REJECTED,
-  DELETE_TECHNICIANS_FETCHING,
-  DELETE_TECHNICIANS_FULFILLED,
-  DELETE_TECHNICIANS_REJECTED,
+  ADD_TECHNICIAN_FETCHING,
+  ADD_TECHNICIAN_FULFILLED,
+  ADD_TECHNICIAN_REJECTED,
+  UPDATE_TECHNICIAN_FETCHING,
+  UPDATE_TECHNICIAN_FULFILLED,
+  UPDATE_TECHNICIAN_REJECTED,
+  DELETE_TECHNICIAN_FETCHING,
+  DELETE_TECHNICIAN_FULFILLED,
+  DELETE_TECHNICIAN_BAD_REQUEST,
+  DELETE_TECHNICIAN_REJECTED,
 } from '../types/technicians';
 
 const URL = 'https://caldar-application.herokuapp.com/technicians';
@@ -32,31 +34,31 @@ const getTechniciansRejected = () => ({
 export const getTechnicians = () => async (dispatch) => {
   dispatch(getTechniciansFetching());
   try {
-    const data = await fecth(URL);
+    const data = await fetch(URL);
     const res = await data.json();
     return dispatch(getTechniciansFulfilled(res));
   } catch (err) {
-    return dispatch(getTechniciansRejected())
+    return dispatch(getTechniciansRejected());
   }
 };
 
 const addTechnicianFetching = () => ({
-  type: ADD_TECHNICIANS_FETCHING,
+  type: ADD_TECHNICIAN_FETCHING,
 });
 
 const addTechnicianFulfilled = (technician) => ({
-  type: ADD_TECHNICIANS_FULFILLED,
+  type: ADD_TECHNICIAN_FULFILLED,
   payload: technician,
 });
 
 const addTechnicianRejected = () => ({
-  type: ADD_TECHNICIANS_REJECTED,
+  type: ADD_TECHNICIAN_REJECTED,
 });
 
 export const addTechnician = (technician) => async (dispatch) => {
   dispatch(addTechnicianFetching());
   try {
-    const data = await fecth(URL, {
+    const data = await fetch(URL, {
       method: 'POST',
       body: JSON.stringify(technician),
       headers: {
@@ -71,11 +73,11 @@ export const addTechnician = (technician) => async (dispatch) => {
 };
 
 const updateTechnicianFetching = () => ({
-  type: UPDATE_TECHNICIANS_FETCHING,
+  type: UPDATE_TECHNICIAN_FETCHING,
 });
 
 const updateTechnicianFulfilled = (technician, id) => ({
-  type: UPDATE_TECHNICIANS_FULFILLED,
+  type: UPDATE_TECHNICIAN_FULFILLED,
   payload: {
     technician,
     id,
@@ -83,13 +85,13 @@ const updateTechnicianFulfilled = (technician, id) => ({
 });
 
 const updateTechnicianRejected = () => ({
-  type: UPDATE_TECHNICIANS_REJECTED,
+  type: UPDATE_TECHNICIAN_REJECTED,
 });
 
 export const updateTechnician = (technician, id) => async (dispatch) => {
   dispatch(updateTechnicianFetching());
   try {
-    const data = await fecth(`${URL}/${id}`, {
+    const data = await fetch(`${URL}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(technician),
       headers: {
@@ -104,35 +106,43 @@ export const updateTechnician = (technician, id) => async (dispatch) => {
 };
 
 const deleteTechnicianFetching = () => ({
-  type: DELETE_TECHNICIANS_FETCHING,
+  type: DELETE_TECHNICIAN_FETCHING,
 });
 
 const deleteTechnicianFulfilled = (id) => ({
-  type: DELETE_TECHNICIANS_FULFILLED,
+  type: DELETE_TECHNICIAN_FULFILLED,
   payload: {
     id,
   },
 });
 
+const deleteTechnicianBadRequest = () => ({
+  type: DELETE_TECHNICIAN_BAD_REQUEST,
+});
+
 const deleteTechnicianRejected = () => ({
-  type: DELETE_TECHNICIANS_REJECTED,
+  type: DELETE_TECHNICIAN_REJECTED,
 });
 
 export const deleteTechnician = (id) => async (dispatch) => {
   dispatch(deleteTechnicianFetching());
-  try {
-    const data = await fecth(`${URL}/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    });
-    if (data.ok) {
+  return fetch(`${URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json',
+    },
+  })
+  .then((data) => {
+    if (!data.ok) {
+      return false;
+    }
+  })
+  .then((res) => {
+    if(res) {
       dispatch(deleteTechnicianFulfilled(id));
     } else {
-      throw new Error('Error!');
+      dispatch(deleteTechnicianBadRequest());
     }
-  } catch (err) {
-    return dispatch(deleteTechnicianRejected());
-  }
-};
+  })
+  .catch((err) => dispatch(deleteTechnicianRejected()));
+}

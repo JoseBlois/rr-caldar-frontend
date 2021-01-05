@@ -2,15 +2,16 @@ import {
   GET_TECHNICIANS_FETCHING,
   GET_TECHNICIANS_FULFILLED,
   GET_TECHNICIANS_REJECTED,
-  ADD_TECHNICIANS_FETCHING,
-  ADD_TECHNICIANS_FULFILLED,
-  ADD_TECHNICIANS_REJECTED,
-  UPDATE_TECHNICIANS_FETCHING,
-  UPDATE_TECHNICIANS_FULFILLED,
-  UPDATE_TECHNICIANS_REJECTED,
-  DELETE_TECHNICIANS_FETCHING,
-  DELETE_TECHNICIANS_FULFILLED,
-  DELETE_TECHNICIANS_REJECTED,
+  ADD_TECHNICIAN_FETCHING,
+  ADD_TECHNICIAN_FULFILLED,
+  ADD_TECHNICIAN_REJECTED,
+  UPDATE_TECHNICIAN_FETCHING,
+  UPDATE_TECHNICIAN_FULFILLED,
+  UPDATE_TECHNICIAN_REJECTED,
+  DELETE_TECHNICIAN_FETCHING,
+  DELETE_TECHNICIAN_FULFILLED,
+  DELETE_TECHNICIAN_BAD_REQUEST,
+  DELETE_TECHNICIAN_REJECTED,
 } from '../types/technicians';
 
 const initialState = {
@@ -38,28 +39,28 @@ const techniciansReducer = (state = initialState, action) => {
         loading: false,
         error: true,
       };
-    case ADD_TECHNICIANS_FETCHING:
+    case ADD_TECHNICIAN_FETCHING:
       return {
         ...state,
         loading: true,
       };
-    case ADD_TECHNICIANS_FULFILLED:
+    case ADD_TECHNICIAN_FULFILLED:
       return {
         ...state,
         list: [...state.list, action.payload],
         loading: false,
       };
-    case ADD_TECHNICIANS_REJECTED:
+    case ADD_TECHNICIAN_REJECTED:
       return {
         ...state,
         error: true,
       };
-    case UPDATE_TECHNICIANS_FETCHING:
+    case UPDATE_TECHNICIAN_FETCHING:
       return {
         ...state,
         loading: true,
       };
-    case UPDATE_TECHNICIANS_FULFILLED:
+    case UPDATE_TECHNICIAN_FULFILLED:
       return {
         ...state,
         loading: false,
@@ -72,23 +73,28 @@ const techniciansReducer = (state = initialState, action) => {
           return technician;
         }),
       };
-    case UPDATE_TECHNICIANS_REJECTED:
+    case UPDATE_TECHNICIAN_REJECTED:
       return {
         ...state,
         loading: false,
       };
-    case DELETE_TECHNICIANS_FETCHING:
+    case DELETE_TECHNICIAN_FETCHING:
       return {
         ...state,
         loading: true,
       };
-    case DELETE_TECHNICIANS_FULFILLED:
+    case DELETE_TECHNICIAN_BAD_REQUEST:
+      return {
+        ...state,
+        loading: false,
+      };
+    case DELETE_TECHNICIAN_FULFILLED:
       return {
         ...state,
         loading: false,
         list: [...state.list.filter((technician) => technician._id !== action.payload.id)],
       };
-    case DELETE_TECHNICIANS_REJECTED:
+    case DELETE_TECHNICIAN_REJECTED:
       return {
         ...state,
         loading: false,
