@@ -15,15 +15,9 @@ const BoilerTypesForm = ({
     id: boilerType._id,
   });
 
-  const onChangeInput = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const required = (value) => (value.description ? undefined : 'required');
 
   const btSubmit = (value) => {
-    console.log(value);
     const boilerTypeToSub = {
       description: value.description,
     };
@@ -46,6 +40,7 @@ const BoilerTypesForm = ({
                 name="description"
                 component="input"
                 type="text"
+                validation={required}
               />
             </div>
             <div className={styles.buttonContainer}>
@@ -56,19 +51,6 @@ const BoilerTypesForm = ({
         )}
       />
     </div>
-    // <div>
-    //   <form className={styles.boilerTypesFormContainer}>
-    //     <div className={styles.inputContainer}>
-    //       <label htmlFor="description">Description</label>
-    //       <input type="text" id="description" name="description"
-    // value={state.description} onChange={onChangeInput} />
-    //     </div>
-    //     <div className={styles.buttonContainer}>
-    //       <Button btnLabel="Cancel" onClick={onClose} />
-    //       <Button btnLabel="Submit" primary onClick={() => submit()} />
-    //     </div>
-    //   </form>
-    // </div>
   );
 };
 

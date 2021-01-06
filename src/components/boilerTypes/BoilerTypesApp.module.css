@@ -1,29 +1,29 @@
-.boilersContainer {
+.boilerTypesContainer {
   background-color: #fff;
   margin: 30px;
   padding: 30px;
 }
   
-.boilersTable {
+.boilerTypesTable {
   width: 100%;
 }
   
-.boilersTable thead {
+.boilerTypesTable thead {
   font-size: 18px;
   color: #FC6225;
   border-bottom: 1px solid #707070;
 }
   
-.boilersTable thead tr th {
+.boilerTypesTable thead tr th {
   padding: 10px;
 }
   
-.boilersTable tbody tr td {
+.boilerTypesTable tbody tr td {
   padding: 10px;
   text-align: center;
 }
   
-.boilersTable tbody tr {
+.boilerTypesTable tbody tr {
   border-bottom: 1px solid #707070;
 }
   
