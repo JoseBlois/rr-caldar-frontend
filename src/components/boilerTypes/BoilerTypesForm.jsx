@@ -1,52 +1,69 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
-import propTypes from 'prop-types';
+import { Form, Field } from 'react-final-form';
+import PropTypes from 'prop-types';
+import Button from '../sharedComponents/Button';
 import styles from './BoilerTypesForm.module.css';
 
-const BoilerTypesForm = (props) => {
-  const [boilerType, setBoilerType] = useState({
-    id: '',
-    description: '',
+const BoilerTypesForm = ({
+  onSubmit,
+  onClose,
+  boilerType,
+}) => {
+  const [state, setState] = useState({
+    description: boilerType.description || '',
+    id: boilerType._id,
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    props.onAddBoilerTypes(boilerType);
-    setBoilerType({
-      id: '',
-      description: '',
-    });
-  };
+  const required = (value) => (value ? undefined : 'This field is required');
 
-  const generateRandomNumber = () => Math.floor(Math.random() * 100000000000) + 1;
-
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setBoilerType({ ...boilerType, [name]: value, id: generateRandomNumber() });
+  const btSubmit = (value) => {
+    const boilerTypeToSub = {
+      description: value.description,
+    };
+    onSubmit(boilerTypeToSub, state.id);
   };
 
   return (
-    <div className="new-element">
-      <form onSubmit={handleSubmit} className={styles.inputWraper}>
-        <div className="input-description">
-          <input
-            type="text"
-            name="description"
-            className="form-control"
-            value={boilerType.description}
-            onChange={handleInputChange}
-            placeholder="Description"
-          />
-        </div>
-        <button type="submit" className="btn-submit">
-          Save
-        </button>
-      </form>
+    <div>
+      <Form
+        onSubmit={btSubmit}
+        initialValues={{ description: '' }}
+        render={({
+          handleSubmit,
+          form,
+        }) => (
+          <form onSubmit={handleSubmit} className={styles.boilerTypesFormContainer}>
+            <div>
+              <label htmlFor="description">Description</label>
+              <Field name="description" type="text" validate={required}>
+                {({ input, meta }) => (
+                  <div>
+                    <input {...input} />
+                    {meta.error && meta.touched && <div className={styles.msg}>{meta.error}</div>}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className={styles.buttonContainer}>
+              <Button btnLabel="Cancel" onClick={onClose} />
+              <Button type="submit" btnLabel="Submit" primary />
+            </div>
+          </form>
+        )}
+      />
     </div>
   );
 };
 
+BoilerTypesForm.defaultProps = {
+  boilerType: {},
+};
+
 BoilerTypesForm.propTypes = {
-  onAddBoilerTypes: propTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  boilerType: PropTypes.object,
 };
 
 export default BoilerTypesForm;
