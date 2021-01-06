@@ -15,7 +15,7 @@ const BoilerTypesForm = ({
     id: boilerType._id,
   });
 
-  const required = (value) => (value.description ? undefined : 'required');
+  const required = (value) => (value.description ? undefined : 'Required');
 
   const btSubmit = (value) => {
     const boilerTypeToSub = {
@@ -40,7 +40,7 @@ const BoilerTypesForm = ({
                 {({ input, meta }) => (
                   <div>
                     <input {...input} />
-                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                    {meta.error && meta.touched && <span className={styles.msg}>{meta.error}</span>}
                   </div>
                 )}
               </Field>
