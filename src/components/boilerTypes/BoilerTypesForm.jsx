@@ -15,7 +15,7 @@ const BoilerTypesForm = ({
     id: boilerType._id,
   });
 
-  const required = (value) => (value.description ? undefined : 'This field is required');
+  const required = (value) => (value ? undefined : 'This field is required');
 
   const btSubmit = (value) => {
     const boilerTypeToSub = {

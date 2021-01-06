@@ -15,7 +15,7 @@ import {
   deleteBoilerType as deleteBoilerTypeAction,
   addBoilerType as addBoilerTypeAction,
   updateBoilerType as updateBoilerTypeAction,
-} from '../../redux/actions/boilerTypes.action';
+} from '../../redux/actions/boilerTypesAction';
 
 const boilerTypesComponent = ({
   boilerTypes,
