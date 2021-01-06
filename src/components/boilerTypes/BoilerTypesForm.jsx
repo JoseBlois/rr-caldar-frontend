@@ -36,12 +36,14 @@ const BoilerTypesForm = ({
           <form onSubmit={handleSubmit} className={styles.boilerTypesFormContainer}>
             <div>
               <label htmlFor="description">Description</label>
-              <Field
-                name="description"
-                component="input"
-                type="text"
-                validation={required}
-              />
+              <Field name="description" type="text" validate={required}>
+                {({ input, meta }) => (
+                  <div>
+                    <input {...input} />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
             <div className={styles.buttonContainer}>
               <Button btnLabel="Cancel" onClick={onClose} />
