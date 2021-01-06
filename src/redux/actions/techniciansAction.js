@@ -62,6 +62,9 @@ export const addTechnician = (technician) => async (dispatch) => {
         'Content-type': 'application/json',
       },
     });
+    if (!data.ok) {
+      throw new Error(`Error: ${data.statusText} - ${data.status}`);
+    }
     const res = await data.json();
     return dispatch(addTechnicianFulfilled(res));
   } catch (err) {
@@ -73,12 +76,9 @@ const updateTechnicianFetching = () => ({
   type: UPDATE_TECHNICIAN_FETCHING,
 });
 
-const updateTechnicianFulfilled = (technician, id) => ({
+const updateTechnicianFulfilled = (technician) => ({
   type: UPDATE_TECHNICIAN_FULFILLED,
-  payload: {
-    technician,
-    id,
-  },
+  payload: technician,
 });
 
 const updateTechnicianRejected = () => ({
@@ -96,7 +96,7 @@ export const updateTechnician = (technician, id) => async (dispatch) => {
       },
     });
     const res = await data.json();
-    return dispatch(updateTechnicianFulfilled(res, id));
+    return dispatch(updateTechnicianFulfilled(res));
   } catch (err) {
     return dispatch(updateTechnicianRejected());
   }

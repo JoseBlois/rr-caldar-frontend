@@ -55,7 +55,7 @@ const technicianComponent = ({
               <th>Address</th>
               <th>Phone</th>
               <th>Email</th>
-              <th>Boiler Type</th>
+              <th>Boiler Types</th>
               <th className={styles.actionsRow}>Actions</th>
             </tr>
           </thead>
@@ -78,7 +78,7 @@ const technicianComponent = ({
                   {technician.email}
                 </td>
                 <td>
-                  {technician.boilerType}
+                  {technician.boilerTypes.join('-')}
                 </td>
                 <td>
                   <FontAwesomeIcon

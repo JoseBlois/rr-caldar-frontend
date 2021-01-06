@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
-import Select from '../../sharedComponents/Select';
 import styles from './TechniciansForm.module.css';
 
 const TechniciansForm = ({
@@ -10,6 +10,17 @@ const TechniciansForm = ({
   onClose,
   technician,
 }) => {
+  const boilerTypes = [{
+    value: '5fcc1d06998cd913c71c7e01',
+    label: 'Boiler type "A"',
+  }, {
+    value: '5fcc1d09998cd913c71c7e02',
+    label: 'Boiler type "B"',
+  }, {
+    value: '5fcc1d0b998cd913c71c7e03',
+    label: 'Boiler type "C"',
+  }];
+
   const [state, setState] = useState({
     firstName: technician.firstName || '',
     lastName: technician.lastName || '',
@@ -19,20 +30,11 @@ const TechniciansForm = ({
     birthday: moment(technician.dateOfBirth).format('YYYY-MM-DD') || '',
     monthlyCapacity: technician.monthlyCapacity || '',
     hourRate: technician.hourRate || '',
-    boilerTypes: technician && technician.boilerTypes ? technician.boilerTypes[0] : '5fcc1d06998cd913c71c7e01',
+    boilerTypes: technician ? boilerTypes.filter(
+      (boilerType) => technician.boilerTypes.includes(boilerType.value),
+    ) : [],
     id: technician._id,
   });
-
-  const techBoilerType = [{
-    id: '5fcc1d06998cd913c71c7e01',
-    value: 'Boiler type "A"',
-  }, {
-    id: '5fcc1d09998cd913c71c7e02',
-    value: 'Boiler type "B"',
-  }, {
-    id: '5fcc1d0b998cd913c71c7e03',
-    value: 'Boiler type "C"',
-  }];
 
   const onChangeInput = (e) => {
     setState({
@@ -41,10 +43,10 @@ const TechniciansForm = ({
     });
   };
 
-  const onChangeDropdown = (e) => {
+  const onChangeDropdown = (selectedOptions) => {
     setState({
       ...state,
-      boilerTypes: e.target.value,
+      boilerTypes: selectedOptions.map((option) => option.value),
     });
   };
 
@@ -55,7 +57,7 @@ const TechniciansForm = ({
       address: state.address,
       phone: state.phone,
       email: state.email,
-      boilerTypes: [state.boilerTypes],
+      boilerTypes: state.boilerTypes,
       dateOfBirth: state.birthday,
       monthlyCapacity: state.monthlyCapacity,
       hourRate: state.hourRate,
@@ -99,7 +101,15 @@ const TechniciansForm = ({
           <input type="text" id="hourRate" name="hourRate" value={state.hourRate} onChange={onChangeInput} />
         </div>
         <div className={styles.inputContainer}>
-          <Select label="Boiler Type:" name="boilerType" value={state.boilerTypes} onChange={onChangeDropdown} options={techBoilerType} />
+          <Select
+            defaultValue={state.boilerTypes}
+            isMulti
+            name="boilerTypes"
+            options={boilerTypes}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            onChange={onChangeDropdown}
+          />
         </div>
         <div className={styles.buttonContainer}>
           <Button btnLabel="Cancel" onClick={onClose} />

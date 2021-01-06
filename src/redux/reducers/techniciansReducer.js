@@ -65,10 +65,8 @@ const techniciansReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         list: state.list.map((technician) => {
-          if (technician.id === action.payload.id) {
-            const updateTechnician = action.payload.technician;
-            updateTechnician.id = action.payload.id;
-            return updateTechnician;
+          if (technician._id === action.payload._id) {
+            return action.payload;
           }
           return technician;
         }),
