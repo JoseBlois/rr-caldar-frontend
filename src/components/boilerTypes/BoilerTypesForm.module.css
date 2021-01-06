@@ -15,6 +15,7 @@
 
   .msg {
     margin-left: 5px;
+    margin-top: 3px;
     color: red;
     font-style: italic;
   }
