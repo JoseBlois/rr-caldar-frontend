@@ -23,6 +23,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'react/prop-types': 'warn',
     'react/forbid-prop-types': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': ['error', {
       required: {
         some: ['nesting', 'id'],

@@ -9,14 +9,6 @@ const BuildingsForm = ({
   onClose,
   building,
 }) => {
-  const [state, setState] = useState({
-    name: building.name || '',
-    address: building.address || '',
-    company: building.company || '',
-    phone: building.phone || '',
-    id: building._id,
-  });
-
   const [boilerOptions, setBoilersOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pickedBoilers, setPickedBoilers] = useState([]);
@@ -43,55 +35,35 @@ const BuildingsForm = ({
         });
       }
     }
-    setPickedBoilers(defValues);
+    if (defValues.length === 0) {
+      const initialBoilers = null;
+      setPickedBoilers(initialBoilers);
+    } else {
+      setPickedBoilers(defValues);
+    }
     setLoading(false);
   }, []);
 
-  const changeValue = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
-
   const submit = (values) => {
-    console.log({
+    onSubmit({
       ...values,
       boilers: values.boilers.map((boiler) => boiler.value),
-    });
-    // console.log(values.boilers.map((boiler) => boiler.value));
-    // const buildingToSub = {
-    //   name: state.name,
-    //   address: state.address,
-    //   company: state.company,
-    //   phone: state.phone,
-    //   boilers: pickedBoilers.map((boiler) => boiler.value),
-    // };
-    // onSubmit(buildingToSub, state.id);
+    }, building._id);
   };
 
-  const selectAdapter = () => (
-    <Select
-      name="boilers"
-      onChange={setPickedBoilers}
-      value={pickedBoilers}
-      options={boilerOptions}
-      isMulti
-      placeholder="Select Boilers"
-    />
-  );
+  const required = (value) => (value ? undefined : 'Required');
 
-  const ReactSelectAdapter = ({ input, ...rest }) => (
-    // eslint-disable-next-line
-    <Select {...input} {...rest} />
-  );
+  const requiredSelect = (value) => ((value === null) ? 'Required' : undefined);
 
   return (
     <div>
       <Form
         onSubmit={submit}
         initialValues={{
-          name: state.name,
-          address: state.address,
-          company: state.company,
-          phone: state.phone,
+          name: building.name || '',
+          address: building.address || '',
+          company: building.company || '',
+          phone: building.phone || '',
           boilers: pickedBoilers,
         }}
         render={({ handleSubmit }) => (
@@ -99,97 +71,72 @@ const BuildingsForm = ({
             <div>
               <label htmlFor="name">
                 Building Name
-                <Field
-                  name="name"
-                  component="input"
-                  type="text"
-                  placeholder="Building Name"
-                />
-                {/* <input
-                value={state.name}
-                onChange={changeValue}
-                name="name" type="text"
-                required /> */}
+                <Field name="name" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} type="text" placeholder="Building name" />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
               </label>
             </div>
             <div>
               <label htmlFor="address">
                 Building Address
-                <Field
-                  name="address"
-                  component="input"
-                  type="text"
-                  placeholder="Building Address"
-                />
-                {/* <input
-                  value={state.address}
-                  onChange={changeValue}
-                  name="address"
-                  type="text"
-                  required
-                /> */}
+                <Field name="address" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} type="text" placeholder="Building address" />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
               </label>
             </div>
             <div>
               <label htmlFor="company">
                 Building Company
-                <Field
-                  name="company"
-                  component="input"
-                  type="text"
-                  placeholder="Building Company"
-                />
-                {/* <input
-                  value={state.company}
-                  onChange={changeValue}
-                  name="company"
-                  type="text"
-                  required
-                /> */}
+                <Field name="company" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} type="text" placeholder="Building company" />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
               </label>
             </div>
             <div>
               <label htmlFor="phone">
                 Building Phone
-                <Field
-                  name="phone"
-                  component="input"
-                  type="text"
-                  placeholder="Building phone"
-                />
-                {/* <input
-                  value={state.phone}
-                  onChange={changeValue}
-                  name="phone"
-                  type="text"
-                  required
-                /> */}
+                <Field name="phone" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} type="text" placeholder="Building phone" />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </div>
+                  )}
+                </Field>
               </label>
             </div>
             {loading ? <div>loading</div>
               : (
                 <label htmlFor="boilers">
                   Boilers:
-                  {/* <Select
-                    name="boilers"
-                    onChange={setPickedBoilers}
-                    value={pickedBoilers}
-                    options={boilerOptions}
-                    isMulti
-                    placeholder="Select Boilers"
-                  /> */}
-                  <Field
-                    name="boilers"
-                    component={ReactSelectAdapter}
-                    options={boilerOptions}
-                    isMulti
-                    placeholder="Select Boilers"
-                  />
+                  <Field name="boilers" validate={requiredSelect}>
+                    {({ input, meta }) => (
+                      <div>
+                        <Select {...input} options={boilerOptions} isMulti required />
+                        {(meta.error && meta.touched && <p>{meta.error}</p>)}
+                      </div>
+                    )}
+                  </Field>
                 </label>
               )}
             <div>
               <Button btnLabel="Cancel" onClick={onClose} />
-              <Button btnLabel="Submit" primary onClick={handleSubmit} />
+              <Button type="submit" btnLabel="Submit" primary onClick={handleSubmit} />
             </div>
           </form>
         )}
