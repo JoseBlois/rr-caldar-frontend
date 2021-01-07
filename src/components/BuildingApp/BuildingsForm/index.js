@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Form, Field } from 'react-final-form';
 import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
+import styles from './BuildingsForm.module.css';
 
 const BuildingsForm = ({
   onSubmit,
   onClose,
   building,
 }) => {
-  const [state, setState] = useState({
-    name: building.name || '',
-    address: building.address || '',
-    company: building.company || '',
-    phone: building.phone || '',
-    id: building._id,
-  });
-
   const [boilerOptions, setBoilersOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pickedBoilers, setPickedBoilers] = useState([]);
@@ -42,71 +36,114 @@ const BuildingsForm = ({
         });
       }
     }
-    setPickedBoilers(defValues);
+    if (defValues.length === 0) {
+      const initialBoilers = null;
+      setPickedBoilers(initialBoilers);
+    } else {
+      setPickedBoilers(defValues);
+    }
     setLoading(false);
   }, []);
 
-  const changeValue = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
+  const submit = (values) => {
+    onSubmit({
+      ...values,
+      boilers: values.boilers.map((boiler) => boiler.value),
+    }, building._id);
   };
 
-  const submit = () => {
-    const buildingToSub = {
-      name: state.name,
-      address: state.address,
-      company: state.company,
-      phone: state.phone,
-      boilers: pickedBoilers.map((boiler) => boiler.value),
-    };
-    onSubmit(buildingToSub, state.id);
-  };
+  const required = (value) => (value ? undefined : 'Required');
+
+  const requiredSelect = (value) => ((value === null) ? 'Required' : undefined);
 
   return (
     <div>
-      <form>
-        <div>
-          <label htmlFor="name">
-            Building Name
-            <input value={state.name} onChange={changeValue} name="name" type="text" required />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="address">
-            Building Address
-            <input value={state.address} onChange={changeValue} name="address" type="text" required />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="company">
-            Building Company
-            <input value={state.company} onChange={changeValue} name="company" type="text" required />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="phone">
-            Building Phone
-            <input value={state.phone} onChange={changeValue} name="phone" type="text" required />
-          </label>
-        </div>
-        {loading ? <div>loading</div>
-          : (
-            <label htmlFor="boilers">
-              Boilers:
-              <Select
-                name="boilers"
-                onChange={setPickedBoilers}
-                value={pickedBoilers}
-                options={boilerOptions}
-                isMulti
-                placeholder="Select Boilers"
-              />
-            </label>
-          )}
-        <div>
-          <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={submit} />
-        </div>
-      </form>
+      <Form
+        onSubmit={submit}
+        initialValues={{
+          name: building.name || '',
+          address: building.address || '',
+          company: building.company || '',
+          phone: building.phone || '',
+          boilers: pickedBoilers,
+        }}
+        render={({ handleSubmit }) => (
+          <form className={styles.buildingFormContainer}>
+            <div className={styles.inputContainer}>
+              <label htmlFor="name">
+                Building Name
+                <Field name="name" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} type="text" placeholder="Building name" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="address">
+                Building Address
+                <Field name="address" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} type="text" placeholder="Building address" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="company">
+                Building Company
+                <Field name="company" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} type="text" placeholder="Building company" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="phone">
+                Building Phone
+                <Field name="phone" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} type="text" placeholder="Building phone" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
+              </label>
+            </div>
+            {loading ? <div>loading</div>
+              : (
+                <div className={styles.inputContainer}>
+                  <label htmlFor="boilers">
+                    Boilers:
+                    <Field name="boilers" validate={requiredSelect}>
+                      {({ input, meta }) => (
+                        <div>
+                          <Select {...input} options={boilerOptions} isMulti required />
+                          {(meta.error && meta.touched && <p>{meta.error}</p>)}
+                        </div>
+                      )}
+                    </Field>
+                  </label>
+                </div>
+              )}
+            <div className={styles.buttonContainer}>
+              <Button btnLabel="Cancel" onClick={onClose} />
+              <Button type="submit" btnLabel="Submit" primary onClick={handleSubmit} />
+            </div>
+          </form>
+        )}
+      />
     </div>
   );
 };
