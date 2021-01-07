@@ -34,7 +34,7 @@ export const getBuildings = () => (dispatch) => {
   return fetch(URL)
     .then((data) => data.json())
     .then((res) => dispatch(getBuildingsFulfilled(res)))
-    .catch((err) => dispatch(getBuildingsRejected()));
+    .catch(() => dispatch(getBuildingsRejected()));
 };
 
 const deleteBuildingFetching = () => ({
@@ -77,7 +77,7 @@ export const deleteBuilding = (id) => (dispatch) => {
         dispatch(deleteBuildingsBadRequest());
       }
     })
-    .catch((err) => dispatch(deleteBuildingsRejected()));
+    .catch(() => dispatch(deleteBuildingsRejected()));
 };
 
 const addBuildingFetching = () => ({
@@ -106,7 +106,7 @@ export const addBuilding = (building) => (dispatch) => {
   })
     .then((data) => data.json())
     .then((res) => dispatch(addBuildingFulfilled(res)))
-    .catch((err) => dispatch(addBuildingRejected()));
+    .catch(() => dispatch(addBuildingRejected()));
 };
 
 const updateBuildingFetching = () => ({
@@ -136,5 +136,5 @@ export const updateBuilding = (building, id) => (dispatch) => {
   })
     .then((data) => data.json())
     .then((res) => dispatch(updateBuildingFulfilled(res, id)))
-    .catch((err) => dispatch(updateBuildingRejected()));
+    .catch(() => dispatch(updateBuildingRejected()));
 };

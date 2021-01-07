@@ -30,7 +30,7 @@ const TechniciansForm = ({
     birthday: moment(technician.dateOfBirth).format('YYYY-MM-DD') || '',
     monthlyCapacity: technician.monthlyCapacity || '',
     hourRate: technician.hourRate || '',
-    boilerTypes: technician ? boilerTypes.filter(
+    boilerTypes: technician && technician.boilerTypes ? boilerTypes.filter(
       (boilerType) => technician.boilerTypes.includes(boilerType.value),
     ) : [],
     id: technician._id,

@@ -61,7 +61,7 @@ const technicianComponent = ({
           </thead>
           <tbody>
             {technicians.list.map((technician) => (
-              <tr key={technician.id}>
+              <tr key={technician._id}>
                 <td>
                   {technician.firstName}
                 </td>
