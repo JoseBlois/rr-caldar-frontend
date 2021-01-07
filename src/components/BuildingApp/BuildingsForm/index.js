@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Field } from 'react-final-form';
 import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
+import styles from './BuildingsForm.module.css';
 
 const BuildingsForm = ({
   onSubmit,
@@ -67,54 +68,54 @@ const BuildingsForm = ({
           boilers: pickedBoilers,
         }}
         render={({ handleSubmit }) => (
-          <form>
-            <div>
+          <form className={styles.buildingFormContainer}>
+            <div className={styles.inputContainer}>
               <label htmlFor="name">
                 Building Name
                 <Field name="name" validate={required}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="text" placeholder="Building name" />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
                 </Field>
               </label>
             </div>
-            <div>
+            <div className={styles.inputContainer}>
               <label htmlFor="address">
                 Building Address
                 <Field name="address" validate={required}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="text" placeholder="Building address" />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
                 </Field>
               </label>
             </div>
-            <div>
+            <div className={styles.inputContainer}>
               <label htmlFor="company">
                 Building Company
                 <Field name="company" validate={required}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="text" placeholder="Building company" />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
                 </Field>
               </label>
             </div>
-            <div>
+            <div className={styles.inputContainer}>
               <label htmlFor="phone">
                 Building Phone
                 <Field name="phone" validate={required}>
                   {({ input, meta }) => (
                     <div>
                       <input {...input} type="text" placeholder="Building phone" />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
                 </Field>
@@ -122,19 +123,21 @@ const BuildingsForm = ({
             </div>
             {loading ? <div>loading</div>
               : (
-                <label htmlFor="boilers">
-                  Boilers:
-                  <Field name="boilers" validate={requiredSelect}>
-                    {({ input, meta }) => (
-                      <div>
-                        <Select {...input} options={boilerOptions} isMulti required />
-                        {(meta.error && meta.touched && <p>{meta.error}</p>)}
-                      </div>
-                    )}
-                  </Field>
-                </label>
+                <div className={styles.inputContainer}>
+                  <label htmlFor="boilers">
+                    Boilers:
+                    <Field name="boilers" validate={requiredSelect}>
+                      {({ input, meta }) => (
+                        <div>
+                          <Select {...input} options={boilerOptions} isMulti required />
+                          {(meta.error && meta.touched && <p>{meta.error}</p>)}
+                        </div>
+                      )}
+                    </Field>
+                  </label>
+                </div>
               )}
-            <div>
+            <div className={styles.buttonContainer}>
               <Button btnLabel="Cancel" onClick={onClose} />
               <Button type="submit" btnLabel="Submit" primary onClick={handleSubmit} />
             </div>
