@@ -9,6 +9,8 @@ const AppointmentsForm = ({
   onClose,
   appointment,
 }) => {
+  console.log(appointment);
+
   const [state, setState] = useState({
     building: appointment.building || 'buldingId1',
     technician: appointment.technician || 'technicianId1',

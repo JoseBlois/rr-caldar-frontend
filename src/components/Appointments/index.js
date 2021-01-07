@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import AppointmentsForm from './AppointmentsForm';
@@ -6,8 +8,12 @@ import ConfirmationMessage from '../sharedComponents/ConfirmationMessage';
 import Modal from '../sharedComponents/Modal';
 import styles from './appointments.module.css';
 
-const Appointments = () => {
-  const [appointments, setAppointments] = useState([]);
+import {
+  getAppointments as getAppointmentsR,
+  deleteAppointment as deleteAppointmentR,
+} from '../../redux/actions/appointmentActions';
+
+const Appointments = ({ getAppointments, deleteAppointment, appointments }) => {
   const [modal, setModal] = useState({
     show: false,
     type: '',
@@ -22,26 +28,33 @@ const Appointments = () => {
     });
   };
 
-  const addAppointment = (appointment) => {
-    setAppointments([...appointments, {
-      ...appointment,
-      id: appointments.length + 1,
-    }]);
-    onCloseModal();
-  };
+  // const [appointments, setAppointments] = useState([]);
+
+  // const addAppointment = (appointment) => {
+  //   setAppointments([...appointments, {
+  //     ...appointment,
+  //     id: appointments.length + 1,
+  //   }]);
+  //   onCloseModal();
+  // };
 
   const removeAppointment = (id) => {
-    setAppointments(appointments.filter((appointment) => appointment.id !== id));
+    deleteAppointment(id);
     onCloseModal();
   };
 
-  const updateAppointment = (updatedAppointment) => {
-    const index = appointments.findIndex((appointment) => appointment.id === updatedAppointment.id);
-    const newAppointments = [...appointments];
-    newAppointments[index] = updatedAppointment;
-    setAppointments(newAppointments);
-    onCloseModal();
-  };
+  // const updateAppointment = (updatedAppointment) => {
+  //   const index = appointments.findIndex(
+  //   (appointment) => appointment.id === updatedAppointment.id);
+  //   const newAppointments = [...appointments];
+  //   newAppointments[index] = updatedAppointment;
+  //   setAppointments(newAppointments);
+  //   onCloseModal();
+  // };
+
+  useEffect(() => {
+    getAppointments();
+  }, []);
 
   return (
     <>
@@ -57,8 +70,8 @@ const Appointments = () => {
             </tr>
           </thead>
           <tbody>
-            {appointments.map((appointment) => (
-              <tr key={appointment.id}>
+            {appointments.list.map((appointment) => (
+              <tr key={appointment._id}>
                 <td>{appointment.building}</td>
                 <td>{appointment.technician}</td>
                 <td>{appointment.type}</td>
@@ -84,7 +97,7 @@ const Appointments = () => {
                       show: true,
                       type: 'DELETE',
                       meta: {
-                        id: appointment.id,
+                        id: appointment._id,
                         title: 'Delete Appointment',
                       },
                     })}
@@ -113,13 +126,13 @@ const Appointments = () => {
       {modal.show && (
         <Modal title={modal.meta.title} onClose={onCloseModal}>
           {modal.type === 'ADD'
-            && <AppointmentsForm onSubmit={addAppointment} onClose={onCloseModal} />}
+            && <AppointmentsForm onSubmit={() => console.log('onSubmit Add')} onClose={onCloseModal} />}
           {modal.type === 'DELETE'
             && <ConfirmationMessage onSubmit={() => removeAppointment(modal.meta.id)} onClose={onCloseModal} entity="Appointment" />}
           {modal.type === 'UPDATE'
             && (
               <AppointmentsForm
-                onSubmit={updateAppointment}
+                onSubmit={() => console.log('onSubmit Update')}
                 onClose={onCloseModal}
                 appointment={modal.meta.appointment}
               />
@@ -130,4 +143,15 @@ const Appointments = () => {
   );
 };
 
-export default Appointments;
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({
+    getAppointments: getAppointmentsR,
+    deleteAppointment: deleteAppointmentR,
+  }, dispatch)
+);
+
+const mapStateToProps = (state) => ({
+  appointments: state.appointments,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Appointments);
