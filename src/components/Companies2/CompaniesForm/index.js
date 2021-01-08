@@ -28,14 +28,15 @@ const CompaniesForm = ({
     validators.reduce((error, validator) => error || validator(value), undefined)
   );
 
-  const btSubmit = () => {
+  const btSubmit = (value) => {
     const companyToSub = {
-      name: state.name,
-      address: state.address,
-      cuit: state.cuit,
-      phone: state.phone,
-      email: state.email,
+      name: value.name,
+      address: value.address,
+      cuit: value.cuit,
+      phone: value.phone,
+      email: value.email,
     };
+    console.log(companyToSub);
     onSubmit(companyToSub, state.id);
   };
 
@@ -43,15 +44,21 @@ const CompaniesForm = ({
     <div>
       <Form
         onSubmit={btSubmit}
-        initialValues={{ description: '' }}
+        initialValues={{
+          name: '',
+          address: '',
+          cuit: 0,
+          phone: 0,
+          email: '',
+        }}
         render={({
           handleSubmit,
           form,
         }) => (
-          <form onSubmit={handleSubmit} className={styles.boilerTypesFormContainer}>
+          <form onSubmit={handleSubmit} className={styles.companiesFormContainer}>
             <div>
-              <label htmlFor="Name">Name</label>
-              <Field name="Name" type="text" validate={required}>
+              <label htmlFor="name">Name</label>
+              <Field name="name" type="text" validate={required}>
                 {({ input, meta }) => (
                   <div>
                     <input {...input} />
@@ -61,8 +68,8 @@ const CompaniesForm = ({
               </Field>
             </div>
             <div>
-              <label htmlFor="Address">Address</label>
-              <Field name="Address" type="text" validate={required}>
+              <label htmlFor="address">Address</label>
+              <Field name="address" type="text" validate={required}>
                 {({ input, meta }) => (
                   <div>
                     <input {...input} />
@@ -72,8 +79,8 @@ const CompaniesForm = ({
               </Field>
             </div>
             <div>
-              <label htmlFor="CUIT">CUIT</label>
-              <Field name="CUIT" type="text" validate={composeValidators(required, mustBeNumber)}>
+              <label htmlFor="cuit">CUIT</label>
+              <Field name="cuit" type="text" validate={composeValidators(required, mustBeNumber)}>
                 {({ input, meta }) => (
                   <div>
                     <input {...input} />
@@ -83,8 +90,8 @@ const CompaniesForm = ({
               </Field>
             </div>
             <div>
-              <label htmlFor="Phone">Phone</label>
-              <Field name="Phone" type="text" validate={composeValidators(required, mustBeNumber)}>
+              <label htmlFor="phone">Phone</label>
+              <Field name="phone" type="text" validate={composeValidators(required, mustBeNumber)}>
                 {({ input, meta }) => (
                   <div>
                     <input {...input} />
@@ -94,8 +101,8 @@ const CompaniesForm = ({
               </Field>
             </div>
             <div>
-              <label htmlFor="Email">Email</label>
-              <Field name="Email" type="text" validate={composeValidators(required, mustBeEmail)}>
+              <label htmlFor="email">Email</label>
+              <Field name="email" type="text" validate={composeValidators(required, mustBeEmail)}>
                 {({ input, meta }) => (
                   <div>
                     <input {...input} />
