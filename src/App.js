@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import Companies from './components/Companies/Companies';
 import BuildingApp from './components/BuildingApp';
-import TechniciansMain from './components/Technicians/TechniciansMain';
+import Technicians from './components/Technicians';
 import BoilerTypesApp from './components/boilerTypes/BoilerTypesApp';
 import Layout from './components/Layout';
 import Appointments from './components/Appointments';
@@ -19,7 +19,7 @@ function App() {
           <Route path="/companies" component={Companies} />
           <Route path="/boilers" component={Boilers} />
           <Route path="/boilerTypes" component={BoilerTypesApp} />
-          <Route path="/technicians" component={TechniciansMain} />
+          <Route path="/technicians" component={Technicians} />
           <Route path="/appointments" component={Appointments} />
           <Route exact path="/">
             <Redirect to="/buildings" />
