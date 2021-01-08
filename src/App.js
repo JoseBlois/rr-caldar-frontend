@@ -2,8 +2,8 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Switch, Redirect,
 } from 'react-router-dom';
-import Companies from './components/Companies';
-import Building from './components/Buildings';
+import Companies from './components/Companies2/index';
+import BuildingApp from './components/Buildings';
 import Technicians from './components/Technicians';
 import BoilerTypes from './components/boilerTypes/BoilerTypesApp';
 import Layout from './components/Layout';
@@ -15,7 +15,7 @@ function App() {
     <Router>
       <Layout>
         <Switch>
-          <Route path="/buildings" component={Building} />
+          <Route path="/buildings" component={BuildingApp} />
           <Route path="/companies" component={Companies} />
           <Route path="/boilers" component={Boilers} />
           <Route path="/boilerTypes" component={BoilerTypes} />
