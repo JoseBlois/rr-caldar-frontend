@@ -36,7 +36,6 @@ const CompaniesForm = ({
       phone: value.phone,
       email: value.email,
     };
-    console.log(companyToSub);
     onSubmit(companyToSub, state.id);
   };
 
