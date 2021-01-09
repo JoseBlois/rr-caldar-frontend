@@ -54,6 +54,28 @@ const appointmentsReducer = (state = initialState, action) => {
         ...state,
         loading: false,
       };
+    case ADD_APPOINTMENTS_FETCHING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ADD_APPOINTMENTS_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+    case UPDATE_APPOINTMENTS_FETCHING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_APPOINTMENTS_REJECTED:
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
     default:
       return state;
   }

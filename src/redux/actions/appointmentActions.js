@@ -65,3 +65,30 @@ export const deleteAppointment = (id) => (dispatch) => {
     .then((res) => dispatch(deleteAppointmentFulfilled(id)))
     .catch((err) => dispatch(deleteAppointmentRejected()));
 };
+
+const addAppointmentFetching = () => ({
+  type: ADD_APPOINTMENTS_FETCHING,
+});
+
+const addAppointmentFulfilled = (payload) => ({
+  type: ADD_APPOINTMENTS_FULFILLED,
+  payload,
+});
+
+const addAppointmentRejected = () => ({
+  type: ADD_APPOINTMENTS_REJECTED,
+});
+
+export const addAppointment = (appointment) => (dispatch) => {
+  dispatch(addAppointmentFetching());
+  fetch(URL, {
+    method: 'POST',
+    body: JSON.stringify(appointment),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  })
+    .then((data) => data.json())
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+};

@@ -16,22 +16,23 @@ const AppointmentsForm = ({
     technician: appointment.technician || 'technicianId1',
     type: appointment.type || 'programmed',
     monthlyHours: appointment.monthlyHours || 0,
-    id: appointment.id,
+    id: appointment._id,
+    boiler: '5fed434d3dfddb0017b873ec',
   });
 
   const buildings = [{
-    id: 'buildingId1',
+    id: '5febbb2b46e8d9001706da15',
     value: 'Building 1',
   }, {
-    id: 'buildingId2',
+    id: '5ff136e0462c1000178c51fa',
     value: 'Building 2',
   }];
 
   const technicians = [{
-    id: 'technicianId1',
+    id: '5ff61c65e239ae0017facff0',
     value: 'Technician 1',
   }, {
-    id: 'technicianId2',
+    id: '5ff61c65e239ae0017facff0',
     value: 'Technician 2',
   }];
 
@@ -65,7 +66,14 @@ const AppointmentsForm = ({
         )}
         <div className={styles.buttonContainer}>
           <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => onSubmit(state)} />
+          <Button
+            btnLabel="Submit"
+            primary
+            onClick={() => {
+              // console.log(state);
+              onSubmit(state);
+            }}
+          />
         </div>
       </form>
     </div>

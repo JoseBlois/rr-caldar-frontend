@@ -11,9 +11,13 @@ import styles from './appointments.module.css';
 import {
   getAppointments as getAppointmentsR,
   deleteAppointment as deleteAppointmentR,
+  addAppointment as addAppointmentR,
 } from '../../redux/actions/appointmentActions';
 
-const Appointments = ({ getAppointments, deleteAppointment, appointments }) => {
+const Appointments = ({
+  getAppointments, deleteAppointment, appointments,
+  addAppointment,
+}) => {
   const [modal, setModal] = useState({
     show: false,
     type: '',
@@ -30,13 +34,10 @@ const Appointments = ({ getAppointments, deleteAppointment, appointments }) => {
 
   // const [appointments, setAppointments] = useState([]);
 
-  // const addAppointment = (appointment) => {
-  //   setAppointments([...appointments, {
-  //     ...appointment,
-  //     id: appointments.length + 1,
-  //   }]);
-  //   onCloseModal();
-  // };
+  const addAppointmentWithModal = (appointment) => {
+    addAppointment(appointment);
+    // onCloseModal();
+  };
 
   const removeAppointment = (id) => {
     deleteAppointment(id);
@@ -126,7 +127,12 @@ const Appointments = ({ getAppointments, deleteAppointment, appointments }) => {
       {modal.show && (
         <Modal title={modal.meta.title} onClose={onCloseModal}>
           {modal.type === 'ADD'
-            && <AppointmentsForm onSubmit={() => console.log('onSubmit Add')} onClose={onCloseModal} />}
+            && (
+            <AppointmentsForm
+              onSubmit={(appointment) => { addAppointmentWithModal(appointment); }}
+              onClose={onCloseModal}
+            />
+            )}
           {modal.type === 'DELETE'
             && <ConfirmationMessage onSubmit={() => removeAppointment(modal.meta.id)} onClose={onCloseModal} entity="Appointment" />}
           {modal.type === 'UPDATE'
@@ -147,6 +153,7 @@ const mapDispatchToProps = (dispatch) => (
   bindActionCreators({
     getAppointments: getAppointmentsR,
     deleteAppointment: deleteAppointmentR,
+    addAppointment: addAppointmentR,
   }, dispatch)
 );
 
