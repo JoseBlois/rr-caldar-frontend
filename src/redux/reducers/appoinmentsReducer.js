@@ -59,6 +59,12 @@ const appointmentsReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       };
+    case ADD_APPOINTMENTS_FULFILLED:
+      return {
+        ...state,
+        list: [...state.list, action.payload.appointment],
+        loading: false,
+      };
     case ADD_APPOINTMENTS_REJECTED:
       return {
         ...state,
@@ -69,6 +75,19 @@ const appointmentsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+      };
+    case UPDATE_APPOINTMENTS_FULFILLED:
+      return {
+        ...state,
+        loading: false,
+        list: state.list.map((appointment) => {
+          if (appointment._id === action.payload.id) {
+            const updatedAppointment = action.payload.appointment;
+            updatedAppointment._id = action.payload.id;
+            return updatedAppointment;
+          }
+          return appointment;
+        }),
       };
     case UPDATE_APPOINTMENTS_REJECTED:
       return {

@@ -70,9 +70,11 @@ const addAppointmentFetching = () => ({
   type: ADD_APPOINTMENTS_FETCHING,
 });
 
-const addAppointmentFulfilled = (payload) => ({
+const addAppointmentFulfilled = (appointment) => ({
   type: ADD_APPOINTMENTS_FULFILLED,
-  payload,
+  payload: {
+    appointment,
+  },
 });
 
 const addAppointmentRejected = () => ({
@@ -81,6 +83,7 @@ const addAppointmentRejected = () => ({
 
 export const addAppointment = (appointment) => (dispatch) => {
   dispatch(addAppointmentFetching());
+  console.log(appointment);
   fetch(URL, {
     method: 'POST',
     body: JSON.stringify(appointment),

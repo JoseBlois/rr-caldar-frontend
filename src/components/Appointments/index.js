@@ -65,6 +65,7 @@ const Appointments = ({
             <tr>
               <th>Building</th>
               <th>Technician</th>
+              <th>Boiler</th>
               <th>Type</th>
               <th>Monthly hours</th>
               <th className={styles.actionsRow}>Actions</th>
@@ -75,6 +76,7 @@ const Appointments = ({
               <tr key={appointment._id}>
                 <td>{appointment.building}</td>
                 <td>{appointment.technician}</td>
+                <td>{appointment.boiler}</td>
                 <td>{appointment.type}</td>
                 <td>{appointment.monthlyHours}</td>
                 <td>
