@@ -10,7 +10,7 @@ const AppointmentsForm = ({
   onClose,
   appointment,
 }) => {
-  const [type, setType] = useState(appointment.type || 'programmed');
+  const [type, setType] = useState(appointment.type || 'eventual');
 
   const [buildingsOptions, setBuildingsOptions] = useState([]);
   const [boilersOptions, setBoilersOptions] = useState([]);
@@ -86,7 +86,7 @@ const AppointmentsForm = ({
           boiler: pickedBoiler,
           technician: pickedTechnician,
           monthlyHours: appointment.monthlyHours || '0',
-          type: appointment.type,
+          type: appointment.type || 'eventual',
         }}
         render={({ handleSubmit }) => (
           <form className={styles.appointmentsFormContainer}>
