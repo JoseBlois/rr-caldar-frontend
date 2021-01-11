@@ -12,11 +12,12 @@ import {
   getAppointments as getAppointmentsR,
   deleteAppointment as deleteAppointmentR,
   addAppointment as addAppointmentR,
+  updateAppointment as updateAppointmentR,
 } from '../../redux/actions/appointmentActions';
 
 const Appointments = ({
   getAppointments, deleteAppointment, appointments,
-  addAppointment,
+  addAppointment, updateAppointment,
 }) => {
   const [modal, setModal] = useState({
     show: false,
@@ -32,26 +33,20 @@ const Appointments = ({
     });
   };
 
-  // const [appointments, setAppointments] = useState([]);
-
   const addAppointmentWithModal = (appointment) => {
     addAppointment(appointment);
-    // onCloseModal();
+    onCloseModal();
+  };
+
+  const updateAppointmentWithModal = (appointment, id) => {
+    updateAppointment(appointment, id);
+    onCloseModal();
   };
 
   const removeAppointment = (id) => {
     deleteAppointment(id);
     onCloseModal();
   };
-
-  // const updateAppointment = (updatedAppointment) => {
-  //   const index = appointments.findIndex(
-  //   (appointment) => appointment.id === updatedAppointment.id);
-  //   const newAppointments = [...appointments];
-  //   newAppointments[index] = updatedAppointment;
-  //   setAppointments(newAppointments);
-  //   onCloseModal();
-  // };
 
   useEffect(() => {
     getAppointments();
@@ -140,7 +135,7 @@ const Appointments = ({
           {modal.type === 'UPDATE'
             && (
               <AppointmentsForm
-                onSubmit={() => console.log('onSubmit Update')}
+                onSubmit={(appointment, id) => updateAppointmentWithModal(appointment, id)}
                 onClose={onCloseModal}
                 appointment={modal.meta.appointment}
               />
@@ -156,6 +151,7 @@ const mapDispatchToProps = (dispatch) => (
     getAppointments: getAppointmentsR,
     deleteAppointment: deleteAppointmentR,
     addAppointment: addAppointmentR,
+    updateAppointment: updateAppointmentR,
   }, dispatch)
 );
 

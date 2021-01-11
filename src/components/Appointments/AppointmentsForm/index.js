@@ -10,14 +10,14 @@ const AppointmentsForm = ({
   onClose,
   appointment,
 }) => {
-  const [type, setType] = useState(appointment.type);
+  const [type, setType] = useState(appointment.type || 'programmed');
 
   const [buildingsOptions, setBuildingsOptions] = useState([]);
   const [boilersOptions, setBoilersOptions] = useState([]);
   const [techniciansOptions, setTechniciansOptions] = useState([]);
-  const [pickedBuilding, setPickedBuilding] = useState([]);
-  const [pickedBoiler, setPickedBoiler] = useState([]);
-  const [pickedTechnician, setPickedTechnician] = useState([]);
+  const [pickedBuilding, setPickedBuilding] = useState(null);
+  const [pickedBoiler, setPickedBoiler] = useState(null);
+  const [pickedTechnician, setPickedTechnician] = useState(null);
 
   useEffect(async () => {
     const URL = 'https://caldar-application.herokuapp.com';
@@ -72,8 +72,10 @@ const AppointmentsForm = ({
       monthlyHours: values.monthlyHours,
       type: values.type,
     };
-    onSubmit(appointmentToSub);
+    onSubmit(appointmentToSub, appointment._id);
   };
+
+  const required = (value) => (value ? undefined : 'Required');
 
   return (
     <div>
@@ -86,15 +88,16 @@ const AppointmentsForm = ({
           monthlyHours: appointment.monthlyHours || '0',
           type: appointment.type,
         }}
-        render={({ handleSubmit, values }) => (
+        render={({ handleSubmit }) => (
           <form className={styles.appointmentsFormContainer}>
             <div className={styles.inputContainer}>
               <label htmlFor="building">
                 Building:
-                <Field name="building">
+                <Field name="building" validate={required}>
                   {({ input, meta }) => (
                     <div>
                       <Select {...input} options={buildingsOptions} />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
                 </Field>
@@ -103,10 +106,11 @@ const AppointmentsForm = ({
             <div className={styles.inputContainer}>
               <label htmlFor="technician">
                 Technician:
-                <Field name="technician">
+                <Field name="technician" validate={required}>
                   {({ input, meta }) => (
                     <div>
                       <Select {...input} options={techniciansOptions} />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
                 </Field>
@@ -115,10 +119,11 @@ const AppointmentsForm = ({
             <div className={styles.inputContainer}>
               <label htmlFor="boiler">
                 Boilers:
-                <Field name="boiler">
+                <Field name="boiler" validate={required}>
                   {({ input, meta }) => (
                     <div>
                       <Select {...input} options={boilersOptions} />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
                 </Field>
@@ -150,7 +155,7 @@ const AppointmentsForm = ({
               <div className={styles.inputContainer}>
                 <label htmlFor="monthlyHours">
                   Building Company
-                  <Field name="monthlyHours">
+                  <Field name="monthlyHours" validate={required}>
                     {({ input, meta }) => (
                       <div>
                         <input {...input} type="text" placeholder="Monthly Hours" />

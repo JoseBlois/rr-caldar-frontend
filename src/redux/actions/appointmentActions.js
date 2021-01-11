@@ -10,7 +10,6 @@ import {
   UPDATE_APPOINTMENTS_REJECTED,
   DELETE_APPOINTMENTS_FETCHING,
   DELETE_APPOINTMENTS_FULFILLED,
-  DELETE_APPOINTMENTS_BAD_REQUEST,
   DELETE_APPOINTMENTS_REJECTED,
 } from '../types/appointmentsTypes';
 
@@ -54,7 +53,6 @@ const deleteAppointmentRejected = () => ({
 
 export const deleteAppointment = (id) => (dispatch) => {
   dispatch(deleteAppointmentFetching());
-  console.log(id);
   fetch(`${URL}/${id}`, {
     method: 'DELETE',
     headers: {
@@ -83,7 +81,6 @@ const addAppointmentRejected = () => ({
 
 export const addAppointment = (appointment) => (dispatch) => {
   dispatch(addAppointmentFetching());
-  console.log(appointment);
   fetch(URL, {
     method: 'POST',
     body: JSON.stringify(appointment),
@@ -91,7 +88,59 @@ export const addAppointment = (appointment) => (dispatch) => {
       'Content-type': 'application/json',
     },
   })
-    .then((data) => data.json())
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+    .then((data) => {
+      if (!data.ok) {
+        return false;
+      }
+      return data.json();
+    })
+    .then((res) => {
+      if (res) {
+        dispatch(addAppointmentFulfilled(res));
+      } else {
+        dispatch(dispatch(addAppointmentRejected()));
+      }
+    })
+    .catch((err) => dispatch(addAppointmentRejected()));
+};
+
+const updateAppointmentFetching = () => ({
+  type: UPDATE_APPOINTMENTS_FETCHING,
+});
+
+const updateAppointmentFulfilled = (appointment, id) => ({
+  type: UPDATE_APPOINTMENTS_FULFILLED,
+  payload: {
+    appointment,
+    id,
+  },
+});
+
+const updateAppointmentRejected = () => ({
+  type: UPDATE_APPOINTMENTS_REJECTED,
+});
+
+export const updateAppointment = (appointment, id) => (dispatch) => {
+  dispatch(updateAppointmentFetching());
+  return fetch(`${URL}/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(appointment),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  })
+    .then((data) => {
+      if (!data.ok) {
+        return false;
+      }
+      return data.json();
+    })
+    .then((res) => {
+      if (res) {
+        dispatch(updateAppointmentFulfilled(appointment, id));
+      } else {
+        dispatch(updateAppointmentRejected());
+      }
+    })
+    .catch((err) => dispatch(updateAppointmentRejected()));
 };
