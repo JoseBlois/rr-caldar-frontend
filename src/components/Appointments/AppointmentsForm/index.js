@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Form, Field } from 'react-final-form';
+import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
-import Select from '../../sharedComponents/Select';
 import styles from './appointmentsForm.module.css';
 
 const AppointmentsForm = ({
@@ -9,63 +10,173 @@ const AppointmentsForm = ({
   onClose,
   appointment,
 }) => {
-  const [state, setState] = useState({
-    building: appointment.building || 'buldingId1',
-    technician: appointment.technician || 'technicianId1',
-    type: appointment.type || 'programmed',
-    monthlyHours: appointment.monthlyHours || 0,
-    id: appointment.id,
-  });
+  const [type, setType] = useState(appointment.type || 'eventual');
 
-  const buildings = [{
-    id: 'buildingId1',
-    value: 'Building 1',
-  }, {
-    id: 'buildingId2',
-    value: 'Building 2',
-  }];
+  const [buildingsOptions, setBuildingsOptions] = useState([]);
+  const [boilersOptions, setBoilersOptions] = useState([]);
+  const [techniciansOptions, setTechniciansOptions] = useState([]);
+  const [pickedBuilding, setPickedBuilding] = useState(null);
+  const [pickedBoiler, setPickedBoiler] = useState(null);
+  const [pickedTechnician, setPickedTechnician] = useState(null);
 
-  const technicians = [{
-    id: 'technicianId1',
-    value: 'Technician 1',
-  }, {
-    id: 'technicianId2',
-    value: 'Technician 2',
-  }];
+  useEffect(async () => {
+    const URL = 'https://caldar-application.herokuapp.com';
+    const buildingsResponse = await fetch(`${URL}/buildings`);
+    const buildingsData = await buildingsResponse.json();
+    const allBuildings = buildingsData.map((building) => ({
+      label: building.name,
+      value: building._id,
+    }));
+    setBuildingsOptions(allBuildings);
+    const boilersResponse = await fetch(`${URL}/boilers`);
+    const boilersData = await boilersResponse.json();
+    const allBoilers = boilersData.map((boiler) => ({
+      label: boiler.description,
+      value: boiler._id,
+    }));
+    setBoilersOptions(allBoilers);
+    const techniciansResponse = await fetch(`${URL}/technicians`);
+    const techniciansData = await techniciansResponse.json();
+    const allTechnicians = techniciansData.map((technician) => ({
+      label: technician.firstName,
+      value: technician._id,
+    }));
+    setTechniciansOptions(allTechnicians);
+    if (appointment) {
+      allBuildings.map((building) => {
+        if (building.value === appointment.building) {
+          setPickedBuilding(building);
+        }
+        return false;
+      });
+      allBoilers.map((boiler) => {
+        if (boiler.value === appointment.boiler) {
+          setPickedBoiler(boiler);
+        }
+        return false;
+      });
+      allTechnicians.map((technician) => {
+        if (technician.value === appointment.technician) {
+          setPickedTechnician(technician);
+        }
+        return false;
+      });
+    }
+  }, []);
 
-  const onChangeInput = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
+  const submit = (values) => {
+    const appointmentToSub = {
+      technician: values.technician.value,
+      boiler: values.boiler.value,
+      building: values.building.value,
+      monthlyHours: values.monthlyHours,
+      type: values.type,
+    };
+    onSubmit(appointmentToSub, appointment._id);
   };
+
+  const required = (value) => (value ? undefined : 'Required');
 
   return (
     <div>
-      <form className={styles.appointmentsFormContainer}>
-        <div className={styles.inputContainer}>
-          <Select label="Building:" name="building" value={state.building} onChange={onChangeInput} options={buildings} />
-        </div>
-        <div className={styles.inputContainer}>
-          <Select label="Technician:" name="technician" value={state.technician} onChange={onChangeInput} options={technicians} />
-        </div>
-        <div className={styles.typeContainer}>
-          <input type="radio" id="eventual" name="type" value="eventual" checked={Boolean(state.type === 'eventual')} onChange={onChangeInput} />
-          <label htmlFor="eventual">Eventual</label>
-          <input type="radio" id="programmed" name="type" value="programmed" checked={Boolean(state.type === 'programmed')} onChange={onChangeInput} />
-          <label htmlFor="programmed">Programmed</label>
-        </div>
-        {state.type === 'programmed' && (
-          <div className={styles.inputContainer}>
-            <label htmlFor="monthlyHours">Monthly Hours</label>
-            <input type="text" id="monthlyHours" name="monthlyHours" value={state.monthlyHours} onChange={onChangeInput} />
-          </div>
+      <Form
+        onSubmit={submit}
+        initialValues={{
+          building: pickedBuilding,
+          boiler: pickedBoiler,
+          technician: pickedTechnician,
+          monthlyHours: appointment.monthlyHours || '0',
+          type: appointment.type || 'eventual',
+        }}
+        render={({ handleSubmit }) => (
+          <form className={styles.appointmentsFormContainer}>
+            <div className={styles.inputContainer}>
+              <label htmlFor="building">
+                Building:
+                <Field name="building" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <Select {...input} options={buildingsOptions} />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="technician">
+                Technician:
+                <Field name="technician" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <Select {...input} options={techniciansOptions} />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="boiler">
+                Boilers:
+                <Field name="boiler" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <Select {...input} options={boilersOptions} />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.typeContainer}>
+              <Field
+                name="type"
+                component="input"
+                type="radio"
+                value="eventual"
+                id="eventual"
+                checked={Boolean(type === 'eventual')}
+                onClick={() => setType('eventual')}
+              />
+              <label htmlFor="eventual">Eventual</label>
+              <Field
+                name="type"
+                component="input"
+                type="radio"
+                value="programmed"
+                id="programmed"
+                checked={Boolean(type === 'programmed')}
+                onClick={() => setType('programmed')}
+              />
+              <label htmlFor="programmed">Programmed</label>
+            </div>
+            {type === 'programmed' && (
+              <div className={styles.inputContainer}>
+                <label htmlFor="monthlyHours">
+                  Building Company
+                  <Field name="monthlyHours" validate={required}>
+                    {({ input, meta }) => (
+                      <div>
+                        <input {...input} type="text" placeholder="Monthly Hours" />
+                        {meta.error && meta.touched && <div>{meta.error}</div>}
+                      </div>
+                    )}
+                  </Field>
+                </label>
+              </div>
+            )}
+            <div className={styles.buttonContainer}>
+              <Button primary={false} btnLabel="Cancel" onClick={onClose} />
+              <Button
+                btnLabel="Submit"
+                primary
+                onClick={handleSubmit}
+              />
+            </div>
+          </form>
         )}
-        <div className={styles.buttonContainer}>
-          <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => onSubmit(state)} />
-        </div>
-      </form>
+      />
     </div>
   );
 };

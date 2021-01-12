@@ -11,7 +11,10 @@ const Button = (props) => {
     <button
       {...props}
       className={primary ? styles.buttonPrimary : styles.button}
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
     >
       {btnLabel}
     </button>
