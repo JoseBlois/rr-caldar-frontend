@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Select from 'react-select';
+import { Form, Field } from 'react-final-form';
 import Button from '../../sharedComponents/Button';
 import styles from './TechniciansForm.module.css';
 
@@ -50,7 +51,7 @@ const TechniciansForm = ({
     });
   };
 
-  const submit = () => {
+  const submit = (values) => {
     const technicianToSub = {
       firstName: state.firstName,
       lastName: state.lastName,
@@ -65,57 +66,212 @@ const TechniciansForm = ({
     onSubmit(technicianToSub, state.id);
   };
 
+  const required = (value) => (value ? undefined : 'Required');
+
+  const requiredSelect = (value) => ((value === null) ? 'Required' : undefined);
+
   return (
     <div>
-      <form className={styles.techniciansFormContainer}>
-        <div className={styles.inputContainer}>
-          <label htmlFor="firstName">First Name</label>
-          <input type="text" id="firstName" name="firstName" value={state.firstName} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="lastName">Last Name</label>
-          <input type="text" id="lastName" name="lastName" value={state.lastName} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="address">Address</label>
-          <input type="text" id="address" name="address" value={state.address} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="phone">Phone</label>
-          <input type="text" id="phone" name="phone" value={state.phone} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="email">Email</label>
-          <input type="text" id="email" name="email" value={state.email} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="birthday">Birthday</label>
-          <input type="date" id="birthday" name="birthday" value={state.birthday} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="monthlyCapacity">Monthly Capacity</label>
-          <input type="text" id="monthlyCapacity" name="monthlyCapacity" value={state.monthlyCapacity} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="hourRate">Hour Rate</label>
-          <input type="text" id="hourRate" name="hourRate" value={state.hourRate} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <Select
-            defaultValue={state.boilerTypes}
-            isMulti
-            name="boilerTypes"
-            options={boilerTypes}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={onChangeDropdown}
-          />
-        </div>
-        <div className={styles.buttonContainer}>
-          <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => submit()} />
-        </div>
-      </form>
+      <Form
+        onSubmit={submit}
+        initialValues={{
+          firstName: '',
+          lastName: '',
+          address: '',
+          phone: '',
+          email: '',
+          birthday: '',
+          monthlyCapacity: '',
+          hourRate: '',
+        }}
+        render={({
+          handleSubmit, form, submitting, pristine, values,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="firstName">
+                First name
+                <Field
+                  name="firstName"
+                  validate={required}
+                  component="input"
+                >
+                  {({ input, meta }) => {
+                    <div>
+                      <input {...input} type="text" placeholder="First name" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>;
+                  }}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="lastName">
+                Last name
+                <Field
+                  name="lastName"
+                  validate={required}
+                  component="input"
+                >
+                  {({ input, meta }) => {
+                    <div>
+                      <input {...input} type="text" placeholder="Last name" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>;
+                  }}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="address">
+                Address
+                <Field
+                  name="address"
+                  validate={required}
+                  component="input"
+                  onChange={onChangeInput}
+                >
+                  {({ input, meta }) => {
+                    <div>
+                      <input {...input} type="text" placeholder="Address" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>;
+                  }}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="phone">
+                Phone
+                <Field
+                  name="phone"
+                  validate={required}
+                  component="input"
+                  onChange={onChangeInput}
+                >
+                  {({ input, meta }) => {
+                    <div>
+                      <input {...input} type="text" placeholder="Phone" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>;
+                  }}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="email">
+                Email
+                <Field
+                  name="email"
+                  validate={required}
+                  component="input"
+                  onChange={onChangeInput}
+                >
+                  {({ input, meta }) => {
+                    <div>
+                      <input {...input} type="text" placeholder="Email" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>;
+                  }}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="birthday">
+                Birthday
+                <Field
+                  name="birthday"
+                  validate={required}
+                  component="input"
+                  onChange={onChangeInput}
+                >
+                  {({ input, meta }) => {
+                    <div>
+                      <input {...input} type="date" placeholder="Birthday" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>;
+                  }}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="monthlyCapactity">
+                Monthly Capacity
+                <Field
+                  name="monthlyCapacity"
+                  validate={required}
+                  component="input"
+                  onChange={onChangeInput}
+                >
+                  {({ input, meta }) => {
+                    <div>
+                      <input {...input} type="text" placeholder="Monthly capacity" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>;
+                  }}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="hourRate">
+                Hour rate
+                <Field
+                  name="hourRate"
+                  validate={required}
+                  component="input"
+                  onChange={onChangeInput}
+                >
+                  {({ input, meta }) => {
+                    <div>
+                      <input {...input} type="text" placeholder="Hour rate" />
+                      {meta.error && meta.touched && <div>{meta.error}</div>}
+                    </div>;
+                  }}
+                </Field>
+              </label>
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <label htmlFor="boilerType">Boiler Type</label>
+              <Field
+                defaultValue={state.boilerTypes}
+                isMulti
+                name="boilerTypes"
+                validate={requiredSelect}
+                component="select"
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={onChangeDropdown}
+                options={boilerTypes}
+              />
+            </div>
+            <div className={styles.buttonContainer}>
+              <button
+                btnLabel="Submit"
+                type="submit"
+                disabled={submitting || pristine}
+                primary
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+              <button
+                btnLabel="Cancel"
+                type="button"
+                onClick={onClose}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={form.reset}
+                disabled={submitting || pristine}
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        )}
+      />
     </div>
   );
 };
