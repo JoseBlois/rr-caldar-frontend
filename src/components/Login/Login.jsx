@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Form, Field } from 'react-final-form';
 import { connect } from 'react-redux';
@@ -13,7 +15,10 @@ const Login = ({ login }) => {
   };
 
   const required = (value) => (value ? undefined : 'This field is required');
-
+  const mustBeEmail = (value) => (/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(value) ? undefined : 'Invalid Email');
+  const composeValidators = (...validators) => (value) => (
+    validators.reduce((error, validator) => error || validator(value), undefined)
+  );
   return (
     <div className={styles.loginContainer}>
       <div className={styleMedia.formContainer}>
@@ -22,23 +27,25 @@ const Login = ({ login }) => {
           onSubmit={onSubmitLogin}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
-              <div className={styleMedia.inputWrapper}>
-                <label htmlFor="email">User email</label>
-                <Field
-                  name="email"
-                  component="input"
-                  type="text"
-                  validate={required}
-                />
-              </div>
-              <div className={styleMedia.inputWrapper}>
-                <label htmlFor="password">Password</label>
-                <Field
-                  name="password"
-                  component="input"
-                  type="password"
-                  validate={required}
-                />
+              <div className={styles.inputContainer}>
+                <label htmlFor="email" className={styles.inputLabel}>Email</label>
+                <Field name="email" type="email" validate={composeValidators(required, mustBeEmail)}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} />
+                      {meta.error && meta.touched && <div className={styles.msg}>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
+                <label htmlFor="password" className={styles.inputLabel}>Password</label>
+                <Field name="password" type="password" validate={required}>
+                  {({ input, meta }) => (
+                    <div>
+                      <input {...input} />
+                      {meta.error && meta.touched && <div className={styles.msg}>{meta.error}</div>}
+                    </div>
+                  )}
+                </Field>
               </div>
               <div className={styles.buttonContainer}>
                 <Button type="submit" btnLabel="LogIn" primary />

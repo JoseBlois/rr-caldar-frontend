@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router, Route, Switch, Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { setAuthentication } from './redux/actions/authActions';
 import Companies from './components/Companies2/index';
 import BuildingApp from './components/Buildings';
