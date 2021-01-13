@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Form, Field } from 'react-final-form';
+import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
 import styles from './boilersForm.module.css';
 
@@ -24,6 +26,10 @@ const BoilersForm = ({
     });
   };
 
+  const ReactSelectAdapter = (boilerTypesOptions) => (
+    <Select {...boilerTypesOptions} />
+  );
+
   const submit = () => {
     const boilerToSub = {
       description: state.description,
@@ -37,32 +43,44 @@ const BoilersForm = ({
 
   return (
     <div>
-      <form className={styles.boilersFormContainer}>
-        <div className={styles.inputContainer}>
-          <label htmlFor="description">Description</label>
-          <input type="text" id="description" name="description" value={state.description} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="boilerType">Boiler type</label>
-          <input type="text" id="boilerType" name="boilerType" value={state.boilerType} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="hourMaintenanceCost">Hour Maintenance Cost</label>
-          <input type="number" id="hourMaintenanceCost" name="hourMaintenanceCost" value={state.hourMaintenanceCost} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="hourEventualCost">Hour Eventual Cost</label>
-          <input type="number" id="hourEventualCost" name="hourEventualCost" value={state.hourEventualCost} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="maintenanceRate">Maintenance Rate</label>
-          <input type="number" id="maintenanceRate" name="maintenanceRate" value={state.maintenanceRate} onChange={onChangeInput} />
-        </div>
-        <div className={styles.buttonContainer}>
-          <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => submit()} />
-        </div>
-      </form>
+      <Form
+        onSubmit={submit}
+        initialValues={{
+          description: state.description,
+          boilerType: state.boilerType,
+          hourMaintenanceCost: state.hourMaintenanceCost,
+          hourEventualCost: state.hourEventualCost,
+          maintenanceRate: state.maintenanceRate,
+        }}
+        render={({ handleSubmit }) => (
+          <form className={styles.boilersFormContainer}>
+            <div className={styles.inputContainer}>
+              <label htmlFor="description">Description:</label>
+              <Field name="description" component="input" type="text" placeholder="Description" value={state.description} onChange={onChangeInput} />
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="boilerType">Boiler Type:</label>
+              <Field name="boilerType" component={ReactSelectAdapter} type="text" placeholder="Boiler Types Description" value={state.boilerType} onChange={onChangeInput} />
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="hourMaintenanceCost">Hour Maintenance Cost:</label>
+              <Field name="hourMaintenanceCost" component="input" type="number" placeholder="Hour Maintenance Cost" value={state.hourMaintenanceCost} onChange={onChangeInput} />
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="hourEventualCost">Hour Eventual Cost:</label>
+              <Field name="hourEventualCost" component="input" type="number" placeholder="Hour Eventual Cost" value={state.hourEventualCost} onChange={onChangeInput} />
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="maintenanceRate">Maintenance Rate:</label>
+              <Field name="maintenanceRate" component="input" type="number" placeholder="Maintenance Rate" value={state.maintenanceRate} onChange={onChangeInput} />
+            </div>
+            <div className={styles.buttonContainer}>
+              <Button btnLabel="Cancel" onClick={onClose} />
+              <Button btnLabel="Submit" primary onClick={() => submit()} />
+            </div>
+          </form>
+        )}
+      />
     </div>
   );
 };
