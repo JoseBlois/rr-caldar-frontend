@@ -1,33 +1,35 @@
 import React from 'react';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
 
-const Select = ({
+const SelectInput = ({
   label,
-  name,
-  value,
-  onChange,
   options,
+  isMulti,
+  meta,
+  input,
 }) => (
   <>
-    <label htmlFor={name}>
-      {label}
-    </label>
-    <select id={name} name={name} onChange={onChange} defaultValue={value}>
-      {options.map((option) => (
-        <option key={option.id} value={option.id}>
-          {option.value}
-        </option>
-      ))}
-    </select>
+    <label>{label}</label>
+    <Select
+      {...input}
+      menuPlacement="auto"
+      maxMenuHeight={220}
+      options={options}
+      isMulti={isMulti}
+      className={isMulti ? 'basic-multi-select' : 'basic-single'}
+      classNamePrefix="select"
+    />
+    {meta.error && meta.touched && <div>{meta.error}</div>}
   </>
 );
 
-Select.propTypes = {
+SelectInput.propTypes = {
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  isMulti: PropTypes.bool.isRequired,
+  meta: PropTypes.object.isRequired,
   options: PropTypes.array.isRequired,
+  input: PropTypes.object.isRequired,
 };
 
-export default Select;
+export default SelectInput;
