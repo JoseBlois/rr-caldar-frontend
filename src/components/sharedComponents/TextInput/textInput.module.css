@@ -1,0 +1,12 @@
+.textInput {
+  padding: 10px;
+}
+
+.textInputLabel {
+  margin: 10px 0px;
+}
+
+.error {
+  color: darkred;
+  font-weight: bold;
+}

@@ -1,121 +1,163 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Select from 'react-select';
+import { connect } from 'react-redux';
+import { Form, Field } from 'react-final-form';
+import { bindActionCreators } from 'redux';
 import Button from '../../sharedComponents/Button';
 import styles from './TechniciansForm.module.css';
+import TextInput from '../../sharedComponents/TextInput';
+import SelectInput from '../../sharedComponents/Select';
+import { required, email, composeValidators } from '../../../utils/validations';
+import { getBoilerTypes as getBoilerTypesAction } from '../../../redux/actions/boilerTypesAction';
+import { getFormatedBoilerTypes } from '../../../redux/selectors/boilerTypesSelectors';
 
 const TechniciansForm = ({
   onSubmit,
   onClose,
   technician,
+  getBoilerTypes,
+  boilerTypes,
 }) => {
-  const boilerTypes = [{
-    value: '5fcc1d06998cd913c71c7e01',
-    label: 'Boiler type "A"',
-  }, {
-    value: '5fcc1d09998cd913c71c7e02',
-    label: 'Boiler type "B"',
-  }, {
-    value: '5fcc1d0b998cd913c71c7e03',
-    label: 'Boiler type "C"',
-  }];
+  useEffect(() => {
+    getBoilerTypes();
+  }, []);
 
-  const [state, setState] = useState({
-    firstName: technician.firstName || '',
-    lastName: technician.lastName || '',
-    address: technician.address || '',
-    phone: technician.phone || '',
-    email: technician.email || '',
-    birthday: moment(technician.dateOfBirth).format('YYYY-MM-DD') || '',
-    monthlyCapacity: technician.monthlyCapacity || '',
-    hourRate: technician.hourRate || '',
-    boilerTypes: technician && technician.boilerTypes ? boilerTypes.filter(
-      (boilerType) => technician.boilerTypes.includes(boilerType.value),
-    ) : [],
-    id: technician._id,
-  });
-
-  const onChangeInput = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const onChangeDropdown = (selectedOptions) => {
-    setState({
-      ...state,
-      boilerTypes: selectedOptions.map((option) => option.value),
-    });
-  };
-
-  const submit = () => {
+  const submit = (values) => {
     const technicianToSub = {
-      firstName: state.firstName,
-      lastName: state.lastName,
-      address: state.address,
-      phone: state.phone,
-      email: state.email,
-      boilerTypes: state.boilerTypes,
-      dateOfBirth: state.birthday,
-      monthlyCapacity: state.monthlyCapacity,
-      hourRate: state.hourRate,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      address: values.address,
+      phone: values.phone,
+      email: values.email,
+      boilerTypes: values.boilerTypes.map((boilerType) => boilerType.value),
+      dateOfBirth: values.birthday,
+      monthlyCapacity: values.monthlyCapacity,
+      hourRate: values.hourRate,
     };
-    onSubmit(technicianToSub, state.id);
+    onSubmit(technicianToSub, technician._id);
   };
 
   return (
     <div>
-      <form className={styles.techniciansFormContainer}>
-        <div className={styles.inputContainer}>
-          <label htmlFor="firstName">First Name</label>
-          <input type="text" id="firstName" name="firstName" value={state.firstName} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="lastName">Last Name</label>
-          <input type="text" id="lastName" name="lastName" value={state.lastName} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="address">Address</label>
-          <input type="text" id="address" name="address" value={state.address} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="phone">Phone</label>
-          <input type="text" id="phone" name="phone" value={state.phone} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="email">Email</label>
-          <input type="text" id="email" name="email" value={state.email} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="birthday">Birthday</label>
-          <input type="date" id="birthday" name="birthday" value={state.birthday} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="monthlyCapacity">Monthly Capacity</label>
-          <input type="text" id="monthlyCapacity" name="monthlyCapacity" value={state.monthlyCapacity} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="hourRate">Hour Rate</label>
-          <input type="text" id="hourRate" name="hourRate" value={state.hourRate} onChange={onChangeInput} />
-        </div>
-        <div className={styles.inputContainer}>
-          <Select
-            defaultValue={state.boilerTypes}
-            isMulti
-            name="boilerTypes"
-            options={boilerTypes}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={onChangeDropdown}
-          />
-        </div>
-        <div className={styles.buttonContainer}>
-          <Button btnLabel="Cancel" onClick={onClose} />
-          <Button btnLabel="Submit" primary onClick={() => submit()} />
-        </div>
-      </form>
+      <Form
+        onSubmit={submit}
+        initialValues={{
+          firstName: technician.firstName,
+          lastName: technician.lastName,
+          address: technician.address,
+          phone: technician.phone,
+          email: technician.email,
+          birthday: moment(technician.dateOfBirth).format('YYYY-MM-DD'),
+          monthlyCapacity: technician.monthlyCapacity,
+          hourRate: technician.hourRate,
+          boilerTypes: technician && technician.boilerTypes ? boilerTypes.filter(
+            (boilerType) => technician.boilerTypes.includes(boilerType.value),
+          ) : [],
+        }}
+        render={({
+          handleSubmit, submitting, pristine,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="firstName"
+                placeholder="First Name"
+                label="First Name"
+                validate={required}
+                component={TextInput}
+              />
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="lastName"
+                placeholder="Last Name"
+                label="Last Name"
+                validate={required}
+                component={TextInput}
+              />
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="address"
+                placeholder="Address"
+                label="Address"
+                validate={required}
+                component={TextInput}
+              />
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="phone"
+                placeholder="Phone"
+                label="Phone"
+                validate={required}
+                component={TextInput}
+              />
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="email"
+                placeholder="Email"
+                label="Email"
+                validate={composeValidators(required, email)}
+                component={TextInput}
+              />
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="birthday"
+                placeholder="Birthday"
+                label="Birthday"
+                validate={required}
+                component={TextInput}
+                type="date"
+              />
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="monthlyCapacity"
+                placeholder="Monthly Capacity"
+                label="Monthly Capacity"
+                validate={required}
+                component={TextInput}
+              />
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="hourRate"
+                placeholder="Hour Rate"
+                label="Hour Rate"
+                validate={required}
+                component={TextInput}
+              />
+            </div>
+            <div className={styles.techniciansFormContainer}>
+              <Field
+                name="boilerTypes"
+                isMulti
+                label="Boiler Types"
+                component={SelectInput}
+                options={boilerTypes}
+              />
+            </div>
+            <div className={styles.buttonContainer}>
+              <Button
+                primary
+                btnLabel="Submit"
+                type="submit"
+                disabled={submitting || pristine}
+                onClick={handleSubmit}
+              />
+              <Button
+                btnLabel="Cancel"
+                type="button"
+                onClick={onClose}
+              />
+            </div>
+          </form>
+        )}
+      />
     </div>
   );
 };
@@ -128,6 +170,16 @@ TechniciansForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   technician: PropTypes.object,
+  getBoilerTypes: PropTypes.func.isRequired,
+  boilerTypes: PropTypes.array.isRequired,
 };
 
-export default TechniciansForm;
+const mapStateToProps = (state) => ({
+  boilerTypes: getFormatedBoilerTypes(state),
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getBoilerTypes: getBoilerTypesAction,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TechniciansForm);

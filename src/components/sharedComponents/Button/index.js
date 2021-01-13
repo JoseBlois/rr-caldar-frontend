@@ -4,28 +4,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './button.module.css';
 
-const Button = (props) => {
-  const { primary, onClick, btnLabel } = props;
-
-  return (
-    <button
-      {...props}
-      className={primary ? styles.buttonPrimary : styles.button}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick();
-      }}
-    >
-      {btnLabel}
-    </button>
-  );
-};
+const Button = ({
+  primary,
+  onClick,
+  btnLabel,
+  type,
+}) => (
+  <button
+    type={type}
+    className={primary ? styles.buttonPrimary : styles.button}
+    onClick={(e) => {
+      e.preventDefault();
+      onClick();
+    }}
+  >
+    {btnLabel}
+  </button>
+);
 
 Button.defaultProps = {
   primary: false,
 };
 
 Button.propTypes = {
+  type: PropTypes.string.isRequired,
   btnLabel: PropTypes.string.isRequired,
   primary: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
