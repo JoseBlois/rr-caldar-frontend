@@ -1,10 +1,15 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Field } from 'react-final-form';
 import PropTypes from 'prop-types';
+import TextInput from '../../sharedComponents/TextInput';
 import Button from '../../sharedComponents/Button';
+import {
+  number,
+  email,
+  required,
+  composeValidators,
+  minLength,
+} from '../../../utils/validations';
 import styles from './companiesForm.module.css';
 
 const CompaniesForm = ({
@@ -12,22 +17,6 @@ const CompaniesForm = ({
   onClose,
   company,
 }) => {
-  const [state, setState] = useState({
-    name: company.name || '',
-    address: company.address || '',
-    cuit: company.cuit || 0,
-    phone: company.phone || 0,
-    email: company.email || '',
-    id: company._id,
-  });
-
-  const required = (value) => (value ? undefined : 'This field is required');
-  const mustBeNumber = (value) => (isNaN(value) ? 'Must be a number' : undefined);
-  const mustBeEmail = (value) => (/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(value) ? undefined : 'Invalid Email');
-  const composeValidators = (...validators) => (value) => (
-    validators.reduce((error, validator) => error || validator(value), undefined)
-  );
-
   const btSubmit = (value) => {
     const companyToSub = {
       name: value.name,
@@ -36,7 +25,7 @@ const CompaniesForm = ({
       phone: value.phone,
       email: value.email,
     };
-    onSubmit(companyToSub, state.id);
+    onSubmit(companyToSub, company._id);
   };
 
   return (
@@ -52,67 +41,69 @@ const CompaniesForm = ({
         }}
         render={({
           handleSubmit,
-          form,
+          submitting,
+          pristine,
         }) => (
           <form onSubmit={handleSubmit} className={styles.companiesFormContainer}>
             <div>
-              <label htmlFor="name">Name</label>
-              <Field name="name" type="text" validate={required}>
-                {({ input, meta }) => (
-                  <div>
-                    <input {...input} />
-                    {meta.error && meta.touched && <div className={styles.msg}>{meta.error}</div>}
-                  </div>
-                )}
-              </Field>
+              <Field
+                label="Name"
+                placeholder="Name"
+                name="name"
+                type="text"
+                validate={required}
+                component={TextInput}
+              />
             </div>
             <div>
-              <label htmlFor="address">Address</label>
-              <Field name="address" type="text" validate={required}>
-                {({ input, meta }) => (
-                  <div>
-                    <input {...input} />
-                    {meta.error && meta.touched && <div className={styles.msg}>{meta.error}</div>}
-                  </div>
-                )}
-              </Field>
+              <Field
+                label="Address"
+                placeholder="Address"
+                name="address"
+                type="text"
+                validate={required}
+                component={TextInput}
+              />
             </div>
             <div>
-              <label htmlFor="cuit">CUIT</label>
-              <Field name="cuit" type="text" validate={composeValidators(required, mustBeNumber)}>
-                {({ input, meta }) => (
-                  <div>
-                    <input {...input} />
-                    {meta.error && meta.touched && <div className={styles.msg}>{meta.error}</div>}
-                  </div>
-                )}
-              </Field>
+              <Field
+                label="CUIT"
+                placeholder="CUIT"
+                name="cuit"
+                type="text"
+                validate={composeValidators(number, required)}
+                component={TextInput}
+              />
             </div>
             <div>
-              <label htmlFor="phone">Phone</label>
-              <Field name="phone" type="text" validate={composeValidators(required, mustBeNumber)}>
-                {({ input, meta }) => (
-                  <div>
-                    <input {...input} />
-                    {meta.error && meta.touched && <div className={styles.msg}>{meta.error}</div>}
-                  </div>
-                )}
-              </Field>
+              <Field
+                label="Phone"
+                placeholder="Phone"
+                name="phone"
+                type="text"
+                validate={composeValidators(number, required, minLength(9))}
+                component={TextInput}
+              />
             </div>
             <div>
-              <label htmlFor="email">Email</label>
-              <Field name="email" type="text" validate={composeValidators(required, mustBeEmail)}>
-                {({ input, meta }) => (
-                  <div>
-                    <input {...input} />
-                    {meta.error && meta.touched && <div className={styles.msg}>{meta.error}</div>}
-                  </div>
-                )}
-              </Field>
+              <Field
+                label="Email"
+                placeholder="Email"
+                name="email"
+                type="text"
+                validate={composeValidators(email, required)}
+                component={TextInput}
+              />
             </div>
             <div className={styles.buttonContainer}>
               <Button btnLabel="Cancel" onClick={onClose} />
-              <Button type="submit" btnLabel="Submit" primary />
+              <Button
+                primary
+                btnLabel="Submit"
+                type="submit"
+                disabled={submitting || pristine}
+                onClick={handleSubmit}
+              />
             </div>
           </form>
         )}
