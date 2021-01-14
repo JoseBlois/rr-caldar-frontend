@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router, Route, Switch, Redirect,
 } from 'react-router-dom';
 import Companies from './components/Companies';
-import Building from './components/BuildingApp';
+import Building from './components/Buildings';
 import Technicians from './components/Technicians';
 import BoilerTypes from './components/boilerTypes/BoilerTypesApp';
 import Layout from './components/Layout';
