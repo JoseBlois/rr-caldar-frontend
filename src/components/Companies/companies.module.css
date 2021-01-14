@@ -1,0 +1,44 @@
+.companiesContainer {
+  background-color: #fff;
+  margin: 30px;
+  padding: 30px;
+}
+  
+.companiesTable {
+  width: 100%;
+}
+  
+.companiesTable thead {
+  font-size: 18px;
+  color: #FC6225;
+  border-bottom: 1px solid #707070;
+}
+  
+.companiesTable thead tr th {
+  padding: 10px;
+}
+  
+.companiesTable tbody tr td {
+  padding: 10px;
+  text-align: center;
+}
+  
+.companiesTable tbody tr {
+  border-bottom: 1px solid #707070;
+}
+  
+.addButtonContainer {
+  display: flex;
+  padding: 0px 30px;
+  justify-content: flex-end;
+}
+  
+.addButton {
+  padding: 15px;
+  border-radius: 50%;
+  background-color: #FC6225;
+  border: none;
+  outline: none;
+  color: #FFF;
+  box-shadow: 0px 0px 10px 2px #888888;
+}

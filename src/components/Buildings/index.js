@@ -4,17 +4,17 @@ import { bindActionCreators } from 'redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Modal from '../../sharedComponents/Modal';
-import ConfirmationMessage from '../../sharedComponents/ConfirmationMessage';
-import BuildingsForm from '../BuildingsForm';
+import Modal from '../sharedComponents/Modal';
+import ConfirmationMessage from '../sharedComponents/ConfirmationMessage';
+import BuildingsForm from './BuildingsForm';
 
-import styles from './Buildings.module.css';
+import styles from './buildings.module.css';
 import {
   getBuildings as getBuildingsR,
   deleteBuilding as deleteBuildingR,
   addBuilding as addBuildingR,
   updateBuilding as updateBuildingR,
-} from '../../../redux/actions/buildingActions';
+} from '../../redux/actions/buildingActions';
 
 const index = ({
   buildings, deleteBuilding, updateBuilding, getBuildings,
