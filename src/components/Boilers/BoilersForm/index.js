@@ -33,15 +33,17 @@ const BoilersForm = ({
     onSubmit(boilerToSub, boiler._id);
   };
 
+  const currentBoilerType = boiler && boiler.boilerType && boilerTypes.find(
+    (boilerType) => boilerType.value === boiler.boilerType,
+  );
+
   return (
     <div>
       <Form
         onSubmit={submit}
         initialValues={{
           description: boiler.description || 'Boiler',
-          boilerType: boiler && boiler.boilerTypes ? boilerTypes.filter(
-            (boilerType) => boiler.boilerTypes.includes(boilerType.value),
-          ) : [],
+          boilerType: currentBoilerType,
           hourMaintenanceCost: boiler.hourMaintenanceCost || 1,
           hourEventualCost: boiler.hourEventualCost || 1,
           maintenanceRate: boiler.maintenanceRate || 1,
@@ -64,7 +66,6 @@ const BoilersForm = ({
               <Field
                 name="boilerType"
                 label="Boiler Type: "
-                type="text"
                 component={SelectInput}
                 options={boilerTypes}
                 validate={required}
