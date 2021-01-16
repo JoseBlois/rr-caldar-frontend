@@ -1,67 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Form, Field } from 'react-final-form';
 import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
 import styles from './appointmentsForm.module.css';
+import { getBoilers as getBoilersAction } from '../../../redux/actions/boilersAction';
+import { getBuildings as getBuildingsAction } from '../../../redux/actions/buildingActions';
+import { getTechnicians as getTechniciansAction } from '../../../redux/actions/techniciansAction';
+import { getFormatedBoilers } from '../../../redux/selectors/boilersSelector';
+import { getFormatedBuildings } from '../../../redux/selectors/buildingsSelector';
+import { getFormatedTechnicians } from '../../../redux/selectors/techniciansSelector';
 
 const AppointmentsForm = ({
   onSubmit,
   onClose,
   appointment,
+  getBoilers,
+  boilers,
+  buildings,
+  getBuildings,
+  technicians,
+  getTechnicians,
 }) => {
   const [type, setType] = useState(appointment.type || 'eventual');
 
-  const [buildingsOptions, setBuildingsOptions] = useState([]);
-  const [boilersOptions, setBoilersOptions] = useState([]);
-  const [techniciansOptions, setTechniciansOptions] = useState([]);
-  const [pickedBuilding, setPickedBuilding] = useState(null);
-  const [pickedBoiler, setPickedBoiler] = useState(null);
-  const [pickedTechnician, setPickedTechnician] = useState(null);
-
   useEffect(async () => {
-    const URL = 'https://caldar-application.herokuapp.com';
-    const buildingsResponse = await fetch(`${URL}/buildings`);
-    const buildingsData = await buildingsResponse.json();
-    const allBuildings = buildingsData.map((building) => ({
-      label: building.name,
-      value: building._id,
-    }));
-    setBuildingsOptions(allBuildings);
-    const boilersResponse = await fetch(`${URL}/boilers`);
-    const boilersData = await boilersResponse.json();
-    const allBoilers = boilersData.map((boiler) => ({
-      label: boiler.description,
-      value: boiler._id,
-    }));
-    setBoilersOptions(allBoilers);
-    const techniciansResponse = await fetch(`${URL}/technicians`);
-    const techniciansData = await techniciansResponse.json();
-    const allTechnicians = techniciansData.map((technician) => ({
-      label: technician.firstName,
-      value: technician._id,
-    }));
-    setTechniciansOptions(allTechnicians);
-    if (appointment) {
-      allBuildings.map((building) => {
-        if (building.value === appointment.building) {
-          setPickedBuilding(building);
-        }
-        return false;
-      });
-      allBoilers.map((boiler) => {
-        if (boiler.value === appointment.boiler) {
-          setPickedBoiler(boiler);
-        }
-        return false;
-      });
-      allTechnicians.map((technician) => {
-        if (technician.value === appointment.technician) {
-          setPickedTechnician(technician);
-        }
-        return false;
-      });
-    }
+    getBoilers();
+    getBuildings();
+    getTechnicians();
   }, []);
 
   const submit = (values) => {
@@ -82,9 +50,15 @@ const AppointmentsForm = ({
       <Form
         onSubmit={submit}
         initialValues={{
-          building: pickedBuilding,
-          boiler: pickedBoiler,
-          technician: pickedTechnician,
+          building: appointment && appointment.building ? buildings.find(
+            (building) => appointment.building.includes(building.value),
+          ) : null,
+          boiler: appointment && appointment.boiler ? boilers.find(
+            (boiler) => appointment.boiler.includes(boiler.value),
+          ) : null,
+          technician: appointment && appointment.technician ? technicians.find(
+            (technician) => appointment.technician.includes(technician.value),
+          ) : null,
           monthlyHours: appointment.monthlyHours || '0',
           type: appointment.type || 'eventual',
         }}
@@ -96,7 +70,7 @@ const AppointmentsForm = ({
                 <Field name="building" validate={required}>
                   {({ input, meta }) => (
                     <div>
-                      <Select {...input} options={buildingsOptions} />
+                      <Select {...input} options={buildings} />
                       {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
@@ -109,7 +83,7 @@ const AppointmentsForm = ({
                 <Field name="technician" validate={required}>
                   {({ input, meta }) => (
                     <div>
-                      <Select {...input} options={techniciansOptions} />
+                      <Select {...input} options={technicians} />
                       {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
@@ -122,7 +96,7 @@ const AppointmentsForm = ({
                 <Field name="boiler" validate={required}>
                   {({ input, meta }) => (
                     <div>
-                      <Select {...input} options={boilersOptions} />
+                      <Select {...input} options={boilers} />
                       {meta.error && meta.touched && <div>{meta.error}</div>}
                     </div>
                   )}
@@ -189,6 +163,24 @@ AppointmentsForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   appointment: PropTypes.object,
+  getBoilers: PropTypes.func.isRequired,
+  boilers: PropTypes.array.isRequired,
+  getBuildings: PropTypes.func.isRequired,
+  buildings: PropTypes.array.isRequired,
+  getTechnicians: PropTypes.func.isRequired,
+  technicians: PropTypes.array.isRequired,
 };
 
-export default AppointmentsForm;
+const mapStateToProps = (state) => ({
+  boilers: getFormatedBoilers(state),
+  buildings: getFormatedBuildings(state),
+  technicians: getFormatedTechnicians(state),
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getBoilers: getBoilersAction,
+  getBuildings: getBuildingsAction,
+  getTechnicians: getTechniciansAction,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppointmentsForm);

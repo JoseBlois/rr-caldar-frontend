@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import AppointmentsForm from './AppointmentsForm';
@@ -144,6 +145,14 @@ const Appointments = ({
       )}
     </>
   );
+};
+
+Appointments.propTypes = {
+  getAppointments: PropTypes.func.isRequired,
+  deleteAppointment: PropTypes.func.isRequired,
+  appointments: PropTypes.array.isRequired,
+  addAppointment: PropTypes.func.isRequired,
+  updateAppointment: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => (
