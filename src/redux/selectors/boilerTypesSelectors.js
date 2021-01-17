@@ -1,13 +1,13 @@
-import { createSelector } from 'reselect';
+// import { createSelector } from 'reselect';
 
-const getBoilerTypes = (state) => state.boilerTypes.list;
+// const getBoilerTypes = (state) => state.boilerTypes.list;
 
-export const getFormatedBoilerTypes = createSelector(
-  [getBoilerTypes],
-  (boilerTypes) => boilerTypes.map(
-    (boilerType) => ({
-      label: boilerType.description,
-      value: boilerType._id,
-    }),
-  ),
-);
+// export const getFormatedBoilerTypes = createSelector(
+//   [getBoilerTypes],
+//   (boilerTypes) => boilerTypes.map(
+//     (boilerType) => ({
+//       label: boilerType.description,
+//       value: boilerType._id,
+//     }),
+//   ),
+// );
