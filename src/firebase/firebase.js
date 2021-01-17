@@ -1,7 +1,8 @@
+/* eslint-disable prefer-destructuring */
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import rootReducer from '../redux/reducers/rootReducer';
+import store from '../redux';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY || '',
@@ -16,3 +17,19 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export default firebaseApp;
+
+const setToken = async (user) => {
+  const auth = store.getState().auth;
+  if (auth.authenticated) {
+    const token = await user.getIdToken();
+    localStorage.setItem('token', token);
+  }
+};
+
+export const tokenListener = () => {
+  firebase.auth().onIdTokenChanged((user) => {
+    if (user) {
+      setToken(user);
+    }
+  });
+};

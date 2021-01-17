@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAuthentication } from './redux/actions/authActions';
+import { tokenListener } from './firebase/firebase';
 import Companies from './components/Companies2/index';
 import BuildingApp from './components/Buildings';
 import Technicians from './components/Technicians';
@@ -23,6 +24,10 @@ const App = ({ authenticated }) => {
     }
   }, [setAuthentication]);
 
+  useEffect(() => {
+    tokenListener();
+  }, []);
+
   if (authenticated) {
     return (
       <Router>
@@ -34,8 +39,8 @@ const App = ({ authenticated }) => {
             <Route path="/boilerTypes" component={BoilerTypes} />
             <Route path="/technicians" component={Technicians} />
             <Route path="/appointments" component={Appointments} />
-            <Route exact path="/">
-              <Redirect to="/buildings" />
+            <Route exact path="/login">
+              <Redirect path="/login" to="/buildings" />
             </Route>
           </Switch>
         </Layout>
@@ -45,19 +50,6 @@ const App = ({ authenticated }) => {
 
   return (
     <Router>
-      <Layout>
-        <Switch>
-          <Route path="/buildings" component={BuildingApp} />
-          <Route path="/companies" component={Companies} />
-          <Route path="/boilers" component={Boilers} />
-          <Route path="/boilerTypes" component={BoilerTypes} />
-          <Route path="/technicians" component={Technicians} />
-          <Route path="/appointments" component={Appointments} />
-          <Route exact path="/">
-            <Redirect to="/buildings" />
-          </Route>
-        </Switch>
-      </Layout>
       <Switch>
         <Route path="/login" component={Login} />
         <Redirect path="/" to="/login" />

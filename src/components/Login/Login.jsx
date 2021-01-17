@@ -48,7 +48,7 @@ const Login = ({ login }) => {
                 </Field>
               </div>
               <div className={styles.buttonContainer}>
-                <Button type="submit" btnLabel="LogIn" primary />
+                <Button type="submit" btnLabel="Submit" primary onClick={handleSubmit} />
               </div>
             </form>
           )}

@@ -13,6 +13,7 @@ import {
   DELETE_BOILER_FULFILLED,
   DELETE_BOILER_REJECTED,
 } from '../types/boilersTypes';
+import setHeaders from '../utils/headersJwt';
 
 const URL = 'https://caldar-application.herokuapp.com/boilers';
 
@@ -60,9 +61,7 @@ export const deleteBoiler = (id) => async (dispatch) => {
   try {
     const data = await fetch(`${URL}/${id}`, {
       method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     if (data.ok) {
       dispatch(deleteBoilerFulfilled(id));
@@ -93,9 +92,7 @@ export const addBoiler = (boiler) => async (dispatch) => {
     const data = await fetch(URL, {
       method: 'POST',
       body: JSON.stringify(boiler),
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     const res = await data.json();
     return dispatch(addBoilerFulfilled(res));
@@ -126,9 +123,7 @@ export const updateBoiler = (boiler, id) => async (dispatch) => {
     const data = await fetch(`${URL}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(boiler),
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     const res = await data.json();
     return dispatch(updateBoilerFulfilled(res, id));
