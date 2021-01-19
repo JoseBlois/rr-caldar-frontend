@@ -1,47 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Form, Field } from 'react-final-form';
 import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
 import styles from './BuildingsForm.module.css';
+import { getBoilers as getBoilersAction } from '../../../redux/actions/boilersAction';
+import { getFormatedBoilers } from '../../../redux/selectors/boilersSelector';
 
 const BuildingsForm = ({
   onSubmit,
   onClose,
   building,
+  getBoilers,
+  boilers,
 }) => {
-  const [boilerOptions, setBoilersOptions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [pickedBoilers, setPickedBoilers] = useState([]);
 
   useEffect(async () => {
-    const response = await fetch('https://caldar-application.herokuapp.com/boilers');
-    const json = await response.json();
-    setBoilersOptions(json.map((boiler) => ({
-      label: boiler.description,
-      value: boiler._id,
-    })));
-    const boilerForDefaults = json.map((boiler) => ({
-      label: boiler.description,
-      value: boiler._id,
-    }));
-    const defValues = [];
-    if (building) {
-      for (let i = 0; i < building.boilers.length; i += 1) {
-        boilerForDefaults.map((boiler) => {
-          if (boiler.value === building.boilers[i]) {
-            defValues.push(boiler);
-          }
-          return false;
-        });
-      }
-    }
-    if (defValues.length === 0) {
-      const initialBoilers = null;
-      setPickedBoilers(initialBoilers);
-    } else {
-      setPickedBoilers(defValues);
-    }
+    getBoilers();
     setLoading(false);
   }, []);
 
@@ -65,7 +43,9 @@ const BuildingsForm = ({
           address: building.address || '',
           company: building.company || '',
           phone: building.phone || '',
-          boilers: pickedBoilers,
+          boilers: building && building.boilers ? boilers.filter(
+            (boiler) => building.boilers.includes(boiler.value),
+          ) : null,
         }}
         render={({ handleSubmit }) => (
           <form className={styles.buildingFormContainer}>
@@ -129,7 +109,7 @@ const BuildingsForm = ({
                     <Field name="boilers" validate={requiredSelect}>
                       {({ input, meta }) => (
                         <div>
-                          <Select {...input} options={boilerOptions} isMulti required />
+                          <Select {...input} options={boilers} isMulti required />
                           {(meta.error && meta.touched && <p>{meta.error}</p>)}
                         </div>
                       )}
@@ -158,6 +138,16 @@ BuildingsForm.propTypes = {
   building: PropTypes.object,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  getBoilers: PropTypes.func.isRequired,
+  boilers: PropTypes.array.isRequired,
 };
 
-export default BuildingsForm;
+const mapStateToProps = (state) => ({
+  boilers: getFormatedBoilers(state),
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getBoilers: getBoilersAction,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuildingsForm);
