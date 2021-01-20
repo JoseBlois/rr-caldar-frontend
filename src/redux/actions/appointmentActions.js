@@ -1,3 +1,4 @@
+import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_APPOINTMENTS_FETCHING,
   GET_APPOINTMENTS_FULFILLED,
@@ -30,10 +31,12 @@ const getAppointmentsRejected = () => ({
 
 export const getAppointments = () => (dispatch) => {
   dispatch(getAppointmentsFetching());
-  fetch(URL)
+  fetch(URL, {
+    headers: setHeaders(),
+  })
     .then((data) => data.json())
     .then((res) => dispatch(getAppointmentsFulfilled(res)))
-    .catch((err) => getAppointmentsRejected());
+    .catch(() => getAppointmentsRejected());
 };
 
 const deleteAppointmentFetching = () => ({
@@ -55,13 +58,11 @@ export const deleteAppointment = (id) => (dispatch) => {
   dispatch(deleteAppointmentFetching());
   fetch(`${URL}/${id}`, {
     method: 'DELETE',
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: setHeaders(),
   })
     .then((data) => data.json())
-    .then((res) => dispatch(deleteAppointmentFulfilled(id)))
-    .catch((err) => dispatch(deleteAppointmentRejected()));
+    .then(() => dispatch(deleteAppointmentFulfilled(id)))
+    .catch(() => dispatch(deleteAppointmentRejected()));
 };
 
 const addAppointmentFetching = () => ({
@@ -84,9 +85,7 @@ export const addAppointment = (appointment) => (dispatch) => {
   fetch(URL, {
     method: 'POST',
     body: JSON.stringify(appointment),
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: setHeaders(),
   })
     .then((data) => {
       if (!data.ok) {
@@ -101,7 +100,7 @@ export const addAppointment = (appointment) => (dispatch) => {
         dispatch(dispatch(addAppointmentRejected()));
       }
     })
-    .catch((err) => dispatch(addAppointmentRejected()));
+    .catch(() => dispatch(addAppointmentRejected()));
 };
 
 const updateAppointmentFetching = () => ({
@@ -125,9 +124,7 @@ export const updateAppointment = (appointment, id) => (dispatch) => {
   return fetch(`${URL}/${id}`, {
     method: 'PUT',
     body: JSON.stringify(appointment),
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: setHeaders(),
   })
     .then((data) => {
       if (!data.ok) {
@@ -142,5 +139,5 @@ export const updateAppointment = (appointment, id) => (dispatch) => {
         dispatch(updateAppointmentRejected());
       }
     })
-    .catch((err) => dispatch(updateAppointmentRejected()));
+    .catch(() => dispatch(updateAppointmentRejected()));
 };

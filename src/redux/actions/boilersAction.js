@@ -1,4 +1,4 @@
-/* eslint-disable */
+import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_BOILERS_FETCHING,
   GET_BOILERS_FULFILLED,
@@ -32,7 +32,9 @@ const getBoilersRejected = () => ({
 export const getBoilers = () => async (dispatch) => {
   dispatch(getBoilersFetching());
   try {
-    const data = await fetch(URL);
+    const data = await fetch(URL, {
+      headers: setHeaders(),
+    });
     const res = await data.json();
     return dispatch(getBoilersFulfilled(res));
   } catch (err) {
@@ -60,15 +62,12 @@ export const deleteBoiler = (id) => async (dispatch) => {
   try {
     const data = await fetch(`${URL}/${id}`, {
       method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     if (data.ok) {
-      dispatch(deleteBoilerFulfilled(id));
-    } else {
-      throw new Error('Error');
+      return dispatch(deleteBoilerFulfilled(id));
     }
+    throw new Error('Error');
   } catch (err) {
     return dispatch(deleteBoilerRejected());
   }
@@ -93,9 +92,7 @@ export const addBoiler = (boiler) => async (dispatch) => {
     const data = await fetch(URL, {
       method: 'POST',
       body: JSON.stringify(boiler),
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     const res = await data.json();
     return dispatch(addBoilerFulfilled(res));
@@ -126,9 +123,7 @@ export const updateBoiler = (boiler, id) => async (dispatch) => {
     const data = await fetch(`${URL}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(boiler),
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     const res = await data.json();
     return dispatch(updateBoilerFulfilled(res, id));

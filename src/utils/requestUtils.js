@@ -3,10 +3,10 @@ export const setHeaders = (headers = {}) => {
     ...headers,
     'Content-type': 'application/json',
   };
-  if (localStorage.token) {
+  if (localStorage.getItem('token')) {
     return {
       ...newHeaders,
-      Authorization: `Bearer ${localStorage.token}`,
+      token: localStorage.getItem('token'),
     };
   }
   return newHeaders;

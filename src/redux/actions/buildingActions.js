@@ -1,3 +1,4 @@
+import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_BUILDINGS_FETCHING,
   GET_BUILDINGS_FULFILLED,
@@ -31,7 +32,9 @@ const getBuildingsRejected = () => ({
 
 export const getBuildings = () => (dispatch) => {
   dispatch(getBuildingsFetching());
-  return fetch(URL)
+  return fetch(URL, {
+    headers: setHeaders(),
+  })
     .then((data) => data.json())
     .then((res) => dispatch(getBuildingsFulfilled(res)))
     .catch(() => dispatch(getBuildingsRejected()));
@@ -60,9 +63,7 @@ export const deleteBuilding = (id) => (dispatch) => {
   dispatch(deleteBuildingFetching());
   return fetch(`${URL}/${id}`, {
     method: 'DELETE',
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: setHeaders(),
   })
     .then((data) => {
       if (!data.ok) {
@@ -100,9 +101,7 @@ export const addBuilding = (building) => (dispatch) => {
   return fetch(URL, {
     method: 'POST',
     body: JSON.stringify(building),
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: setHeaders(),
   })
     .then((data) => data.json())
     .then((res) => dispatch(addBuildingFulfilled(res)))
@@ -130,9 +129,7 @@ export const updateBuilding = (building, id) => (dispatch) => {
   return fetch(`${URL}/${id}`, {
     method: 'PUT',
     body: JSON.stringify(building),
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: setHeaders(),
   })
     .then((data) => data.json())
     .then((res) => dispatch(updateBuildingFulfilled(res, id)))

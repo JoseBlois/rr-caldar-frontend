@@ -1,4 +1,4 @@
-/* eslint-disable */
+import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_BOILERTYPES_FETCHING,
   GET_BOILERTYPES_FULFILLED,
@@ -32,7 +32,9 @@ const getBoilerTypesRejected = () => ({
 export const getBoilerTypes = () => async (dispatch) => {
   dispatch(getBoilerTypesFetching());
   try {
-    const data = await fetch(URL);
+    const data = await fetch(URL, {
+      headers: setHeaders(),
+    });
     const res = await data.json();
     return dispatch(getBoilerTypesFulfilled(res));
   } catch (err) {
@@ -60,15 +62,12 @@ export const deleteBoilerType = (id) => async (dispatch) => {
   try {
     const data = await fetch(`${URL}/${id}`, {
       method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     if (data.ok) {
-      dispatch(deleteBoilerTypeFulfilled(id));
-    } else {
-      throw new Error('Error');
+      return dispatch(deleteBoilerTypeFulfilled(id));
     }
+    throw new Error('Error');
   } catch (err) {
     return dispatch(deleteBoilerTypeRejected());
   }
@@ -93,9 +92,7 @@ export const addBoilerType = (boilerType) => async (dispatch) => {
     const data = await fetch(URL, {
       method: 'POST',
       body: JSON.stringify(boilerType),
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     const res = await data.json();
     return dispatch(addBoilerTypeFulfilled(res));
@@ -126,9 +123,7 @@ export const updateBoilerType = (boilerType, id) => async (dispatch) => {
     const data = await fetch(`${URL}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(boilerType),
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     const res = await data.json();
     return dispatch(updateBoilerTypeFulfilled(res, id));
