@@ -5,6 +5,7 @@ import boilerTypesReducer from './boilerTypesReducer';
 import techniciansReducer from './techniciansReducer';
 import appointmentsReducer from './appoinmentsReducer';
 import companiesReducer from './companiesReducer';
+import authReducer from './authReducer';
 
 const rootReducer = combineReducers({
   boilers: boilersReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   technicians: techniciansReducer,
   appointments: appointmentsReducer,
   companies: companiesReducer,
+  auth: authReducer,
 });
 
 export default rootReducer;
