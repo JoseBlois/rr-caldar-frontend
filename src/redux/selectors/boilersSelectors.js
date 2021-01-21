@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 const getBoilers = (state) => state.boilers.list;
 
-export const getFormatedBoilers = createSelector(
+export const getFormattedBoilers = createSelector(
   [getBoilers],
   (boilers) => boilers.map(
     (boiler) => ({

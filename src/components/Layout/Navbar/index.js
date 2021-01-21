@@ -45,7 +45,9 @@ const Navbar = ({
           <NavLink className={styles.link} activeClassName={styles.active} to="/appointments">Appointments</NavLink>
         </li>
       </ul>
-      <Button type="submit" btnLabel="Logout" primary onClick={onLogoutClick} />
+      <div className={styles.logoutButtonContainer}>
+        <Button type="submit" btnLabel="Logout" primary onClick={onLogoutClick} />
+      </div>
     </div>
   );
 };

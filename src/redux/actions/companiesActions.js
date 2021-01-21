@@ -1,4 +1,3 @@
-import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_COMPANIES_FETCHING,
   GET_COMPANIES_FULFILLED,
@@ -13,6 +12,12 @@ import {
   DELETE_COMPANY_FULFILLED,
   DELETE_COMPANY_REJECTED,
 } from '../types/companiesTypes';
+import {
+  requestGet,
+  requestPost,
+  requestPut,
+  requestDelete,
+} from '../../utils/requestUtils';
 
 const URL = 'https://caldar-application.herokuapp.com/companies';
 
@@ -31,15 +36,9 @@ const getCompaniesRejected = () => ({
 
 export const getCompanies = () => async (dispatch) => {
   dispatch(getCompaniesFetching());
-  try {
-    const data = await fetch(URL, {
-      headers: setHeaders(),
-    });
-    const res = await data.json();
-    return dispatch(getCompaniesFulfilled(res));
-  } catch (err) {
-    return dispatch(getCompaniesRejected());
-  }
+  return requestGet(URL)
+    .then((res) => dispatch(getCompaniesFulfilled(res)))
+    .catch(() => dispatch(getCompaniesRejected()));
 };
 
 const deleteCompanyFetching = () => ({
@@ -59,18 +58,9 @@ const deleteCompanyRejected = () => ({
 
 export const deleteCompany = (id) => async (dispatch) => {
   dispatch(deleteCompanyFetching());
-  try {
-    const data = await fetch(`${URL}/${id}`, {
-      method: 'DELETE',
-      headers: setHeaders(),
-    });
-    if (data.ok) {
-      return dispatch(deleteCompanyFulfilled(id));
-    }
-    throw new Error('Error');
-  } catch (err) {
-    return dispatch(deleteCompanyRejected());
-  }
+  return requestDelete(`${URL}/${id}`)
+    .then(() => dispatch(deleteCompanyFulfilled(id)))
+    .catch(() => dispatch(deleteCompanyRejected()));
 };
 
 const addCompanyFetching = () => ({
@@ -88,17 +78,11 @@ const addCompanyRejected = () => ({
 
 export const addCompany = (company) => async (dispatch) => {
   dispatch(addCompanyFetching());
-  try {
-    const data = await fetch(URL, {
-      method: 'POST',
-      body: JSON.stringify(company),
-      headers: setHeaders(),
-    });
-    const res = await data.json();
-    return dispatch(addCompanyFulfilled(res));
-  } catch (err) {
-    return dispatch(addCompanyRejected());
-  }
+  return requestPost(URL, {
+    data: company,
+  })
+    .then((res) => dispatch(addCompanyFulfilled(res)))
+    .catch(() => dispatch(addCompanyRejected()));
 };
 
 const updateCompanyFetching = () => ({
@@ -119,15 +103,9 @@ const updateCompanyRejected = () => ({
 
 export const updateCompany = (company, id) => async (dispatch) => {
   dispatch(updateCompanyFetching());
-  try {
-    const data = await fetch(`${URL}/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(company),
-      headers: setHeaders(),
-    });
-    const res = await data.json();
-    return dispatch(updateCompanyFulfilled(res, id));
-  } catch (err) {
-    return dispatch(updateCompanyRejected());
-  }
+  return requestPut(`${URL}/${id}`, {
+    data: company,
+  })
+    .then((res) => dispatch(updateCompanyFulfilled(res, id)))
+    .catch(() => dispatch(updateCompanyRejected()));
 };

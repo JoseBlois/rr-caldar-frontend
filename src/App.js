@@ -13,7 +13,7 @@ import { tokenListener } from './firebase';
 import Companies from './components/Companies';
 import Building from './components/Buildings';
 import Technicians from './components/Technicians';
-import BoilerTypes from './components/boilerTypes/BoilerTypesApp';
+import BoilerTypes from './components/boilerTypes';
 import Layout from './components/Layout';
 import Appointments from './components/Appointments';
 import Boilers from './components/Boilers';

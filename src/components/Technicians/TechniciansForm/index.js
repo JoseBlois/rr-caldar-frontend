@@ -10,7 +10,7 @@ import TextInput from '../../sharedComponents/TextInput';
 import SelectInput from '../../sharedComponents/Select';
 import { required, email, composeValidators } from '../../../utils/validations';
 import { getBoilerTypes as getBoilerTypesAction } from '../../../redux/actions/boilerTypesAction';
-import { getFormatedBoilerTypes } from '../../../redux/selectors/boilerTypesSelectors';
+import { getFormattedBoilerTypes } from '../../../redux/selectors/boilerTypesSelectors';
 
 const TechniciansForm = ({
   onSubmit,
@@ -139,6 +139,7 @@ const TechniciansForm = ({
                 label="Boiler Types"
                 component={SelectInput}
                 options={boilerTypes}
+                validate={required}
               />
             </div>
             <div className={styles.buttonContainer}>
@@ -175,7 +176,7 @@ TechniciansForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  boilerTypes: getFormatedBoilerTypes(state),
+  boilerTypes: getFormattedBoilerTypes(state),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

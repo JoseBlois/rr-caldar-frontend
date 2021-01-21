@@ -1,4 +1,3 @@
-import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_BOILERS_FETCHING,
   GET_BOILERS_FULFILLED,
@@ -13,6 +12,12 @@ import {
   DELETE_BOILER_FULFILLED,
   DELETE_BOILER_REJECTED,
 } from '../types/boilersTypes';
+import {
+  requestGet,
+  requestPost,
+  requestPut,
+  requestDelete,
+} from '../../utils/requestUtils';
 
 const URL = 'https://caldar-application.herokuapp.com/boilers';
 
@@ -31,15 +36,9 @@ const getBoilersRejected = () => ({
 
 export const getBoilers = () => async (dispatch) => {
   dispatch(getBoilersFetching());
-  try {
-    const data = await fetch(URL, {
-      headers: setHeaders(),
-    });
-    const res = await data.json();
-    return dispatch(getBoilersFulfilled(res));
-  } catch (err) {
-    return dispatch(getBoilersRejected());
-  }
+  return requestGet(URL)
+    .then((res) => dispatch(getBoilersFulfilled(res)))
+    .catch(() => dispatch(getBoilersRejected()));
 };
 
 const deleteBoilerFetching = () => ({
@@ -59,18 +58,9 @@ const deleteBoilerRejected = () => ({
 
 export const deleteBoiler = (id) => async (dispatch) => {
   dispatch(deleteBoilerFetching());
-  try {
-    const data = await fetch(`${URL}/${id}`, {
-      method: 'DELETE',
-      headers: setHeaders(),
-    });
-    if (data.ok) {
-      return dispatch(deleteBoilerFulfilled(id));
-    }
-    throw new Error('Error');
-  } catch (err) {
-    return dispatch(deleteBoilerRejected());
-  }
+  return requestDelete(`${URL}/${id}`)
+    .then(() => dispatch(deleteBoilerFulfilled(id)))
+    .catch(() => dispatch(deleteBoilerRejected()));
 };
 
 const addBoilerFetching = () => ({
@@ -88,17 +78,11 @@ const addBoilerRejected = () => ({
 
 export const addBoiler = (boiler) => async (dispatch) => {
   dispatch(addBoilerFetching());
-  try {
-    const data = await fetch(URL, {
-      method: 'POST',
-      body: JSON.stringify(boiler),
-      headers: setHeaders(),
-    });
-    const res = await data.json();
-    return dispatch(addBoilerFulfilled(res));
-  } catch (err) {
-    return dispatch(addBoilerRejected());
-  }
+  return requestPost(URL, {
+    data: boiler,
+  })
+    .then((res) => dispatch(addBoilerFulfilled(res)))
+    .catch(() => dispatch(addBoilerRejected()));
 };
 
 const updateBoilerFetching = () => ({
@@ -119,15 +103,9 @@ const updateBoilerRejected = () => ({
 
 export const updateBoiler = (boiler, id) => async (dispatch) => {
   dispatch(updateBoilerFetching());
-  try {
-    const data = await fetch(`${URL}/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(boiler),
-      headers: setHeaders(),
-    });
-    const res = await data.json();
-    return dispatch(updateBoilerFulfilled(res, id));
-  } catch (err) {
-    return dispatch(updateBoilerRejected());
-  }
+  return requestPut(`${URL}/${id}`, {
+    data: boiler,
+  })
+    .then((res) => dispatch(updateBoilerFulfilled(res, id)))
+    .catch(() => dispatch(updateBoilerRejected()));
 };
