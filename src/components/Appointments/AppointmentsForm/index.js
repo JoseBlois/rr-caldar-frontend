@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Field } from 'react-final-form';
-import Select from 'react-select';
 import Button from '../../sharedComponents/Button';
+import SelectInput from '../../sharedComponents/Select';
 import styles from './appointmentsForm.module.css';
 import { getBoilers as getBoilersAction } from '../../../redux/actions/boilersAction';
 import { getBuildings as getBuildingsAction } from '../../../redux/actions/buildingActions';
 import { getTechnicians as getTechniciansAction } from '../../../redux/actions/techniciansAction';
-import { getFormatedBoilers } from '../../../redux/selectors/boilersSelector';
-import { getFormatedBuildings } from '../../../redux/selectors/buildingsSelector';
-import { getFormatedTechnicians } from '../../../redux/selectors/techniciansSelector';
+import { getFormattedBoilers } from '../../../redux/selectors/boilersSelectors';
+import { getFormattedBuildings } from '../../../redux/selectors/buildingsSelectors';
+import { getFormattedTechnicians } from '../../../redux/selectors/techniciansSelectors';
+import { required } from '../../../utils/validations';
+import TextInput from '../../sharedComponents/TextInput';
 
 const AppointmentsForm = ({
   onSubmit,
@@ -24,8 +26,6 @@ const AppointmentsForm = ({
   technicians,
   getTechnicians,
 }) => {
-  const [type, setType] = useState(appointment.type || 'eventual');
-
   useEffect(async () => {
     getBoilers();
     getBuildings();
@@ -42,8 +42,6 @@ const AppointmentsForm = ({
     };
     onSubmit(appointmentToSub, appointment._id);
   };
-
-  const required = (value) => (value ? undefined : 'Required');
 
   return (
     <div>
@@ -62,82 +60,58 @@ const AppointmentsForm = ({
           monthlyHours: appointment.monthlyHours || '0',
           type: appointment.type || 'eventual',
         }}
-        render={({ handleSubmit }) => (
+        render={({ handleSubmit, values }) => (
           <form className={styles.appointmentsFormContainer}>
             <div className={styles.inputContainer}>
-              <label htmlFor="building">
-                Building:
-                <Field name="building" validate={required}>
-                  {({ input, meta }) => (
-                    <div>
-                      <Select {...input} options={buildings} />
-                      {meta.error && meta.touched && <div>{meta.error}</div>}
-                    </div>
-                  )}
-                </Field>
-              </label>
+              <Field
+                name="building"
+                label="Building"
+                component={SelectInput}
+                options={buildings}
+              />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="technician">
-                Technician:
-                <Field name="technician" validate={required}>
-                  {({ input, meta }) => (
-                    <div>
-                      <Select {...input} options={technicians} />
-                      {meta.error && meta.touched && <div>{meta.error}</div>}
-                    </div>
-                  )}
-                </Field>
-              </label>
+              <Field
+                name="technician"
+                label="Technician"
+                component={SelectInput}
+                options={technicians}
+              />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="boiler">
-                Boilers:
-                <Field name="boiler" validate={required}>
-                  {({ input, meta }) => (
-                    <div>
-                      <Select {...input} options={boilers} />
-                      {meta.error && meta.touched && <div>{meta.error}</div>}
-                    </div>
-                  )}
-                </Field>
-              </label>
+              <Field
+                name="boiler"
+                label="Boiler"
+                component={SelectInput}
+                options={boilers}
+              />
             </div>
             <div className={styles.typeContainer}>
               <Field
+                label="Eventual"
                 name="type"
-                component="input"
+                component={TextInput}
                 type="radio"
                 value="eventual"
-                id="eventual"
-                checked={Boolean(type === 'eventual')}
-                onClick={() => setType('eventual')}
               />
-              <label htmlFor="eventual">Eventual</label>
               <Field
+                label="Programmed"
                 name="type"
-                component="input"
+                component={TextInput}
                 type="radio"
                 value="programmed"
-                id="programmed"
-                checked={Boolean(type === 'programmed')}
-                onClick={() => setType('programmed')}
               />
-              <label htmlFor="programmed">Programmed</label>
             </div>
-            {type === 'programmed' && (
+            {values.type === 'programmed' && (
               <div className={styles.inputContainer}>
-                <label htmlFor="monthlyHours">
-                  Building Company
-                  <Field name="monthlyHours" validate={required}>
-                    {({ input, meta }) => (
-                      <div>
-                        <input {...input} type="text" placeholder="Monthly Hours" />
-                        {meta.error && meta.touched && <div>{meta.error}</div>}
-                      </div>
-                    )}
-                  </Field>
-                </label>
+                <Field
+                  name="monthlyHours"
+                  validate={required}
+                  placeholder="Monthly Hours"
+                  label="Monthly Hours"
+                  component={TextInput}
+                  type="text"
+                />
               </div>
             )}
             <div className={styles.buttonContainer}>
@@ -172,9 +146,9 @@ AppointmentsForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  boilers: getFormatedBoilers(state),
-  buildings: getFormatedBuildings(state),
-  technicians: getFormatedTechnicians(state),
+  boilers: getFormattedBoilers(state),
+  buildings: getFormattedBuildings(state),
+  technicians: getFormattedTechnicians(state),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

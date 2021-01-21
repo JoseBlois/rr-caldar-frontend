@@ -1,4 +1,4 @@
-.buildingFormContainer {
+.boilerTypesFormContainer {
   display: flex;
   flex-direction: column;
 }
@@ -6,7 +6,6 @@
 .inputContainer {
   display: flex;
   flex-direction: column;
-  margin: 10px;
 }
 
 .buttonContainer {

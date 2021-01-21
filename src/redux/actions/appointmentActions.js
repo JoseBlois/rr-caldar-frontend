@@ -1,4 +1,3 @@
-import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_APPOINTMENTS_FETCHING,
   GET_APPOINTMENTS_FULFILLED,
@@ -13,6 +12,12 @@ import {
   DELETE_APPOINTMENTS_FULFILLED,
   DELETE_APPOINTMENTS_REJECTED,
 } from '../types/appointmentsTypes';
+import {
+  requestGet,
+  requestPost,
+  requestPut,
+  requestDelete,
+} from '../../utils/requestUtils';
 
 const URL = 'https://caldar-application.herokuapp.com/appointments/';
 
@@ -31,10 +36,7 @@ const getAppointmentsRejected = () => ({
 
 export const getAppointments = () => (dispatch) => {
   dispatch(getAppointmentsFetching());
-  fetch(URL, {
-    headers: setHeaders(),
-  })
-    .then((data) => data.json())
+  return requestGet(URL)
     .then((res) => dispatch(getAppointmentsFulfilled(res)))
     .catch(() => getAppointmentsRejected());
 };
@@ -56,11 +58,7 @@ const deleteAppointmentRejected = () => ({
 
 export const deleteAppointment = (id) => (dispatch) => {
   dispatch(deleteAppointmentFetching());
-  fetch(`${URL}/${id}`, {
-    method: 'DELETE',
-    headers: setHeaders(),
-  })
-    .then((data) => data.json())
+  return requestDelete(`${URL}/${id}`)
     .then(() => dispatch(deleteAppointmentFulfilled(id)))
     .catch(() => dispatch(deleteAppointmentRejected()));
 };
@@ -82,24 +80,10 @@ const addAppointmentRejected = () => ({
 
 export const addAppointment = (appointment) => (dispatch) => {
   dispatch(addAppointmentFetching());
-  fetch(URL, {
-    method: 'POST',
-    body: JSON.stringify(appointment),
-    headers: setHeaders(),
+  return requestPost(URL, {
+    data: appointment,
   })
-    .then((data) => {
-      if (!data.ok) {
-        return false;
-      }
-      return data.json();
-    })
-    .then((res) => {
-      if (res) {
-        dispatch(addAppointmentFulfilled(res));
-      } else {
-        dispatch(dispatch(addAppointmentRejected()));
-      }
-    })
+    .then((res) => dispatch(addAppointmentFulfilled(res)))
     .catch(() => dispatch(addAppointmentRejected()));
 };
 
@@ -121,23 +105,9 @@ const updateAppointmentRejected = () => ({
 
 export const updateAppointment = (appointment, id) => (dispatch) => {
   dispatch(updateAppointmentFetching());
-  return fetch(`${URL}/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify(appointment),
-    headers: setHeaders(),
+  return requestPut(`${URL}/${id}`, {
+    data: appointment,
   })
-    .then((data) => {
-      if (!data.ok) {
-        return false;
-      }
-      return data.json();
-    })
-    .then((res) => {
-      if (res) {
-        dispatch(updateAppointmentFulfilled(appointment, id));
-      } else {
-        dispatch(updateAppointmentRejected());
-      }
-    })
+    .then(() => dispatch(updateAppointmentFulfilled(appointment, id)))
     .catch(() => dispatch(updateAppointmentRejected()));
 };

@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 const getBuildings = (state) => state.buildings.list;
 
-export const getFormatedBuildings = createSelector(
+export const getFormattedBuildings = createSelector(
   [getBuildings],
   (buildings) => buildings.map(
     (building) => ({

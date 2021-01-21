@@ -17,13 +17,13 @@ const CompaniesForm = ({
   onClose,
   company,
 }) => {
-  const btSubmit = (value) => {
+  const btSubmit = (values) => {
     const companyToSub = {
-      name: value.name,
-      address: value.address,
-      cuit: value.cuit,
-      phone: value.phone,
-      email: value.email,
+      name: values.name,
+      address: values.address,
+      cuit: values.cuit,
+      phone: values.phone,
+      email: values.email,
     };
     onSubmit(companyToSub, company._id);
   };
@@ -33,11 +33,11 @@ const CompaniesForm = ({
       <Form
         onSubmit={btSubmit}
         initialValues={{
-          name: '',
-          address: '',
-          cuit: 0,
-          phone: 0,
-          email: '',
+          name: company.name || '',
+          address: company.address || '',
+          cuit: company.cuit || '',
+          phone: company.phone || '',
+          email: company.email || '',
         }}
         render={({
           handleSubmit,
@@ -45,7 +45,7 @@ const CompaniesForm = ({
           pristine,
         }) => (
           <form onSubmit={handleSubmit} className={styles.companiesFormContainer}>
-            <div>
+            <div className={styles.inputContainer}>
               <Field
                 label="Name"
                 placeholder="Name"
@@ -55,7 +55,7 @@ const CompaniesForm = ({
                 component={TextInput}
               />
             </div>
-            <div>
+            <div className={styles.inputContainer}>
               <Field
                 label="Address"
                 placeholder="Address"
@@ -65,7 +65,7 @@ const CompaniesForm = ({
                 component={TextInput}
               />
             </div>
-            <div>
+            <div className={styles.inputContainer}>
               <Field
                 label="CUIT"
                 placeholder="CUIT"
@@ -75,7 +75,7 @@ const CompaniesForm = ({
                 component={TextInput}
               />
             </div>
-            <div>
+            <div className={styles.inputContainer}>
               <Field
                 label="Phone"
                 placeholder="Phone"
@@ -85,7 +85,7 @@ const CompaniesForm = ({
                 component={TextInput}
               />
             </div>
-            <div>
+            <div className={styles.inputContainer}>
               <Field
                 label="Email"
                 placeholder="Email"

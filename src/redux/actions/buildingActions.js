@@ -1,4 +1,3 @@
-import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_BUILDINGS_FETCHING,
   GET_BUILDINGS_FULFILLED,
@@ -11,9 +10,14 @@ import {
   UPDATE_BUILDINGS_REJECTED,
   DELETE_BUILDINGS_FETCHING,
   DELETE_BUILDINGS_FULFILLED,
-  DELETE_BUILDINGS_BAD_REQUEST,
   DELETE_BUILDINGS_REJECTED,
 } from '../types/buildingsTypes';
+import {
+  requestGet,
+  requestPost,
+  requestPut,
+  requestDelete,
+} from '../../utils/requestUtils';
 
 const URL = 'https://caldar-application.herokuapp.com/buildings';
 
@@ -32,10 +36,7 @@ const getBuildingsRejected = () => ({
 
 export const getBuildings = () => (dispatch) => {
   dispatch(getBuildingsFetching());
-  return fetch(URL, {
-    headers: setHeaders(),
-  })
-    .then((data) => data.json())
+  return requestGet(URL)
     .then((res) => dispatch(getBuildingsFulfilled(res)))
     .catch(() => dispatch(getBuildingsRejected()));
 };
@@ -51,33 +52,14 @@ const deleteBuildingsFulfilled = (id) => ({
   },
 });
 
-const deleteBuildingsBadRequest = () => ({
-  type: DELETE_BUILDINGS_BAD_REQUEST,
-});
-
 const deleteBuildingsRejected = () => ({
   type: DELETE_BUILDINGS_REJECTED,
 });
 
 export const deleteBuilding = (id) => (dispatch) => {
   dispatch(deleteBuildingFetching());
-  return fetch(`${URL}/${id}`, {
-    method: 'DELETE',
-    headers: setHeaders(),
-  })
-    .then((data) => {
-      if (!data.ok) {
-        return false;
-      }
-      return true;
-    })
-    .then((res) => {
-      if (res) {
-        dispatch(deleteBuildingsFulfilled(id));
-      } else {
-        dispatch(deleteBuildingsBadRequest());
-      }
-    })
+  return requestDelete(`${URL}/${id}`)
+    .then(() => dispatch(deleteBuildingsFulfilled(id)))
     .catch(() => dispatch(deleteBuildingsRejected()));
 };
 
@@ -98,12 +80,9 @@ const addBuildingRejected = () => ({
 
 export const addBuilding = (building) => (dispatch) => {
   dispatch(addBuildingFetching());
-  return fetch(URL, {
-    method: 'POST',
-    body: JSON.stringify(building),
-    headers: setHeaders(),
+  return requestPost(URL, {
+    data: building,
   })
-    .then((data) => data.json())
     .then((res) => dispatch(addBuildingFulfilled(res)))
     .catch(() => dispatch(addBuildingRejected()));
 };
@@ -126,12 +105,9 @@ const updateBuildingRejected = () => ({
 
 export const updateBuilding = (building, id) => (dispatch) => {
   dispatch(updateBuildingFetching());
-  return fetch(`${URL}/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify(building),
-    headers: setHeaders(),
+  return requestPut(`${URL}/${id}`, {
+    data: building,
   })
-    .then((data) => data.json())
     .then((res) => dispatch(updateBuildingFulfilled(res, id)))
     .catch(() => dispatch(updateBuildingRejected()));
 };

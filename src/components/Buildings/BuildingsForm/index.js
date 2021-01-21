@@ -1,26 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Field } from 'react-final-form';
-import Select from 'react-select';
+import SelectInput from '../../sharedComponents/Select';
+import TextInput from '../../sharedComponents/TextInput';
 import Button from '../../sharedComponents/Button';
 import styles from './BuildingsForm.module.css';
 import { getBoilers as getBoilersAction } from '../../../redux/actions/boilersAction';
-import { getFormatedBoilers } from '../../../redux/selectors/boilersSelector';
+import { getCompanies as getCompaniesAction } from '../../../redux/actions/companiesActions';
+import { getFormattedBoilers } from '../../../redux/selectors/boilersSelectors';
+import { getFormattedCompanies } from '../../../redux/selectors/companiesSelectors';
+import { required } from '../../../utils/validations';
 
 const BuildingsForm = ({
   onSubmit,
   onClose,
   building,
   getBoilers,
+  getCompanies,
   boilers,
+  companies,
 }) => {
-  const [loading, setLoading] = useState(true);
-
   useEffect(async () => {
     getBoilers();
-    setLoading(false);
+    getCompanies();
   }, []);
 
   const submit = (values) => {
@@ -30,10 +34,6 @@ const BuildingsForm = ({
     }, building._id);
   };
 
-  const required = (value) => (value ? undefined : 'Required');
-
-  const requiredSelect = (value) => ((value === null) ? 'Required' : undefined);
-
   return (
     <div>
       <Form
@@ -41,7 +41,9 @@ const BuildingsForm = ({
         initialValues={{
           name: building.name || '',
           address: building.address || '',
-          company: building.company || '',
+          company: building && building.company ? companies.find(
+            (company) => building.company === company.value,
+          ) : null,
           phone: building.phone || '',
           boilers: building && building.boilers ? boilers.filter(
             (boiler) => building.boilers.includes(boiler.value),
@@ -50,73 +52,54 @@ const BuildingsForm = ({
         render={({ handleSubmit }) => (
           <form className={styles.buildingFormContainer}>
             <div className={styles.inputContainer}>
-              <label htmlFor="name">
-                Building Name
-                <Field name="name" validate={required}>
-                  {({ input, meta }) => (
-                    <div>
-                      <input {...input} type="text" placeholder="Building name" />
-                      {meta.error && meta.touched && <div>{meta.error}</div>}
-                    </div>
-                  )}
-                </Field>
-              </label>
+              <Field
+                component={TextInput}
+                name="name"
+                type="text"
+                placeholder="Name"
+                label="Name"
+                validate={required}
+              />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="address">
-                Building Address
-                <Field name="address" validate={required}>
-                  {({ input, meta }) => (
-                    <div>
-                      <input {...input} type="text" placeholder="Building address" />
-                      {meta.error && meta.touched && <div>{meta.error}</div>}
-                    </div>
-                  )}
-                </Field>
-              </label>
+              <Field
+                component={TextInput}
+                name="address"
+                type="text"
+                placeholder="Address"
+                label="Address"
+                validate={required}
+              />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="company">
-                Building Company
-                <Field name="company" validate={required}>
-                  {({ input, meta }) => (
-                    <div>
-                      <input {...input} type="text" placeholder="Building company" />
-                      {meta.error && meta.touched && <div>{meta.error}</div>}
-                    </div>
-                  )}
-                </Field>
-              </label>
+              <Field
+                name="company"
+                label="Company"
+                component={SelectInput}
+                options={companies}
+                validate={required}
+              />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="phone">
-                Building Phone
-                <Field name="phone" validate={required}>
-                  {({ input, meta }) => (
-                    <div>
-                      <input {...input} type="text" placeholder="Building phone" />
-                      {meta.error && meta.touched && <div>{meta.error}</div>}
-                    </div>
-                  )}
-                </Field>
-              </label>
+              <Field
+                component={TextInput}
+                name="phone"
+                type="text"
+                placeholder="Phone"
+                label="Phone"
+                validate={required}
+              />
             </div>
-            {loading ? <div>loading</div>
-              : (
-                <div className={styles.inputContainer}>
-                  <label htmlFor="boilers">
-                    Boilers:
-                    <Field name="boilers" validate={requiredSelect}>
-                      {({ input, meta }) => (
-                        <div>
-                          <Select {...input} options={boilers} isMulti required />
-                          {(meta.error && meta.touched && <p>{meta.error}</p>)}
-                        </div>
-                      )}
-                    </Field>
-                  </label>
-                </div>
-              )}
+            <div className={styles.inputContainer}>
+              <Field
+                name="boilers"
+                isMulti
+                label="Boilers"
+                component={SelectInput}
+                options={boilers}
+                validate={required}
+              />
+            </div>
             <div className={styles.buttonContainer}>
               <Button btnLabel="Cancel" onClick={onClose} />
               <Button type="submit" btnLabel="Submit" primary onClick={handleSubmit} />
@@ -139,15 +122,19 @@ BuildingsForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   getBoilers: PropTypes.func.isRequired,
+  getCompanies: PropTypes.func.isRequired,
   boilers: PropTypes.array.isRequired,
+  companies: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  boilers: getFormatedBoilers(state),
+  boilers: getFormattedBoilers(state),
+  companies: getFormattedCompanies(state),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   getBoilers: getBoilersAction,
+  getCompanies: getCompaniesAction,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuildingsForm);

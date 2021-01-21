@@ -141,7 +141,7 @@ const companiesComponent = ({
                   onCloseModal();
                 }}
                 onClose={onCloseModal}
-                Company={modal.meta.Company}
+                company={modal.meta.company}
               />
             )}
         </Modal>

@@ -1,40 +1,13 @@
-.comapniesFormContainer {
+.companiesFormContainer {
   display: flex;
   flex-direction: column;
 }
-  
+
 .inputContainer {
   display: flex;
   flex-direction: column;
-  margin: 10px;
-}
-  
-.inputContainer input, .inputContainer select {
-  padding: 10px;
 }
 
-.msg {
-  margin-left: 5px;
-  margin-top: 3px;
-  color: red;
-  font-style: italic;
-}
-  
-.comapniesFormContainer label {
-  margin: 10px 0px;
-}
-  
-.typeContainer {
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-  align-items: center;
-}
-  
-.typeContainer label {
-  margin: 0px 10px;
-}
-  
 .buttonContainer {
   display: flex;
   justify-content: center;

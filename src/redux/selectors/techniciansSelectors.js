@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 const getTechnicians = (state) => state.technicians.list;
 
-export const getFormatedTechnicians = createSelector(
+export const getFormattedTechnicians = createSelector(
   [getTechnicians],
   (technicians) => technicians.map(
     (technician) => ({

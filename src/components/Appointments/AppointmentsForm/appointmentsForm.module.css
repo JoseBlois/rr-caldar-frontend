@@ -9,15 +9,6 @@
   margin: 10px;
 }
 
-.inputContainer input, .inputContainer select {
-  width: 100%;
-  padding: 10px;
-}
-
-.appointmentsFormContainer label {
-  margin: 10px 0px;
-}
-
 .typeContainer {
   display: flex;
   flex-direction: row;

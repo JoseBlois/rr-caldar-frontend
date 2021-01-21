@@ -35,3 +35,8 @@
   color: #fc6225;
   border-bottom: solid 3px #fc6225;
 }
+
+.logoutButtonContainer {
+  display: flex;
+  justify-content: center;
+}

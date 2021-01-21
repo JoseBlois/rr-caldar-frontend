@@ -1,4 +1,3 @@
-import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_TECHNICIANS_FETCHING,
   GET_TECHNICIANS_FULFILLED,
@@ -13,6 +12,12 @@ import {
   DELETE_TECHNICIAN_FULFILLED,
   DELETE_TECHNICIAN_REJECTED,
 } from '../types/technicians';
+import {
+  requestGet,
+  requestPost,
+  requestPut,
+  requestDelete,
+} from '../../utils/requestUtils';
 
 const URL = 'https://caldar-application.herokuapp.com/technicians';
 
@@ -31,15 +36,9 @@ const getTechniciansRejected = () => ({
 
 export const getTechnicians = () => async (dispatch) => {
   dispatch(getTechniciansFetching());
-  try {
-    const data = await fetch(URL, {
-      headers: setHeaders(),
-    });
-    const res = await data.json();
-    return dispatch(getTechniciansFulfilled(res));
-  } catch (err) {
-    return dispatch(getTechniciansRejected());
-  }
+  return requestGet(URL)
+    .then((res) => dispatch(getTechniciansFulfilled(res)))
+    .catch(() => dispatch(getTechniciansRejected()));
 };
 
 const addTechnicianFetching = () => ({
@@ -57,20 +56,11 @@ const addTechnicianRejected = () => ({
 
 export const addTechnician = (technician) => async (dispatch) => {
   dispatch(addTechnicianFetching());
-  try {
-    const data = await fetch(URL, {
-      method: 'POST',
-      body: JSON.stringify(technician),
-      headers: setHeaders(),
-    });
-    if (!data.ok) {
-      throw new Error(`Error: ${data.statusText} - ${data.status}`);
-    }
-    const res = await data.json();
-    return dispatch(addTechnicianFulfilled(res));
-  } catch (err) {
-    return dispatch(addTechnicianRejected());
-  }
+  return requestPost(URL, {
+    data: technician,
+  })
+    .then((res) => dispatch(addTechnicianFulfilled(res)))
+    .catch(() => dispatch(addTechnicianRejected()));
 };
 
 const updateTechnicianFetching = () => ({
@@ -88,17 +78,11 @@ const updateTechnicianRejected = () => ({
 
 export const updateTechnician = (technician, id) => async (dispatch) => {
   dispatch(updateTechnicianFetching());
-  try {
-    const data = await fetch(`${URL}/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(technician),
-      headers: setHeaders(),
-    });
-    const res = await data.json();
-    return dispatch(updateTechnicianFulfilled(res));
-  } catch (err) {
-    return dispatch(updateTechnicianRejected());
-  }
+  return requestPut(`${URL}/${id}`, {
+    data: technician,
+  })
+    .then((res) => dispatch(updateTechnicianFulfilled(res)))
+    .catch(() => dispatch(updateTechnicianRejected()));
 };
 
 const deleteTechnicianFetching = () => ({
@@ -118,18 +102,7 @@ const deleteTechnicianRejected = () => ({
 
 export const deleteTechnician = (id) => async (dispatch) => {
   dispatch(deleteTechnicianFetching());
-  return fetch(`${URL}/${id}`, {
-    method: 'DELETE',
-    headers: setHeaders(),
-  })
-    .then((data) => {
-      if (!data.ok) {
-        throw new Error('Error');
-      }
-      return data.json();
-    })
-    .then(() => {
-      dispatch(deleteTechnicianFulfilled(id));
-    })
+  return requestDelete(`${URL}/${id}`)
+    .then(() => dispatch(deleteTechnicianFulfilled(id)))
     .catch(() => dispatch(deleteTechnicianRejected()));
 };

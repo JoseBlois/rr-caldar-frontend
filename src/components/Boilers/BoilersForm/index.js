@@ -9,7 +9,7 @@ import TextInput from '../../sharedComponents/TextInput';
 import SelectInput from '../../sharedComponents/Select';
 import { required, numberHour, composeValidators } from '../../../utils/validations';
 import { getBoilerTypes as getBoilerTypesAction } from '../../../redux/actions/boilerTypesAction';
-import { getFormatedBoilerTypes } from '../../../redux/selectors/boilerTypesSelectors';
+import { getFormattedBoilerTypes } from '../../../redux/selectors/boilerTypesSelectors';
 
 const BoilersForm = ({
   onSubmit,
@@ -135,7 +135,7 @@ BoilersForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  boilerTypes: getFormatedBoilerTypes(state),
+  boilerTypes: getFormattedBoilerTypes(state),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

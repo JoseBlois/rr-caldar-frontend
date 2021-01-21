@@ -9,7 +9,7 @@ import ConfirmationMessage from '../sharedComponents/ConfirmationMessage';
 import Modal from '../sharedComponents/Modal';
 import BoilerTypesForm from './BoilerTypesForm';
 
-import styles from './BoilerTypesApp.module.css';
+import styles from './boilerTypes.module.css';
 import {
   getBoilerTypes as getBoilerTypesAction,
   deleteBoilerType as deleteBoilerTypeAction,
