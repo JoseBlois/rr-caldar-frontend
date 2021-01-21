@@ -1,3 +1,4 @@
+import { setHeaders } from '../../utils/requestUtils';
 import {
   GET_TECHNICIANS_FETCHING,
   GET_TECHNICIANS_FULFILLED,
@@ -31,7 +32,9 @@ const getTechniciansRejected = () => ({
 export const getTechnicians = () => async (dispatch) => {
   dispatch(getTechniciansFetching());
   try {
-    const data = await fetch(URL);
+    const data = await fetch(URL, {
+      headers: setHeaders(),
+    });
     const res = await data.json();
     return dispatch(getTechniciansFulfilled(res));
   } catch (err) {
@@ -58,9 +61,7 @@ export const addTechnician = (technician) => async (dispatch) => {
     const data = await fetch(URL, {
       method: 'POST',
       body: JSON.stringify(technician),
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     if (!data.ok) {
       throw new Error(`Error: ${data.statusText} - ${data.status}`);
@@ -91,9 +92,7 @@ export const updateTechnician = (technician, id) => async (dispatch) => {
     const data = await fetch(`${URL}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(technician),
-      headers: {
-        'Content-type': 'application/json',
-      },
+      headers: setHeaders(),
     });
     const res = await data.json();
     return dispatch(updateTechnicianFulfilled(res));
@@ -121,9 +120,7 @@ export const deleteTechnician = (id) => async (dispatch) => {
   dispatch(deleteTechnicianFetching());
   return fetch(`${URL}/${id}`, {
     method: 'DELETE',
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: setHeaders(),
   })
     .then((data) => {
       if (!data.ok) {
